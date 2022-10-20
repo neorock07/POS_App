@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +30,12 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/back"
+                    app:layout_constraintEnd_toStartOf="@id/tx_beli"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.2"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -41,7 +44,9 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/ralewaybold"
                     android:textSize="13pt"
+                    android:id="@+id/tx_beli"
                     android:layout_gravity="center"
+                    app:layout_constraintHorizontal_bias="0.6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -59,46 +64,70 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.2"
                     android:layout_marginEnd="10dp"
+                    android:foreground="?actionBarItemBackground"
+                    android:clickable="true"
                     />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RP. 159,000"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tx_beli"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textColor="@color/white"
-                    android:textSize="10pt"
-                    android:fontFamily="sans-serif-black"
-                    app:layout_constraintVertical_bias="0.6"
-                    />
+                    app:layout_constraintVertical_bias="0.1"
+                    android:id="@+id/jk"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp."
+                        android:textSize="8pt"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif-black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="159,000"
+                        android:textColor="@color/white"
+                        android:textSize="10pt"
+                        android:id="@+id/total_beli"
+                        android:fontFamily="sans-serif-black"
+                        />
+                </LinearLayout>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="50dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/jk"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.8"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:outlineAmbientShadowColor="@color/white"
+                    android:outlineSpotShadowColor="@color/green2"
+                    app:cardElevation="5dp"
                     >
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PENCARIAN"
-                            android:textColor="@color/black"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                        <androidx.appcompat.widget.SearchView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/search_all"
+                            app:queryHint="Mau cari apa ?"
                             />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -109,6 +138,17 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+<!-- float button   -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/set"
+        android:backgroundTint="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
 
 
