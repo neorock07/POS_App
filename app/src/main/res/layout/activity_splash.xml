@@ -96,8 +96,8 @@
                     android:fontFamily="@font/ralewaybold"
                     android:gravity="center"
                     android:text="LANJUT KE APLIKASI"
-                    android:textSize="9pt"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="9pt" />
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
