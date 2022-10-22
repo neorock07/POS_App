@@ -17,7 +17,7 @@
             android:name=".Pembayaran"
             android:exported="false" />
         <activity
-            android:name=".formBarang"
+            android:name=".Activity.formBarang"
             android:exported="false" />
         <activity
             android:name=".Activity.settingAplikasi"

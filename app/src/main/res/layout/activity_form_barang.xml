@@ -9,10 +9,6 @@
     android:background="@color/hitam"
     android:paddingBottom="30dp"
     >
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:overScrollMode="never">
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -89,7 +85,8 @@
             android:inputType="textPersonName"
             android:text="Name"
             android:textColorHint="@color/green"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -205,5 +202,4 @@
         tools:layout_editor_absoluteX="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"/>
-</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
