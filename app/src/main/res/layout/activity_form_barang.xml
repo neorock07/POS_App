@@ -58,7 +58,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="50dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:paddingTop="30dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="122dp">
 
@@ -79,11 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green"
+            android:textColor="@color/green"
             android:ems="10"
             android:hint="Kode Barang"
-
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:inputType="number"
             android:textColorHint="@color/green"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:ignore="TouchTargetSizeCheck" />
@@ -106,9 +107,9 @@
             android:backgroundTint="@color/green"
             android:ems="10"
             android:hint="Nama Barang"
+            android:textColor="@color/green"
 
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:inputType="text"
             android:textColorHint="@color/green"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -130,9 +131,8 @@
             android:backgroundTint="@color/green"
             android:ems="10"
             android:hint="Harga Barang"
-
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:textColor="@color/green"
+            android:inputType="number"
             android:textColorHint="@color/green"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -153,9 +153,8 @@
             android:backgroundTint="@color/green"
             android:ems="10"
             android:hint="Stok Barang"
-
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:textColor="@color/green"
+            android:inputType="number"
             android:textColorHint="@color/green"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -177,11 +176,13 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Jenis Barang"
+                android:hint="Jenis Barang"
                 android:id="@+id/jenis_barang"
                 android:textSize="20sp"
                 android:padding="10dp"
                 android:gravity="center"
+                android:textColorHint="@color/green"
+                android:backgroundTint="@color/green"
                 android:background="@drawable/bgform"
                 android:textColor="@color/green"
 
@@ -201,5 +202,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"/>
+        android:layout_marginEnd="50dp"
+        android:foreground="?selectableItemBackground"
+        android:clickable="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
