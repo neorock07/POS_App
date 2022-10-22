@@ -24,15 +24,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:textSize="12pt"
                     android:fontFamily="sans-serif-black"
-                    />
+                    android:text="0"
+                    android:id="@+id/jumlah_item"
+                    android:textColor="@color/white"
+                    android:textSize="12pt" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
@@ -77,16 +78,16 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_item"
                         >
+
                         <TextView
+                            android:id="@+id/detail_item"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kertas SIDU A4 "
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/ralewaybold"
-                            android:textSize="7pt"
                             android:padding="4dp"
-                            android:id="@+id/detail_item"
-                            />
+                            android:text="Kertas SIDU A4 "
+                            android:textSize="7pt" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
