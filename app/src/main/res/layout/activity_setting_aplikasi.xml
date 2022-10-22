@@ -79,8 +79,11 @@
             android:layout_height="200dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:id="@+id/btn_rekap"
             android:gravity="center"
             android:padding="25dp"
+            android:foreground="?actionBarItemBackground"
+            android:clickable="true"
             app:cardBackgroundColor="@color/abu">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,6 +137,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="25dp"
+            android:foreground="?actionBarItemBackground"
+            android:clickable="true"
+            android:id="@+id/btn_katalog"
             app:cardBackgroundColor="@color/abu">
 
             <androidx.constraintlayout.widget.ConstraintLayout

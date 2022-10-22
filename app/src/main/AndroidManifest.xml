@@ -14,7 +14,7 @@
         android:theme="@style/Theme.POS"
         tools:targetApi="31">
         <activity
-            android:name=".Pembayaran"
+            android:name=".Activity.Pembayaran"
             android:exported="false" />
         <activity
             android:name=".Activity.formBarang"

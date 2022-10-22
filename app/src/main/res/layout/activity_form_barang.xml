@@ -176,16 +176,13 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Jenis Barang"
                 android:id="@+id/jenis_barang"
                 android:textSize="20sp"
                 android:padding="10dp"
                 android:gravity="center"
-                android:textColorHint="@color/green"
-                android:backgroundTint="@color/green"
                 android:background="@drawable/bgform"
                 android:textColor="@color/green"
-
+                android:text="Jenis Barang"
                 />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
