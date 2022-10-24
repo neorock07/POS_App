@@ -62,7 +62,7 @@
             android:maxLines="1"
             android:padding="5dp"
             android:paddingStart="20dp"
-            android:text="USERNAME"
+            android:hint="Username"
             android:textColor="#787777" />
 
         <EditText
