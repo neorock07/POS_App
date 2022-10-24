@@ -76,18 +76,34 @@
 
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-        <EditText
-            android:id="@+id/kode_barang"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/green"
-            android:ems="10"
-            android:hint="Kode Barang"
-            android:inputType="number"
-            android:textColorHint="@color/green"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/kode_barang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/green"
+                android:ems="10"
+                android:hint="Kode Barang"
+                android:inputType="number"
+                android:textColorHint="@color/green"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/scanner"
+                android:id="@+id/scan_code"
+                android:layout_marginStart="5dp"
+                android:foreground="?selectableItemBackground"
+                android:clickable="true"
+                />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +113,6 @@
             android:text="Nama Barang"
             android:textColor="@color/white"
             android:textSize="20sp"
-
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <EditText
