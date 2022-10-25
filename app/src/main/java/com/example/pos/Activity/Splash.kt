@@ -26,7 +26,7 @@ class Splash : AppCompatActivity() {
             kotlin.run {
                 try{
                     cardSplash.setOnClickListener(){
-                        startActivity(Intent(this@Splash, formBarang::class.java))
+                        startActivity(Intent(this@Splash, MainActivity::class.java))
                         finish()
                     }
                 }catch (e:Exception){
