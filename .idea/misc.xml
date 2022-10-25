@@ -3,8 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/back.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bg_item.xml" value="0.2145" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bgform.xml" value="0.156" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/button_login.xml" value="0.156" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/edit_text.xml" value="0.156" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/scanner.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_form_barang.xml" value="0.2" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_form_login.xml" value="0.23777173913043478" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_pembayaran.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_setting_aplikasi.xml" value="0.25" />
