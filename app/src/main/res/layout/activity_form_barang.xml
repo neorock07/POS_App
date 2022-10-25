@@ -51,6 +51,7 @@
         app:layout_constraintVertical_bias="0.03"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/kembali"
         />
 
     <LinearLayout
@@ -215,6 +216,7 @@
         tools:layout_editor_absoluteX="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        android:onClick="saveRecord"
         android:foreground="?selectableItemBackground"
         android:clickable="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

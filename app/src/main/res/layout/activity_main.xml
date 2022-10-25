@@ -8,126 +8,124 @@
     android:background="@color/hitam">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/green"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/back"
-                    app:layout_constraintEnd_toStartOf="@id/tx_beli"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.2"
+                    app:layout_constraintEnd_toStartOf="@id/tx_beli"
                     app:layout_constraintHorizontal_bias="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2" />
+
                 <TextView
+                    android:id="@+id/tx_beli"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/ralewaybold"
                     android:text="PEMBELIAN"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/ralewaybold"
                     android:textSize="13pt"
-                    android:id="@+id/tx_beli"
-                    android:layout_gravity="center"
-                    app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.2"
                     app:layout_constraintEnd_toStartOf="@id/keranjang"
-                    />
+                    app:layout_constraintHorizontal_bias="0.6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2" />
+
                 <ImageView
+                    android:id="@+id/keranjang"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beli"
-                    android:id="@+id/keranjang"
                     android:layout_gravity="center|end"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.2"
                     android:layout_marginEnd="10dp"
-                    android:foreground="?actionBarItemBackground"
                     android:clickable="true"
-                    />
+                    android:foreground="?actionBarItemBackground"
+                    android:src="@drawable/beli"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2" />
 
                 <LinearLayout
+                    android:id="@+id/jk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/tx_beli"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.1"
-                    android:id="@+id/jk"
-                    >
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tx_beli"
+                    app:layout_constraintVertical_bias="0.1">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp."
-                        android:textSize="8pt"
-                        android:textColor="@color/white"
                         android:fontFamily="sans-serif-black"
-                        />
+                        android:text="Rp."
+                        android:textColor="@color/white"
+                        android:textSize="8pt" />
+
                     <TextView
+                        android:id="@+id/total_beli"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
                         android:text="159,000"
                         android:textColor="@color/white"
-                        android:textSize="10pt"
-                        android:id="@+id/total_beli"
-                        android:fontFamily="sans-serif-black"
-                        />
+                        android:textSize="10pt" />
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
-                    android:layout_marginEnd="50dp"
-                    app:layout_constraintTop_toBottomOf="@id/jk"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.8"
-                    android:padding="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="50dp"
                     android:layout_marginBottom="15dp"
-                    app:cardCornerRadius="15dp"
-                    app:cardBackgroundColor="@color/white"
                     android:outlineAmbientShadowColor="@color/white"
                     android:outlineSpotShadowColor="@color/green2"
+                    android:padding="10dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="15dp"
                     app:cardElevation="5dp"
-                    >
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/jk"
+                    app:layout_constraintVertical_bias="0.8">
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
+                        android:layout_height="match_parent">
+
                         <androidx.appcompat.widget.SearchView
+                            android:id="@+id/search_all"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/search_all"
-                            app:queryHint="Mau cari apa ?"
-                            />
+                            app:queryHint="Mau cari apa ?" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,7 +137,17 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-<!-- float button   -->
+    <!-- float button   -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listBarang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="-9dp" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,7 +157,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.8"
+        android:id="@+id/setting"/>
 
 
 
