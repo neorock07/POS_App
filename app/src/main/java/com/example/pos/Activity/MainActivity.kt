@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var list_stok: ArrayList<Int>
     lateinit var adapter: CustomAdapter
     lateinit var recyclerview: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         // Setting the Adapter with the recyclerview
 
         recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-      readAll()
+
         settingsFAB.setOnClickListener{
             intent = Intent(this, formBarang::class.java)
             startActivity(intent)
@@ -58,5 +60,10 @@ class MainActivity : AppCompatActivity() {
             recyclerview.adapter = adapter
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        readAll()
     }
 }

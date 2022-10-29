@@ -71,12 +71,35 @@ private lateinit var dropmenu : AutoCompleteTextView
             startActivity(intent)
             finish()
         }
+        //formatting harga
+        harga.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var current:String =""
+
+                if(!p0.toString().equals(current)){
+                    harga.removeTextChangedListener(this)
+                    var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
+                    parsed = cleanString.toDouble()
+                    var formatted:String = NumberFormat.getNumberInstance().format(parsed)
+                    current = formatted
+                    harga.setText(formatted)
+                    harga.setSelection(formatted.length)
+                    harga.addTextChangedListener(this)
+
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
         //btn simpan
         btn_simpan.setOnClickListener(){
             try{
                 saveRecord()
             }catch (e:Exception){
-                Toast.makeText(this, "Error : Data tidak valid\n" + e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error : Data tidak valid\nParsed : \n" + parsed + e.message, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -93,35 +116,8 @@ private lateinit var dropmenu : AutoCompleteTextView
             dropmenu.error = "Jenis tidak valid"
         }else{
 
-            //formatting harga
-            harga.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    var current:String =""
-
-                    if(!p0.toString().equals(current)){
-                        harga.removeTextChangedListener(this)
-                        var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
-                        parsed = cleanString.toDouble()
-                        var formatted:String = NumberFormat.getNumberInstance().format(parsed)
-                        current = formatted
-                        harga.setText(formatted)
-                        harga.setSelection(formatted.length)
-                        harga.addTextChangedListener(this)
-
-                    }
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                }
-            })
-
             val idString = ed_kode.text.toString()
             val nameString = name.text.toString()
-            val hargaString = harga.text.toString().toInt()
             val jenisString= dropmenu.text.toString()
             val stokString = stok.text.toString().toInt()
             val databaseHandler: database = database(this)
@@ -130,8 +126,10 @@ private lateinit var dropmenu : AutoCompleteTextView
             contentValues.put(KEY_ID, idString)
             contentValues.put(KEY_NAME, nameString)
             contentValues.put(KEY_STOK, stokString)// EmpModelClass Name
-            contentValues.put(KEY_HARGA, hargaString)
             contentValues.put(KEY_JENIS, jenisString)// EmpModelClass Phone
+
+            val hargaString = parsed!!.toInt()
+            contentValues.put(KEY_HARGA, hargaString)
 
             //insert data
             db.insert(TABLE_CONTACTS, null, contentValues)
@@ -141,8 +139,6 @@ private lateinit var dropmenu : AutoCompleteTextView
             harga.text.clear()
             stok.text.clear()
             dropmenu.setText("Jenis Barang")
-
         }
-
     }
 }

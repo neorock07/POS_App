@@ -101,6 +101,7 @@ class Scanner_Activity : AppCompatActivity() {
                                     val log:Intent? = Intent(this@Scanner_Activity, formBarang::class.java)
                                     log!!.putExtra("kode", data_f)
                                     startActivity(log)
+                                    finish()
                                 }
                                 tone.startTone(ToneGenerator.TONE_CDMA_PIP, 150)
                             }

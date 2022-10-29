@@ -33,7 +33,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
         holder.jenisItem.text = jenis!![position]
         // sets the text to the textview from our itemHolder class
         holder.namaBarang.text = nama!![position]
-        val hargaString = "Rp."+ NumberFormat(harga!![position].toString())
+        val hargaString = "Rp"+ NumberFormat(harga!![position].toString())
 
         holder.hargaBarang.text = hargaString
 
