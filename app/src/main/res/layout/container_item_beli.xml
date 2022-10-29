@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+
     >
     <LinearLayout
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 android:orientation="horizontal"
                 >
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:foreground="?actionBarItemBackground"
                     android:clickable="true"
@@ -58,6 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_item"
+                        android:padding="15dp"
                         >
                         <ImageView
                             android:layout_width="30dp"
@@ -78,6 +79,9 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_item"
                         android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:gravity="center|left"
+                        android:padding="5dp"
                         >
                         <TextView
                             android:id="@+id/jenis_item"
@@ -85,19 +89,17 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/ralewaybold"
-                            android:padding="2dp"
                             android:textColor="@color/white"
                             android:text="Kertas"
-                            android:layout_marginStart="3dp"
-                            android:textSize="6pt" />
+                            android:textSize="6pt"
+                            android:layout_marginBottom="3dp"
+                            />
                         <TextView
                             android:id="@+id/detail_item"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:fontFamily="@font/ralewaybold"
-                            android:padding="2dp"
-                            android:layout_marginStart="3dp"
+                            android:fontFamily="@font/ralewayregular"
                             android:textColor="@color/white"
                             android:text="Kertas SIDU A4 "
                             android:textSize="6pt" />
@@ -107,8 +109,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:fontFamily="sans-serif-black"
-                            android:padding="4dp"
-                            android:layout_marginStart="3dp"
                             android:textColor="@color/white"
                             android:text="Rp. 5,500"
                             android:textSize="5pt" />
@@ -116,7 +116,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:foreground="?actionBarItemBackground"
                     android:clickable="true"
@@ -126,6 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_item"
+                        android:padding="15dp"
                         >
                         <ImageView
                             android:layout_width="30dp"

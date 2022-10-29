@@ -1,20 +1,19 @@
 package com.example.pos.Activity
 
-import Database.database
-import RecycleView.CustomAdapter
+import com.example.pos.Database.database
+import com.example.pos.RecycleView.CustomAdapter
 import android.content.Intent
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Adapter
-import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    lateinit var settingsFAB: FloatingActionButton
+    lateinit var settingsFAB: CardView
     lateinit var list_nama: ArrayList<String>
     lateinit var list_harga: ArrayList<Int>
     lateinit var list_jenis: ArrayList<String>
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun readAll(){
-        val db:database = database(this)
+        val db: database = database(this)
         var cursor: Cursor = db.viewBarang()
         list_jenis = ArrayList()
         list_harga = ArrayList()

@@ -1,14 +1,17 @@
-package Database;
+package com.example.pos.Database;
+
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.sqlite.SQLiteException
 import android.util.Log
 
-public class database(context:Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
+public class database(context:Context): SQLiteOpenHelper(context,
+    DATABASE_NAME,null,
+    DATABASE_VERSION
+) {
     companion object {
         private val DATABASE_VERSION = 2
         private val DATABASE_NAME = "Kasir"
@@ -32,21 +35,6 @@ public class database(context:Context): SQLiteOpenHelper(context,DATABASE_NAME,n
     }
 
 
-    //method to insert data
-//    fun addBarang(emp: EmpModelClass):Long{
-//        val db = this.writableDatabase
-//        val contentValues = ContentValues()
-//        contentValues.put(KEY_ID, emp.kodeBarang)
-//        contentValues.put(KEY_NAME, emp.namaBarang)
-//        contentValues.put(KEY_STOK,emp.stok)// EmpModelClass Name
-//        contentValues.put(KEY_HARGA,emp.hargaBarang)
-//        contentValues.put(KEY_JENIS,emp.jenis)// EmpModelClass Phone
-//        // Inserting Row
-//        val success = db.insert(TABLE_CONTACTS, null, contentValues)
-//        //2nd argument is String containing nullColumnHack
-//        db.close() // Closing database connection
-//        return success
-//    }
     //method to read data
     fun viewBarang():Cursor{
 
