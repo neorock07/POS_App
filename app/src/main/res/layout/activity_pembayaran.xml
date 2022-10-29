@@ -55,17 +55,17 @@
                     android:textColor="@color/white"
                     android:textSize="12pt"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp. 159,000"
-                    android:fontFamily="sans-serif-black"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="10pt"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
-                    />
+                    android:fontFamily="sans-serif-black"
+                    android:text="Rp. 169,000"
+                    android:textColor="@color/white"
+                    android:textSize="10pt" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
