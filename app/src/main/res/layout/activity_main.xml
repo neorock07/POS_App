@@ -193,12 +193,12 @@
             android:layout_height="match_parent"
             android:padding="7dp"
             >
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/set"
                 android:layout_centerInParent="true"
-                />
+                android:src="@drawable/set" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
