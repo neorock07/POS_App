@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
 
         settingsFAB.setOnClickListener{
-            intent = Intent(this, formBarang::class.java)
+            intent = Intent(this, daftar_barang::class.java)
             startActivity(intent)
         }
 

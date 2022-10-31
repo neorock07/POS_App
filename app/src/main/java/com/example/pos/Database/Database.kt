@@ -41,33 +41,11 @@ public class database(context:Context): SQLiteOpenHelper(context,
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_CONTACTS", null)
     }
-    //method to update data
-//    fun updateBarang(emp: EmpModelClass):Int{
-//        val db = this.writableDatabase
-//        val contentValues = ContentValues()
-//        contentValues.put(KEY_ID, emp.kodeBarang)
-//        contentValues.put(KEY_NAME, emp.namaBarang)
-//        contentValues.put(KEY_STOK,emp.stok)// EmpModelClass Name
-//        contentValues.put(KEY_HARGA,emp.hargaBarang)
-//        contentValues.put(KEY_JENIS,emp.jenis)
-//        // EmpModelClass Email
-//
-//        // Updating Row
-//        val success = db.update(TABLE_CONTACTS, contentValues,"Kode="+emp.kodeBarang,null)
-//        //2nd argument is String containing nullColumnHack
-//        db.close() // Closing database connection
-//        return success
-//    }
-    //method to delete data
-//    fun deleteBarang(emp: EmpModelClass):Int{
-//        val db = this.writableDatabase
-//        val contentValues = ContentValues()
-//        contentValues.put(KEY_ID, emp.kodeBarang) // EmpModelClass UserId
-//        // Deleting Row
-//        val success = db.delete(TABLE_CONTACTS,"Kode="+emp.kodeBarang,null)
-//        //2nd argument is String containing nullColumnHack
-//        db.close() // Closing database connection
-//        return success
-//    }
+    //function to delete
+    fun deleteData(kode:String):Int{
+        val db = this.writableDatabase
+        return db.delete(TABLE_CONTACTS, "Kode=?", arrayOf(kode))
+    }
+
 }
 
