@@ -57,7 +57,6 @@
                         android:textColor="@color/white"
                         android:textSize="13pt"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/keranjang"
                         app:layout_constraintHorizontal_bias="0.606"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -156,8 +155,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="13dp"
+                    android:foreground="?selectableItemBackground"
+                    android:clickable="true"
                     android:layout_marginBottom="37dp"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/add_2" />
             </RelativeLayout>
 
         </FrameLayout>
