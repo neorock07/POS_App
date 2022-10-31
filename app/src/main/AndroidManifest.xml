@@ -21,6 +21,9 @@
         android:theme="@style/Theme.POS"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.daftar_barang"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Struk_Activity"
             android:exported="false" />
         <activity

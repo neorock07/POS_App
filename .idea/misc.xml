@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/drawable/bg_item.xml" value="0.19" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/drawable/border.xml" value="0.19" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/activity_daftar_barang.xml" value="0.2" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/activity_form_barang.xml" value="0.264" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/activity_form_login.xml" value="0.11614583333333334" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/container_barang.xml" value="0.4" />
+        <entry key="..\:/Donwloadya/POS_App/app/src/main/res/layout/container_item_beli.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/back.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bg_item.xml" value="0.2145" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bgform.xml" value="0.156" />
