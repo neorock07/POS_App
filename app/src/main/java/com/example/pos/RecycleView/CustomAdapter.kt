@@ -21,7 +21,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
     fun setWhenClickListener(listener: OnItemsClickListener?){
         this.listener = listener
     }
-    // create new views
+    // create new viewsbh
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
