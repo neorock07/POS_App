@@ -91,6 +91,6 @@ class MainActivity : AppCompatActivity() {
     }
 //    fun refresh(){
 //        totalBeli = findViewById(R.id.total_beli)
-//        totalBeli.text = NumbersFormat(total.toString())h
+//        totalBeli.text = NumbersFormat(total.toString())hd
 //    }
 }

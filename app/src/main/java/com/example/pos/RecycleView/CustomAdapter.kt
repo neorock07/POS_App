@@ -33,7 +33,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
 
 
 
-    // binds the list items to a view
+    // binds the list items to a viewd
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val arr = IntArray(itemCount)
 
