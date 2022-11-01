@@ -98,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-black"
-                            android:text="159,000"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="10pt" />
                     </LinearLayout>
@@ -149,6 +149,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/refresh"
             >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listBarang"

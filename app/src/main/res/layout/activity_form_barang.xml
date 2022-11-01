@@ -90,7 +90,7 @@
                 android:textColor="@color/green"
                 android:ems="10"
                 android:hint="Kode Barang"
-                android:inputType="number"
+                android:inputType="text"
                 android:textColorHint="@color/green"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -216,7 +216,6 @@
         tools:layout_editor_absoluteX="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:onClick="saveRecord"
         android:foreground="?selectableItemBackground"
         android:clickable="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

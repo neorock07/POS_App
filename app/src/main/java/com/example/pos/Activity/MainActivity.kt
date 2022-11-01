@@ -6,10 +6,11 @@ import android.content.Intent
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -22,24 +23,31 @@ class MainActivity : AppCompatActivity() {
     lateinit var list_stok: ArrayList<Int>
     lateinit var adapter: CustomAdapter
     lateinit var recyclerview: RecyclerView
-
+    lateinit var frameRefresh: FrameLayout
+    lateinit var totalBeli: TextView
+    var total: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
+        totalBeli = findViewById(R.id.total_beli)
         settingsFAB = findViewById(R.id.setting)
         recyclerview.setHasFixedSize(true)
-        // Setting the Adapter with the recyclerview
-
+        frameRefresh = findViewById(R.id.refresh)
         recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+
 
         settingsFAB.setOnClickListener{
             intent = Intent(this, daftar_barang::class.java)
             startActivity(intent)
         }
+//        frameRefresh.setOnClickListener{
+//            totalBeli.text = total.toString()
+//        }
 
     }
     fun readAll(){
+
         val db: database = database(this)
         var cursor: Cursor = db.viewBarang()
         list_jenis = ArrayList()
@@ -57,13 +65,32 @@ class MainActivity : AppCompatActivity() {
                 list_stok.add(cursor.getInt(4))
             }
             adapter = CustomAdapter(this,list_kode,list_nama,list_harga,list_jenis,list_stok)
+            adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener{
+                override fun onItemClick(harga: Int) {
+                    total +=harga
+                    totalBeli.text  = NumberFormat(total.toString())
+                }
+
+            })
             recyclerview.adapter = adapter
         }
-
     }
 
     override fun onResume() {
         super.onResume()
         readAll()
     }
+    fun NumberFormat(s:String):String{
+        var current:String = ""
+        var parsed:Double
+        var cleanString:String = s.toString().replace("""[,.]""".toRegex(), "")
+        parsed = cleanString.toDouble()
+        var formatted:String = java.text.NumberFormat.getNumberInstance().format(parsed)
+        current = formatted
+        return current
+    }
+//    fun refresh(){
+//        totalBeli = findViewById(R.id.total_beli)
+//        totalBeli.text = NumbersFormat(total.toString())
+//    }
 }
