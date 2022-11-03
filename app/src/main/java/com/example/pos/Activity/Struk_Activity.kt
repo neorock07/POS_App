@@ -102,7 +102,7 @@ class Struk_Activity : AppCompatActivity() {
         //cetak tulisan point of sales di tengah
         add(
             TextPrintable.Builder()
-                .setText("Point of Sales")
+                .setText("Point of Sale")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)

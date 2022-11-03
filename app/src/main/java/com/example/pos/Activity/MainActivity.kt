@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             intent = Intent(this, daftar_barang::class.java)
             startActivity(intent).also{
                 total = 0
-                totalBeli.text = "Rp.0"
+                totalBeli.text = "Rp0"
             }
         }
         //search view query

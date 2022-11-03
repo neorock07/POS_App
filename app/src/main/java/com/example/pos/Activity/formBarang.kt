@@ -36,7 +36,7 @@ private lateinit var dropmenu : AutoCompleteTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_barang)
-        var item = arrayOf("Alat Tulis","Buku", "Sampul","Kotak Pensil","Aksesoris", "Makanan", "Minuman","Alat Mandi", "Lainnya")
+        var item = arrayOf("Kertas","Alat Tulis","Buku", "Sampul","Kotak Pensil","Aksesoris", "Makanan", "Minuman","Alat Mandi", "Lainnya")
         //assign variable
         dropmenu = findViewById(R.id.jenis_barang)
         scan = findViewById(R.id.scan_code)
