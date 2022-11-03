@@ -42,15 +42,15 @@
                     android:text="Desember"
                     android:textColor="@color/white"
                     android:fontFamily="@font/ralewaybold"
-                    android:textSize="29dp"
+                    android:textSize="28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 </TextView>
                 <TextView android:id="@+id/total_pendapatan_bulan"
-                    android:text="Rp. 100000"
+                    android:text="Rp. 100,000"
                     android:textColor="@color/white"
                     android:fontFamily="@font/ralewaybold"
-                    android:textSize="29dp"
+                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 </TextView>

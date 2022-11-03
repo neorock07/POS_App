@@ -4,20 +4,29 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Activity.MainActivity
+import com.example.pos.Model.model_barang
 import com.example.pos.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
-                    private val nama:ArrayList<String>?,
-                    private val harga:ArrayList<Int>?,
-                    private val jenis:ArrayList<String>?,
-                    private val stok:ArrayList<Int>?,
-                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+                    private var nama:ArrayList<String>?,
+                    private var harga:ArrayList<Int>?,
+                    private var jenis:ArrayList<String>?,
+                    private var stok:ArrayList<Int>?,
+                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(),Filterable {
     private var listener: OnItemsClickListener? = null
+    var filterMsg:ArrayList<String>? = ArrayList()
+    init{
+        filterMsg = nama
+    }
     fun setWhenClickListener(listener: OnItemsClickListener?){
         this.listener = listener
     }
@@ -30,6 +39,40 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
         return ViewHolder(view)
 
     }
+    //function to filter data
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                var msg = p0.toString()
+                if(msg == null || msg.isEmpty()){
+                    filterMsg = nama
+                }else{
+                    val result:ArrayList<String>? = ArrayList()
+                    for(i in nama!!){
+                        if(i.lowercase(Locale.ROOT).contains(msg.lowercase(Locale.ROOT))){
+                            result!!.add(i)
+                        }
+                    }
+                    filterMsg = result
+                }
+                val dataFilterResult = FilterResults()
+                dataFilterResult.values = filterMsg
+                return dataFilterResult
+            }
+            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                filterMsg = p1?.values as ArrayList<String>?
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+    fun setFilter(filter:ArrayList<String>?){
+        nama = ArrayList()
+        nama!!.addAll(filter!!)
+        notifyDataSetChanged()
+    }
+
+
 
 
 
@@ -50,7 +93,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
                 if (holder.jumlah.text.toString() != "0"){
                     arr[position] = --arr[position]
                     holder.jumlah.text = arr[position].toString()
-                    listener!!.onItemClick(refresh2(harga[position]))
+                    listener!!.onItemClick(refresh2(harga!![position]))
                 }
             }
                 }
@@ -61,7 +104,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
             if(listener != null){
                 arr[position] = ++arr[position]
                     holder.jumlah.text = arr[position].toString()
-                    listener!!.onItemClick(harga[position])
+                    listener!!.onItemClick(harga!![position])
                 }
             }
 
@@ -100,6 +143,8 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
     interface OnItemsClickListener {
         fun onItemClick(harga: Int)
     }
+
+
 }
 
 

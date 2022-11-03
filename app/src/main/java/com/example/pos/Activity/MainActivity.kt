@@ -7,10 +7,12 @@ import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var list_kode: ArrayList<String>
     lateinit var list_stok: ArrayList<Int>
     lateinit var adapter: CustomAdapter
+    lateinit var search:androidx.appcompat.widget.SearchView
     lateinit var recyclerview: RecyclerView
     lateinit var frameRefresh: FrameLayout
     lateinit var totalBeli: TextView
@@ -35,17 +38,31 @@ class MainActivity : AppCompatActivity() {
         recyclerview.setHasFixedSize(true)
         frameRefresh = findViewById(R.id.refresh)
         recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-
+        search = findViewById(R.id.search_all)
 
         settingsFAB.setOnClickListener{
             intent = Intent(this, daftar_barang::class.java)
-            startActivity(intent)
+            startActivity(intent).also{
+                total = 0
+                totalBeli.text = "Rp.0"
+            }
         }
-//        frameRefresh.setOnClickListener{
-//            totalBeli.text = total.toString()
-//        }
+        //search view query
+        search.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
 
+            override fun onQueryTextChange( newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                adapter.notifyDataSetChanged()
+                recyclerview.adapter!!.notifyDataSetChanged()
+                return false
+            }
+
+        })
     }
+
     fun readAll(){
 
         val db: database = database(this)
@@ -83,14 +100,11 @@ class MainActivity : AppCompatActivity() {
     fun NumberFormat(s:String):String{
         var current:String = ""
         var parsed:Double
-        var cleanString:String = s.toString().replace("""[,.]""".toRegex(), "")
+        var cleanString:String = s.replace("""[,.]""".toRegex(), "")
         parsed = cleanString.toDouble()
         var formatted:String = java.text.NumberFormat.getNumberInstance().format(parsed)
         current = formatted
         return current
     }
-//    fun refresh(){
-//        totalBeli = findViewById(R.id.total_beli)
-//        totalBeli.text = NumbersFormat(total.toString())hd
-//    }
+
 }
