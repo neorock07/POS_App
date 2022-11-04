@@ -16,17 +16,10 @@ import com.example.pos.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
-                    private var nama:ArrayList<String>?,
-                    private var harga:ArrayList<Int>?,
-                    private var jenis:ArrayList<String>?,
-                    private var stok:ArrayList<Int>?,
-                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(),Filterable {
+class CustomAdapter(context: Context, private var modelitem: ArrayList<model_barang>
+                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     private var listener: OnItemsClickListener? = null
-    var filterMsg:ArrayList<String>? = ArrayList()
-    init{
-        filterMsg = nama
-    }
+    public val arrayname = Array<String>(itemCount){""}
     fun setWhenClickListener(listener: OnItemsClickListener?){
         this.listener = listener
     }
@@ -39,53 +32,26 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
         return ViewHolder(view)
 
     }
-    //function to filter data
-    override fun getFilter(): Filter {
-        return object : Filter(){
-            override fun performFiltering(p0: CharSequence?): FilterResults {
-                var msg = p0.toString()
-                if(msg == null || msg.isEmpty()){
-                    filterMsg = nama
-                }else{
-                    val result:ArrayList<String>? = ArrayList()
-                    for(i in nama!!){
-                        if(i.lowercase(Locale.ROOT).contains(msg.lowercase(Locale.ROOT))){
-                            result!!.add(i)
-                        }
-                    }
-                    filterMsg = result
-                }
-                val dataFilterResult = FilterResults()
-                dataFilterResult.values = filterMsg
-                return dataFilterResult
-            }
-            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                filterMsg = p1?.values as ArrayList<String>?
-                notifyDataSetChanged()
-            }
 
-        }
-    }
-    fun setFilter(filter:ArrayList<String>?){
-        nama = ArrayList()
-        nama!!.addAll(filter!!)
+    fun filterList(filterlist: ArrayList<model_barang>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        modelitem = filterlist
+        // below line is to notify our adapter
+        // as change in recycler view data.
         notifyDataSetChanged()
     }
-
-
-
-
 
     // binds the list items to a viewd3
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val arr = IntArray(itemCount)
 
-        val kode_tx = kode!![position]
+        val kode_tx = modelitem.get(position).kode
         // sets the image to the imageview from our itemHolder class
-        holder.jenisItem.text = jenis!![position]
+        holder.jenisItem.text = modelitem.get(position).jenis
         // sets the text to the textview from our itemHolder class
-        holder.namaBarang.text = nama!![position]
-        val hargaString = "Rp"+ NumberFormat(harga!![position].toString())
+        holder.namaBarang.text = modelitem.get(position).nama
+        val hargaString = "Rp"+ NumberFormat(modelitem.get(position).harga.toString())
 
         holder.hargaBarang.text = hargaString
         holder.minButton.setOnClickListener{
@@ -93,7 +59,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
                 if (holder.jumlah.text.toString() != "0"){
                     arr[position] = --arr[position]
                     holder.jumlah.text = arr[position].toString()
-                    listener!!.onItemClick(refresh2(harga!![position]))
+                    listener!!.onItemClick(refresh2(modelitem.get(position).harga))
                 }
             }
                 }
@@ -104,7 +70,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
             if(listener != null){
                 arr[position] = ++arr[position]
                     holder.jumlah.text = arr[position].toString()
-                    listener!!.onItemClick(harga!![position])
+                    listener!!.onItemClick(modelitem.get(position).harga)
                 }
             }
 
@@ -128,7 +94,7 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
 
     // return the number of the items in the list
     override fun getItemCount(): Int {
-        return kode!!.size
+        return modelitem!!.size
     }
 
     // Holds the views for adding it to image and text
@@ -143,8 +109,6 @@ class CustomAdapter(context: Context, private val kode:ArrayList<String>?,
     interface OnItemsClickListener {
         fun onItemClick(harga: Int)
     }
-
-
 }
 
 
