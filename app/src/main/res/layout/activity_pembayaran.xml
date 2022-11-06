@@ -64,6 +64,7 @@
                     android:layout_marginBottom="15dp"
                     android:fontFamily="sans-serif-black"
                     android:text="Rp. 139,000"
+                    android:id="@+id/total_beli_pembayaran"
                     android:textColor="@color/white"
                     android:textSize="10pt" />
             </LinearLayout>
@@ -88,6 +89,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/rc_pembayaran"
+                android:layout_margin="7dp"
                 />
         </FrameLayout>
 
@@ -120,6 +123,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:text="TOTAL BAYAR"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="10pt" />
                 <TextView
@@ -165,7 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
-                android:id="@+id/back_keranjang"
+                android:id="@+id/to_cetak"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

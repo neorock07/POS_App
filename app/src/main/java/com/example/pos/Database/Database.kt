@@ -37,9 +37,14 @@ public class database(context:Context): SQLiteOpenHelper(context,
 
     //method to read data
     fun viewBarang():Cursor{
-
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_CONTACTS", null)
+    }
+    //function to read where kode is
+    fun RetDatafromKode(kode: String):Cursor {
+        val db = this.writableDatabase
+        val qeri = "SELECT * FROM $TABLE_CONTACTS WHERE $kode = ?"
+        return db.rawQuery(qeri, arrayOf(kode))
     }
     //function to delete
     fun deleteData(kode:String):Int{

@@ -6,10 +6,7 @@ import android.content.Intent
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +23,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var totalBeli: TextView
     lateinit var listitem: ArrayList<model_barang>
     var total: Int = 0
+    var arr_kode:ArrayList<String> = ArrayList()
+    var arr_harga:ArrayList<Int> = ArrayList()
+    var arr_nama:ArrayList<String> = ArrayList()
+    var arr_jenis:ArrayList<String> = ArrayList()
+    var arr_jumlah:ArrayList<Int> = ArrayList()
+    lateinit var btn_bayar:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         settingsFAB = findViewById(R.id.setting)
         recyclerview.setHasFixedSize(true)
         frameRefresh = findViewById(R.id.refresh)
+        btn_bayar = findViewById(R.id.keranjang)
         recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
         search = findViewById(R.id.search_all)
         listitem = readAll()
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             intent = Intent(this, daftar_barang::class.java)
             startActivity(intent).also{
                 total = 0
-                totalBeli.text = "Rp0"
+                totalBeli.text = "0"
             }
         }
         //search view query
@@ -63,7 +67,6 @@ class MainActivity : AppCompatActivity() {
        adapter.notifyDataSetChanged()
     }
 
-
     fun readAll() : ArrayList<model_barang>{
 
         val db: database = database(this)
@@ -76,10 +79,8 @@ class MainActivity : AppCompatActivity() {
                 var list_harga = cursor.getInt(2)
                 var list_jenis = cursor.getString(3)
                 var list_stok = cursor.getInt(4)
-                modelItemx.add(model_barang(list_kode,list_nama,list_harga,list_jenis,list_stok))
-
+                modelItemx.add(model_barang(list_kode,list_nama,list_harga,list_jenis,list_stok,totalBeli.text.toString()))
             }
-
     }
         return modelItemx
     }
@@ -92,12 +93,38 @@ class MainActivity : AppCompatActivity() {
                 totalBeli.text  = NumberFormat(total.toString())
             }
 
+            override fun onArrayItemClick(
+                kode: ArrayList<String>,
+                Arr_harga: ArrayList<Int>,
+                nama: ArrayList<String>,
+                jenis: ArrayList<String>,
+                jumlah_total: ArrayList<Int>
+            ) {
+                arr_kode = kode
+                arr_harga = Arr_harga
+                arr_nama = nama
+                arr_jenis = jenis
+                arr_jumlah = jumlah_total
+                val log:Intent = Intent(this@MainActivity, Pembayaran::class.java)
+                log.putExtra("key_kode", arr_kode )
+                log.putExtra("key_uang", totalBeli.text.toString())
+                log.putExtra("key_nama", arr_nama )
+                log.putExtra("key_jenis", arr_jenis)
+                log.putExtra("key_jumlah", arr_jumlah)
+                log.putExtra("key_harga", arr_harga)
+                btn_bayar.setOnClickListener(){
+                    startActivity(log).also{
+                        total = 0
+                        totalBeli.text = "0"
+                    }
+                }
+            }
+
+
         })
         recyclerview.adapter = adapter
         return adapter
     }
-
-
     override fun onResume() {
         super.onResume()
         adapter=getAdapter2()
@@ -120,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         // running a for loop to compare elements.
         for (item in listitem) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.nama.toLowerCase().contains(text.toLowerCase())||item.kode.contains(text)) {
+            if (item.nama.lowercase().contains(text.lowercase())||item.kode.contains(text) || item.jenis.contains(text.lowercase())) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item)
