@@ -62,11 +62,13 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
         val hargaString = "Rp"+ NumberFormat(modelitem.get(position).harga.toString())
 
         holder.hargaBarang.text = hargaString
+
+        val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
+        val kk = LinkedHashSet(kode_lt).toMutableList()
+        val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
+        val k2 = LinkedHashSet(nama_lt).toMutableList()
+        //minus button
         holder.minButton.setOnClickListener{
-            val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
-            val kk = LinkedHashSet(kode_lt).toMutableList()
-            val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
-            val k2 = LinkedHashSet(nama_lt).toMutableList()
             if(listener != null){
                 if (holder.jumlah.text.toString() != "0"){
                     arr[position] = --arr[position]
@@ -79,22 +81,22 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
                         for (i in k2) {
                             arr_nama.add(i)
                         }
-
                         arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
                         arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
                         arr_jmlh[modelitem.get(position).nama] = arr[position]
+                        listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jmlh)
+                    }else{
+                        arr_kode.clear()
+                        arr_harga.clear()
+                        arr_jenis.clear()
+                        arr_nama.clear()
+                        arr_jmlh.clear()
                     }
-
-                    listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jmlh)
                 }
             }
                 }
+        //add button
         holder.plusButton.setOnClickListener{
-            val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
-            val kk = LinkedHashSet(kode_lt).toMutableList()
-            val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
-            val k2 = LinkedHashSet(nama_lt).toMutableList()
-
             if(listener != null){
                 arr[position] = ++arr[position]
                     holder.jumlah.text = arr[position].toString()
@@ -107,24 +109,15 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
                     for(i in k2){
                         arr_nama.add(i)
                     }
-
+                    //hashMap
                     arr_harga[modelitem.get(position).nama]=modelitem.get(position).harga
                     arr_jenis[modelitem.get(position).nama]=modelitem.get(position).jenis
                     arr_jmlh[modelitem.get(position).nama] = arr[position]
                     Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
-//                    var kode_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_kode)) as ArrayList<String>
-//                    var jenis_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_jenis)) as ArrayList<String>
-//                    var nama_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_nama)) as ArrayList<String>
-//                    var harga_lt:ArrayList<Int> = mutableListOf<Set<ArrayList<Int>>>(mutableSetOf<ArrayList<Int>>(arr_harga)) as ArrayList<Int>
-
-                    //var jumlah_lt = mutableListOf<Int>(arr_jumlah[arr_jumlah.size - 1]) as ArrayList<String>
-                    //var jumlah_lt = mutableListOf<Set<ArrayList<Int>>>(mutableSetOf<ArrayList<Int>>(arr_jumlah))
                 }
                 listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jmlh)
             }
             }
-
-
     }
     fun refresh2(harga : Int): Int{
         var x = 0

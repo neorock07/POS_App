@@ -113,11 +113,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 val log:Intent = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode )
-                log.putExtra("key_uang", totalBeli.text.toString())
                 log.putExtra("key_nama", arr_nama )
                 log.putExtra("key_jenis", arr_jenis)
                 log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
+                if(arr_kode.isEmpty()){
+                    log.putExtra("key_uang", "Rp.0")
+                }else{
+                    log.putExtra("key_uang", totalBeli.text.toString())
+                }
                 btn_bayar.setOnClickListener(){
                     startActivity(log).also{
                         total = 0

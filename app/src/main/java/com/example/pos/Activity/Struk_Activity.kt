@@ -5,10 +5,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.R
+import com.example.pos.RecycleView.Adapter_pembayaran
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.ImagePrintable
 import com.mazenrashed.printooth.data.printable.Printable
@@ -26,12 +31,20 @@ import net.glxn.qrgen.android.QRCode
 class Struk_Activity : AppCompatActivity() {
     private var print: Printing? =null
     private lateinit var btn_print:Button
+    private lateinit var rc:RecyclerView
+    private lateinit var rv:RelativeLayout
+    private lateinit var btn_kembali:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_struk)
 
         Printooth.init(this)
         //assign variable
+        rv = findViewById(R.id.rv_empty)
+        rc = findViewById(R.id.rc_item_cetak)
+        btn_kembali = findViewById(R.id.btn_kembali)
+        rc.setHasFixedSize(true)
+        rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         btn_print = findViewById(R.id.btn_cetak)
         //cek koneksi
         if(Printooth.hasPairedPrinter()){
@@ -67,12 +80,33 @@ class Struk_Activity : AppCompatActivity() {
                 Toast.makeText(this@Struk_Activity, "Order successfully sent to printer!",Toast.LENGTH_SHORT).show()
             }
         }
+           //button kembali
+        btn_kembali.setOnClickListener{
+            startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
+            finish()
+        }
+    }
+    private fun RetrieveData(){
+        var list_kode:ArrayList<String> = intent.getSerializableExtra("key_kode") as ArrayList<String>
+        var list_nama:ArrayList<String> = intent.getSerializableExtra("key_nama") as ArrayList<String>
+        var list_jenis:ArrayList<String> = intent.getSerializableExtra("key_jenis") as ArrayList<String>
+        var list_harga:ArrayList<Int> = intent.getSerializableExtra("key_harga") as ArrayList<Int>
+        var list_jumlah:ArrayList<Int> = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+
+        if(list_kode.isEmpty()){
+            rv.visibility = View.VISIBLE
+        }else{
+            val adapter:Adapter_pembayaran = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah)
+            rc.adapter = adapter
+        }
 
     }
+
 
     override fun onResume() {
         super.onResume()
         initListener()
+        RetrieveData()
     }
     private fun initListener(){
         btn_print.setOnClickListener{

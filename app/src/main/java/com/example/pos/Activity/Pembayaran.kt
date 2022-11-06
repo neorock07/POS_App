@@ -2,7 +2,9 @@ package com.example.pos.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +22,7 @@ class Pembayaran : AppCompatActivity() {
     lateinit var adapter:Adapter_pembayaran
     lateinit var total_beli_pem:TextView
     var total_uang:Int = 0
+    lateinit var rv:RelativeLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
@@ -27,14 +30,12 @@ class Pembayaran : AppCompatActivity() {
         total_beli_pem = findViewById(R.id.total_beli_pembayaran)
         btn_cetak = findViewById(R.id.to_cetak)
         rc = findViewById(R.id.rc_pembayaran)
+        rv = findViewById(R.id.rv_empty)
         //recycleView
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        //go to halaman cetak struk
-        btn_cetak.setOnClickListener{
-            startActivity(Intent(this@Pembayaran, Struk_Activity::class.java))
-        }
+
     }
     fun RetrieveData():ArrayList<model_barang>{
         lateinit var listItem:ArrayList<model_barang>
@@ -62,38 +63,31 @@ class Pembayaran : AppCompatActivity() {
         for(i in nama_lt){
             list_nama2.add(i)
         }
-        total_beli_pem.text = "Rp." + jumlah
-        val db: database = database(this)
-        //var cursor: Cursor = db.RetDatafromKode(list_kode[0])
-        listItem = ArrayList()
-//        Toast.makeText(this, "List : " + list_kode2.toString() + list_harga.toString() + list_nama2.toString() + list_jml.toString(), Toast.LENGTH_SHORT).show()
-//        val alert:AlertDialog = AlertDialog.Builder(this)
-//            .setMessage(list_kode2.toString() + list_harga.toString() + list_nama2.toString() + list_jml.toString())
-//            .show()
-        adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
-        //listItem.add(model_barang(list_kode.toString(),list_nama.toString(),list_harga,list_jenis,list_jml,jumlah!!))
-//            while(cursor!!.moveToNext()){
-//                //var list_kode = cursor.getString(0)
-//                var list_nama = cursor.getString(1)
-//                var list_harga = cursor.getInt(2)
-//                var list_jenis = cursor.getString(3)
-//                var list_stok = cursor.getInt(4)
-//                Toast.makeText(this,"Nama : " + list_nama, Toast.LENGTH_SHORT).show()
-//
-//            }
-//        adapter = Adapter_pembayaran(this, listItem,12000)
-        rc.adapter = adapter
-        return listItem
 
-//        }
-//
-//    }
-}
-//    fun getAdapter2() : Adapter_pembayaran {
-//        adapter = Adapter_pembayaran(this,RetrieveData())
-//        rc.adapter = adapter
-//        return adapter
-//    }
+        total_beli_pem.text = "Rp." + jumlah
+
+        listItem = ArrayList()
+        if(list_kode2.isEmpty()){
+            total_beli_pem.text = "Rp.0"
+            rv.visibility = View.VISIBLE
+        }else{
+            adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
+            rc.adapter = adapter
+        }
+
+        //go to halaman cetak struk
+        var log2:Intent = Intent(this@Pembayaran, Struk_Activity::class.java)
+        log2.putExtra("key_kode", list_kode2)
+        log2.putExtra("key_nama", list_nama2)
+        log2.putExtra("key_harga", hargaList)
+        log2.putExtra("key_jenis", jenisList)
+        log2.putExtra("key_jumlah", jumlahList)
+        btn_cetak.setOnClickListener{
+            startActivity(log2)
+        }
+
+        return listItem
+    }
 
     override fun onResume() {
         super.onResume()
