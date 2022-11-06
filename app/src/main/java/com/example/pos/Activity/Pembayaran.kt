@@ -1,21 +1,18 @@
 package com.example.pos.Activity
 
 import android.content.Intent
-import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Database.database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
-import com.example.pos.RecycleView.CustomAdapter
-import java.util.LinkedHashSet
 
 class Pembayaran : AppCompatActivity() {
     lateinit var btn_cetak:ImageView
@@ -44,13 +41,21 @@ class Pembayaran : AppCompatActivity() {
         var list_kode:ArrayList<String> = intent.getSerializableExtra("key_kode") as ArrayList<String>
         var kode_lt = LinkedHashSet(list_kode).toMutableSet()
         var jumlah = intent.getStringExtra("key_uang")
-        var list_harga:ArrayList<Int> = intent.getSerializableExtra("key_harga") as ArrayList<Int>
+        val list_harga :HashMap<String, Int>?= intent.getSerializableExtra("key_harga") as HashMap<String, Int>?
         var list_nama:ArrayList<String> = intent.getSerializableExtra("key_nama") as ArrayList<String>
         var nama_lt = LinkedHashSet(list_nama).toMutableSet()
-        var list_jenis:ArrayList<String> = intent.getSerializableExtra("key_jenis") as ArrayList<String>
-        var list_jml:ArrayList<Int> = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+        var list_jenis= intent.getSerializableExtra("key_jenis") as HashMap<String, String>?
+        var list_jml = intent.getSerializableExtra("key_jumlah") as HashMap<String, Int>?
+        var hargaList:ArrayList<Int> = ArrayList()
+        var jenisList:ArrayList<String> = ArrayList()
+        var jumlahList:ArrayList<Int> = ArrayList()
         var list_kode2:ArrayList<String> = ArrayList()
         var list_nama2:ArrayList<String> = ArrayList()
+        for (i in nama_lt){
+            list_harga?.get(i)?.let { hargaList.add(it) }
+            list_jenis?.get(i)?.let { jenisList.add(it) }
+            list_jml?.get(i)?.let { jumlahList.add(it) }
+        }
         for(i in kode_lt){
             list_kode2.add(i)
         }
@@ -61,11 +66,11 @@ class Pembayaran : AppCompatActivity() {
         val db: database = database(this)
         //var cursor: Cursor = db.RetDatafromKode(list_kode[0])
         listItem = ArrayList()
-        Toast.makeText(this, "List : " + list_kode2.toString() + list_harga.toString() + list_nama2.toString(), Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "List : " + list_kode2.toString() + list_harga.toString() + list_nama2.toString() + list_jml.toString(), Toast.LENGTH_SHORT).show()
 //        val alert:AlertDialog = AlertDialog.Builder(this)
 //            .setMessage(list_kode2.toString() + list_harga.toString() + list_nama2.toString() + list_jml.toString())
 //            .show()
-        adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,list_harga, list_jenis, list_jml)
+        adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
         //listItem.add(model_barang(list_kode.toString(),list_nama.toString(),list_harga,list_jenis,list_jml,jumlah!!))
 //            while(cursor!!.moveToNext()){
 //                //var list_kode = cursor.getString(0)

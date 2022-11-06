@@ -23,10 +23,10 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
     public val arrayname = Array<String>(itemCount){""}
     //data > 0 add to array
     var arr_kode = ArrayList<String>()
-    var arr_harga = ArrayList<Int>()
-    var arr_jenis = ArrayList<String>()
+    var arr_harga = HashMap<String, Int>()
+    var arr_jenis = HashMap<String, String>()
     var arr_nama = ArrayList<String>()
-    var arr_jumlah:ArrayList<Int> = ArrayList()
+    val arr_jmlh = HashMap<String, Int>()
     fun setWhenClickListener(listener: OnItemsClickListener?){
         this.listener = listener
     }
@@ -63,13 +63,29 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
 
         holder.hargaBarang.text = hargaString
         holder.minButton.setOnClickListener{
+            val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
+            val kk = LinkedHashSet(kode_lt).toMutableList()
+            val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
+            val k2 = LinkedHashSet(nama_lt).toMutableList()
             if(listener != null){
                 if (holder.jumlah.text.toString() != "0"){
                     arr[position] = --arr[position]
                     holder.jumlah.text = arr[position].toString()
                     listener!!.onItemClick(refresh2(modelitem.get(position).harga))
+                    if(arr[position] > 0 ) {
+                        for (i in kk) {
+                            arr_kode.add(i)
+                        }
+                        for (i in k2) {
+                            arr_nama.add(i)
+                        }
 
-                    //listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jumlah)
+                        arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
+                        arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
+                        arr_jmlh[modelitem.get(position).nama] = arr[position]
+                    }
+
+                    listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jmlh)
                 }
             }
                 }
@@ -78,7 +94,7 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
             val kk = LinkedHashSet(kode_lt).toMutableList()
             val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
             val k2 = LinkedHashSet(nama_lt).toMutableList()
-            var jml:ArrayList<Int> = ArrayList()
+
             if(listener != null){
                 arr[position] = ++arr[position]
                     holder.jumlah.text = arr[position].toString()
@@ -91,13 +107,11 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
                     for(i in k2){
                         arr_nama.add(i)
                     }
-                    Toast.makeText(context, "kode : " + kode_lt.toString(), Toast.LENGTH_SHORT).show()
-                    arr_harga.add(modelitem.get(position).harga)
-                    arr_jenis.add(modelitem.get(position).jenis)
-                    jml.add(holder.jumlah.text.toString().toInt())
-                  //  var mp = mapOf("1" to jml)
-                    arr_jumlah.add(jml.get(jml.size - 1))
-                    jml.clear()
+
+                    arr_harga[modelitem.get(position).nama]=modelitem.get(position).harga
+                    arr_jenis[modelitem.get(position).nama]=modelitem.get(position).jenis
+                    arr_jmlh[modelitem.get(position).nama] = arr[position]
+                    Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
 //                    var kode_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_kode)) as ArrayList<String>
 //                    var jenis_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_jenis)) as ArrayList<String>
 //                    var nama_lt:ArrayList<String> = mutableListOf<Set<ArrayList<String>>>(mutableSetOf<ArrayList<String>>(arr_nama)) as ArrayList<String>
@@ -106,7 +120,7 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
                     //var jumlah_lt = mutableListOf<Int>(arr_jumlah[arr_jumlah.size - 1]) as ArrayList<String>
                     //var jumlah_lt = mutableListOf<Set<ArrayList<Int>>>(mutableSetOf<ArrayList<Int>>(arr_jumlah))
                 }
-                listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jumlah)
+                listener!!.onArrayItemClick(arr_kode,arr_harga,arr_nama,arr_jenis, arr_jmlh)
             }
             }
 
@@ -145,7 +159,7 @@ class CustomAdapter(private var context: Context, private var modelitem: ArrayLi
     }
     interface OnItemsClickListener {
         fun onItemClick(harga: Int)
-        fun onArrayItemClick(kode:ArrayList<String>, Arr_harga:ArrayList<Int>, nama:ArrayList<String>, jenis:ArrayList<String>, jumlah_total:ArrayList<Int>)
+        fun onArrayItemClick(kode:ArrayList<String>, Arr_harga:HashMap<String, Int>, nama:ArrayList<String>, jenis:HashMap<String, String>, arr_jmlh : HashMap<String, Int>)
     }
 }
 

@@ -73,7 +73,7 @@ class daftar_barang : AppCompatActivity() {
                 var list_harga = cursor.getInt(2)
                 var list_jenis = cursor.getString(3)
                 var list_stok = cursor.getInt(4)
-                modelItemx.add(model_barang(list_kode,list_nama,list_harga,list_jenis,list_stok))
+                modelItemx.add(model_barang(list_kode,list_nama,list_harga,list_jenis,list_stok,"0"))
 
             }
 

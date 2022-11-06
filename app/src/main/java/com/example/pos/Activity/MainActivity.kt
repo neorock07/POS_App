@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.LinkedHashMap
 
 class MainActivity : AppCompatActivity() {
     lateinit var settingsFAB: CardView
@@ -24,10 +25,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var listitem: ArrayList<model_barang>
     var total: Int = 0
     var arr_kode:ArrayList<String> = ArrayList()
-    var arr_harga:ArrayList<Int> = ArrayList()
+    var arr_harga = HashMap<String, Int>()
     var arr_nama:ArrayList<String> = ArrayList()
-    var arr_jenis:ArrayList<String> = ArrayList()
-    var arr_jumlah:ArrayList<Int> = ArrayList()
+    var arr_jenis = HashMap<String, String>()
+    var arr_jumlah = HashMap<String, Int>()
     lateinit var btn_bayar:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,16 +96,21 @@ class MainActivity : AppCompatActivity() {
 
             override fun onArrayItemClick(
                 kode: ArrayList<String>,
-                Arr_harga: ArrayList<Int>,
+                Arr_harga: HashMap<String, Int>,
                 nama: ArrayList<String>,
-                jenis: ArrayList<String>,
-                jumlah_total: ArrayList<Int>
+                jenis: HashMap<String, String>,
+                jumlah_total: HashMap<String, Int>
             ) {
                 arr_kode = kode
-                arr_harga = Arr_harga
+
                 arr_nama = nama
-                arr_jenis = jenis
-                arr_jumlah = jumlah_total
+
+                for(i in arr_nama)
+                {
+                    arr_harga[i] = Arr_harga[i]!!
+                    arr_jumlah[i] = jumlah_total[i]!!
+                    arr_jenis[i] = jenis[i]!!
+                }
                 val log:Intent = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode )
                 log.putExtra("key_uang", totalBeli.text.toString())

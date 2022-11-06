@@ -27,7 +27,7 @@ class Adapter_pembayaran(
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
 //        var model = model_item.get(position)
 //        holder.namaBarang.text = model.nama
-//        holder.hargaBarang.text = "Rp." + NumberFormat(model.harga.toString())
+        holder.hargaBarang.text = "Rp." + NumberFormat(list_harga!!.get(position).toString())
 //        holder.jenisItem.text = model.jenis
         holder.jumlah.text = list_jumlah!!.get(position).toString()
         // sets the image to the imageview from our itemHolder class
