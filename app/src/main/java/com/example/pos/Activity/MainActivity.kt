@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.adapter=adapter
 
         settingsFAB.setOnClickListener{
-            intent = Intent(this, daftar_barang::class.java)
+            intent = Intent(this, form_login::class.java)
             startActivity(intent).also{
                 total = 0
                 totalBeli.text = "0"
