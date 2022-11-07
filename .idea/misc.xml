@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/account2.xml" value="0.1295" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/back.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bg_item.xml" value="0.2145" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bgform.xml" value="0.156" />
@@ -13,6 +14,7 @@
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_daftar_barang.xml" value="0.4" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_form_barang.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_form_login.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_laporan_bulanan.xml" value="0.176" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_pembayaran.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_scanner.xml" value="0.1" />
@@ -22,6 +24,7 @@
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_struk.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/container_barang.xml" value="0.176" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/container_item_beli.xml" value="0.264" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/container_laporan.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/dropdown_jenis.xml" value="0.25" />
         <entry key="..\:/Users/TYO/OneDrive/Dokumen/Android Studio/POS_App/app/src/main/res/layout/activity_daftar_barang.xml" value="0.18611111111111112" />
         <entry key="..\:/Users/TYO/OneDrive/Dokumen/Android Studio/POS_App/app/src/main/res/layout/activity_pembayaran.xml" value="0.19074074074074074" />

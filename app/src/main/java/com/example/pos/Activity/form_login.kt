@@ -32,6 +32,8 @@ class form_login : AppCompatActivity() {
                 }
             } else{
                 Toast.makeText(this, "Username & Password harus diisi!", Toast.LENGTH_SHORT).show()
+                ed_username.error = "Tidak boleh kosong"
+                ed_password.error = "Tidak boleh kosong"
             }
         }
     }
