@@ -1,8 +1,10 @@
 package com.example.pos.Activity
 
+import android.content.Context
 import com.example.pos.Database.database
 import com.example.pos.RecycleView.CustomAdapter
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var frameRefresh: FrameLayout
     lateinit var totalBeli: TextView
     lateinit var listitem: ArrayList<model_barang>
+
     var total: Int = 0
     var arr_kode:ArrayList<String> = ArrayList()
     var arr_harga = HashMap<String, Int>()
@@ -30,12 +33,16 @@ class MainActivity : AppCompatActivity() {
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
     lateinit var btn_bayar:ImageView
+    private lateinit var sharedPref_total : SharedPreferences.Editor
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
         totalBeli = findViewById(R.id.total_beli)
         settingsFAB = findViewById(R.id.setting)
+
         recyclerview.setHasFixedSize(true)
         frameRefresh = findViewById(R.id.refresh)
         btn_bayar = findViewById(R.id.keranjang)
@@ -44,6 +51,11 @@ class MainActivity : AppCompatActivity() {
         listitem = readAll()
         adapter = getAdapter2()
         recyclerview.adapter=adapter
+
+        sharedPref_total = getSharedPreferences("key", Context.MODE_PRIVATE).edit()
+
+
+
 
         settingsFAB.setOnClickListener{
             intent = Intent(this, form_login::class.java)
@@ -124,11 +136,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 btn_bayar.setOnClickListener(){
                     startActivity(log).also{
-                        total = 0
-                        totalBeli.text = "0"
+                        val sp_total = sharedPref_total
+                        sp_total.putString("key_total", totalBeli.getText().toString())
+                        sp_total.apply()
+                        totalBeli.setText(totalBeli.getText().toString())
+
                     }
+
                 }
             }
+
 
 
         })
