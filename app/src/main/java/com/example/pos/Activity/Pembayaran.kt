@@ -70,13 +70,8 @@ class Pembayaran : AppCompatActivity() {
                     kembalian.setText("0")
 
                 }
-
             }
-
         })
-
-
-
     }
     fun RetrieveData():ArrayList<model_barang>{
         lateinit var listItem:ArrayList<model_barang>
@@ -123,6 +118,7 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_harga", hargaList)
         log2.putExtra("key_jenis", jenisList)
         log2.putExtra("key_jumlah", jumlahList)
+        log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
         btn_cetak.setOnClickListener{
             startActivity(log2)
         }

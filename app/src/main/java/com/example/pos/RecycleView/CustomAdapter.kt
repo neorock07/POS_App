@@ -148,7 +148,6 @@ class CustomAdapter(
         return current
     }
 
-
     // return the number of the items in the list
     override fun getItemCount(): Int {
         return modelitem!!.size

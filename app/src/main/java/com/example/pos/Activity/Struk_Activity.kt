@@ -24,6 +24,9 @@ import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
 import com.mazenrashed.printooth.utilities.PrintingCallback
 import net.glxn.qrgen.android.QRCode
+import java.nio.charset.Charset
+import java.util.*
+import kotlin.collections.ArrayList
 
 //import com.mazenrashed.printooth.Printooth
 //import com.mazenrashed.printooth.utilities.Printing
@@ -34,12 +37,19 @@ class Struk_Activity : AppCompatActivity() {
     private lateinit var rc:RecyclerView
     private lateinit var rv:RelativeLayout
     private lateinit var btn_kembali:Button
+    private lateinit var list_kode:ArrayList<String>
+    private lateinit var list_nama:ArrayList<String>
+    private lateinit var list_jenis:ArrayList<String>
+    private lateinit var list_harga:ArrayList<Int>
+    private lateinit var list_jumlah:ArrayList<Int>
+    private lateinit var totalHarga:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_struk)
 
         Printooth.init(this)
         //assign variable
+        val main:MainActivity = MainActivity()
         rv = findViewById(R.id.rv_empty)
         rc = findViewById(R.id.rc_item_cetak)
         btn_kembali = findViewById(R.id.btn_kembali)
@@ -87,11 +97,12 @@ class Struk_Activity : AppCompatActivity() {
         }
     }
     private fun RetrieveData(){
-        var list_kode:ArrayList<String> = intent.getSerializableExtra("key_kode") as ArrayList<String>
-        var list_nama:ArrayList<String> = intent.getSerializableExtra("key_nama") as ArrayList<String>
-        var list_jenis:ArrayList<String> = intent.getSerializableExtra("key_jenis") as ArrayList<String>
-        var list_harga:ArrayList<Int> = intent.getSerializableExtra("key_harga") as ArrayList<Int>
-        var list_jumlah:ArrayList<Int> = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+        list_kode = intent.getSerializableExtra("key_kode") as ArrayList<String>
+        list_nama = intent.getSerializableExtra("key_nama") as ArrayList<String>
+        list_jenis = intent.getSerializableExtra("key_jenis") as ArrayList<String>
+        list_harga = intent.getSerializableExtra("key_harga") as ArrayList<Int>
+        list_jumlah = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+        totalHarga = intent.getStringExtra("key_total")!!
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
@@ -101,8 +112,6 @@ class Struk_Activity : AppCompatActivity() {
         }
 
     }
-
-
     override fun onResume() {
         super.onResume()
         initListener()
@@ -129,6 +138,14 @@ class Struk_Activity : AppCompatActivity() {
     }
 
     private fun MsgPrint() =  ArrayList<Printable>().apply {
+        val calender:Calendar = Calendar.getInstance()
+        val jam = calender.get(Calendar.HOUR_OF_DAY)
+        val menit = calender.get(Calendar.MINUTE)
+        val mm = calender.get(Calendar.MILLISECOND)
+        val day = calender.get(Calendar.DAY_OF_MONTH)
+        val month = calender.get(Calendar.MONTH) + 1
+        val year = calender.get(Calendar.YEAR)
+
         add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
         //logo
         add(ImagePrintable.Builder(R.drawable.logo, resources)
@@ -145,23 +162,51 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
+        var n = 10
+        val arr_id = ByteArray(256)
+        val randomStr:String = String(arr_id, Charset.forName("UTF-8"))
+        var strBuilder:StringBuilder = StringBuilder()
+        for(i in (0..randomStr.length)){
+            val ch = randomStr.get(i)
+            if((ch >= 'a' &&  ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') && (n > 0)){
+                strBuilder.append(ch)
+                n--
+            }
+        }
+        strBuilder.toString()
         add(
             TextPrintable.Builder()
-                .setText("ID Pemesanan\t: 2937bgfuSA570")
+                .setText("ID Pemesanan\t: $strBuilder")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
         add(
             TextPrintable.Builder()
-                .setText("Tanggal\t\t: 3/11/2022")
+                .setText("Tanggal\t\t: $day/$month/$year $jam:$menit:$mm")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
+        for(i in (0..list_kode.size -1)){
+            add(
+                TextPrintable.Builder()
+                    .setText("$list_nama.get($i)\t\t: Rp$list_harga.get($i)")
+                    .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                    .setNewLinesAfter(1)
+                    .build()
+            )
+        }
+        add(
+            TextPrintable.Builder()
+                .setText("========================================")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
         add(
             TextPrintable.Builder()
-                .setText("Jumlah\t\t: Rp.100,000")
+                .setText("Total\t\t\t Rp $totalHarga")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(2)
                 .build()
@@ -177,8 +222,8 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
-        val qr:Bitmap = QRCode.from("ID Pemesanan : 2937bgfuSA570\n" +
-                "Tanggal : 3/11/2022\n" + "Jumlah : Rp.100,000\n\nQRCode made with POS App")
+        val qr:Bitmap = QRCode.from("ID Pemesanan : $strBuilder\n" +
+                "Tanggal : $day/$month/$year $jam:$menit:$mm\n" + "Jumlah : Rp.$totalHarga\n\nQRCode made with POS App")
             .withSize(200,200).bitmap()
 
         add(
@@ -205,6 +250,7 @@ class Struk_Activity : AppCompatActivity() {
         result -> if(result.resultCode == ScanningActivity.SCANNING_FOR_PRINTER && result.resultCode == Activity.RESULT_OK ){
             printDetails()
     }
+
     }
 }
 

@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
+import java.lang.reflect.Type
 import java.util.LinkedHashMap
+import com.google.gson.reflect.TypeToken
 
 class MainActivity : AppCompatActivity() {
     lateinit var settingsFAB: CardView
@@ -34,7 +37,8 @@ class MainActivity : AppCompatActivity() {
     var arr_jumlah = HashMap<String, Int>()
     lateinit var btn_bayar:ImageView
     private lateinit var sharedPref_total : SharedPreferences.Editor
-
+    private lateinit var sharedJumlah:SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,10 @@ class MainActivity : AppCompatActivity() {
         adapter = getAdapter2()
         recyclerview.adapter=adapter
 
+        //sharedPreferences
         sharedPref_total = getSharedPreferences("key", Context.MODE_PRIVATE).edit()
+        sharedJumlah = applicationContext.getSharedPreferences("key_item",0)
+        editor = sharedJumlah.edit()
 
         settingsFAB.setOnClickListener{
             intent = Intent(this, form_login::class.java)
@@ -110,40 +117,43 @@ class MainActivity : AppCompatActivity() {
                 jumlah_total: HashMap<String, Int>
             ) {
                 arr_kode = kode
-
                 arr_nama = nama
-
                 for(i in arr_nama)
                 {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = jumlah_total[i]!!
                     arr_jenis[i] = jenis[i]!!
                 }
+
                 val log:Intent = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode )
                 log.putExtra("key_nama", arr_nama )
                 log.putExtra("key_jenis", arr_jenis)
                 log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
+
                 if(arr_kode.isEmpty()){
                     log.putExtra("key_uang", "Rp.0")
                 }else{
                     log.putExtra("key_uang", total)
                 }
-                btn_bayar.setOnClickListener(){
+
+                val gson: Gson = Gson()
+                var json = sharedJumlah.getString("main_key",null)
+                val type:Type = object : TypeToken<ArrayList<String?>?>() {}.type
+                val jsonData:String = gson.toJson(arr_jumlah)
+                editor.putString("jumlah_arr", jsonData)
+                editor.apply()
+
+                btn_bayar.setOnClickListener{
                     startActivity(log).also{
                         val sp_total = sharedPref_total
                         sp_total.putString("key_total", totalBeli.getText().toString())
                         sp_total.apply()
                         totalBeli.setText(totalBeli.getText().toString())
-
                     }
-
                 }
             }
-
-
-
         })
         recyclerview.adapter = adapter
         return adapter
@@ -154,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
         recyclerview.adapter = adapter
     }
+
     fun NumberFormat(s:String):String{
         var current:String = ""
         var parsed:Double
