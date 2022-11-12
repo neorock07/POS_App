@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
         totalBeli = findViewById(R.id.total_beli)
         settingsFAB = findViewById(R.id.setting)
-
         recyclerview.setHasFixedSize(true)
         frameRefresh = findViewById(R.id.refresh)
         btn_bayar = findViewById(R.id.keranjang)
@@ -53,9 +52,6 @@ class MainActivity : AppCompatActivity() {
         recyclerview.adapter=adapter
 
         sharedPref_total = getSharedPreferences("key", Context.MODE_PRIVATE).edit()
-
-
-
 
         settingsFAB.setOnClickListener{
             intent = Intent(this, form_login::class.java)
@@ -132,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                 if(arr_kode.isEmpty()){
                     log.putExtra("key_uang", "Rp.0")
                 }else{
-                    log.putExtra("key_uang", totalBeli.text.toString())
+                    log.putExtra("key_uang", total)
                 }
                 btn_bayar.setOnClickListener(){
                     startActivity(log).also{

@@ -2,11 +2,10 @@ package com.example.pos.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +14,8 @@ import com.example.pos.Database.database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
+import com.google.android.material.textfield.TextInputEditText
+import java.text.NumberFormat
 
 class Pembayaran : AppCompatActivity() {
     lateinit var btn_cetak:ImageView
@@ -23,6 +24,11 @@ class Pembayaran : AppCompatActivity() {
     lateinit var total_beli_pem:TextView
     var total_uang:Int = 0
     lateinit var rv:RelativeLayout
+    lateinit var ed_total:TextInputEditText
+    var parsed:Double = 0.0
+    var jumlah = 0
+    val mainActivity:MainActivity = MainActivity()
+    lateinit var kembalian:EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
@@ -31,9 +37,38 @@ class Pembayaran : AppCompatActivity() {
         btn_cetak = findViewById(R.id.to_cetak)
         rc = findViewById(R.id.rc_pembayaran)
         rv = findViewById(R.id.rv_empty)
+        kembalian = findViewById(R.id.txt_kembalian)
+        ed_total = findViewById(R.id.ed_total_beli)
         //recycleView
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        ed_total.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(!p0!!.isEmpty()){
+                    ed_total.removeTextChangedListener(this)
+                    var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
+                    parsed = cleanString.toDouble()
+                    var formatted:String = NumberFormat.getNumberInstance().format(parsed)
+                    ed_total.setText(formatted)
+                    ed_total.setSelection(formatted.length)
+                    ed_total.addTextChangedListener(this)
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                var hasil = parsed - jumlah
+                var formatted:String = NumberFormat.getNumberInstance().format(hasil)
+                kembalian.setText(mainActivity.NumberFormat(formatted))
+            }
+
+        })
+
 
 
     }
@@ -41,7 +76,7 @@ class Pembayaran : AppCompatActivity() {
         lateinit var listItem:ArrayList<model_barang>
         var list_kode:ArrayList<String> = intent.getSerializableExtra("key_kode") as ArrayList<String>
         var kode_lt = LinkedHashSet(list_kode).toMutableSet()
-        var jumlah = intent.getStringExtra("key_uang")
+        jumlah = intent.getIntExtra("key_uang",0)
         val list_harga :HashMap<String, Int>?= intent.getSerializableExtra("key_harga") as HashMap<String, Int>?
         var list_nama:ArrayList<String> = intent.getSerializableExtra("key_nama") as ArrayList<String>
         var nama_lt = LinkedHashSet(list_nama).toMutableSet()
@@ -64,7 +99,7 @@ class Pembayaran : AppCompatActivity() {
             list_nama2.add(i)
         }
 
-        total_beli_pem.text = "Rp." + jumlah
+        total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
 
         listItem = ArrayList()
         if(list_kode2.isEmpty()){

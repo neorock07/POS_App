@@ -82,7 +82,7 @@ class Struk_Activity : AppCompatActivity() {
         }
            //button kembali
         btn_kembali.setOnClickListener{
-            startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
+            onBackPressed()
             finish()
         }
     }
