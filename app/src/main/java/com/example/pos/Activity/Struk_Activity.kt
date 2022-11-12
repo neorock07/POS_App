@@ -166,7 +166,7 @@ class Struk_Activity : AppCompatActivity() {
         val arr_id = ByteArray(256)
         val randomStr:String = String(arr_id, Charset.forName("UTF-8"))
         var strBuilder:StringBuilder = StringBuilder()
-        for(i in (0..randomStr.length)){
+        for(i in (0..randomStr.length-1)){
             val ch = randomStr.get(i)
             if((ch >= 'a' &&  ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') && (n > 0)){
                 strBuilder.append(ch)
