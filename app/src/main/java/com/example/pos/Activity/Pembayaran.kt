@@ -63,8 +63,14 @@ class Pembayaran : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 var hasil = parsed - jumlah
-                var formatted:String = NumberFormat.getNumberInstance().format(hasil)
-                kembalian.setText(mainActivity.NumberFormat(formatted))
+                if(hasil > 0){
+                    var formatted:String = NumberFormat.getNumberInstance().format(hasil)
+                    kembalian.setText(mainActivity.NumberFormat(formatted))
+                }else{
+                    kembalian.setText("0")
+
+                }
+
             }
 
         })
