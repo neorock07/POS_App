@@ -17,32 +17,36 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView android:id="@+id/txt_judul_laporan"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_judul_laporan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
-                        android:textColor="@color/white"
-                        android:textSize="15pt"
                         android:gravity="center"
-                        android:layout_gravity="center"
                         android:text="LAPORAN."
+                        android:textColor="@color/white"
+
+                        android:textSize="15pt"></TextView>
+
+                    <TextView
+                        android:id="@+id/txt_tahun"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-                    </TextView>
-                    <TextView android:id="@+id/txt_tahun"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:layout_marginBottom="5pt"
                         android:fontFamily="@font/ralewaybold"
-                        android:textColor="@color/white"
-                        android:textSize="15pt"
-                        android:text="2020"
-                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-                    </TextView>
+                        android:text="2020"
+                        android:textColor="@color/white"
+                        android:textSize="15pt"></TextView>
                 </LinearLayout>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
