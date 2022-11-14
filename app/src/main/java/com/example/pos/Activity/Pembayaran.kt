@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pos.Database.database
+import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran

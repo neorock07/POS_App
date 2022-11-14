@@ -1,7 +1,7 @@
 package com.example.pos.Activity
 
 import android.content.Context
-import com.example.pos.Database.database
+import com.example.pos.Database.Database
 import com.example.pos.RecycleView.CustomAdapter
 import android.content.Intent
 import android.content.SharedPreferences
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     fun readAll() : ArrayList<model_barang>{
 
-        val db: database = database(this)
+        val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
         val modelItemx = ArrayList<model_barang>()
         if (cursor.count>0){

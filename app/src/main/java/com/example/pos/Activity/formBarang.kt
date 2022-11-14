@@ -1,6 +1,6 @@
 package com.example.pos.Activity
 
-import com.example.pos.Database.database
+import com.example.pos.Database.Database
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -120,7 +120,7 @@ private lateinit var dropmenu : AutoCompleteTextView
             val nameString = name.text.toString()
             val jenisString= dropmenu.text.toString()
             val stokString = stok.text.toString().toInt()
-            val databaseHandler: database = database(this)
+            val databaseHandler: Database = Database(this)
             val db = databaseHandler.writableDatabase
             var contentValues = ContentValues()
             contentValues.put(KEY_ID, idString)

@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.view.menu.MenuView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pos.Database.database
+import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 
@@ -23,7 +23,7 @@ class Adapter_Dft_Barang(private var context: Context, private var modelitem: Ar
     fun setWhenClickListener(listener: Adapter_Dft_Barang.OnItemsClickListener?){
         this.listener = listener
     }
-    val db:database = database(context)
+    val db:Database = Database(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view:View = LayoutInflater.from(parent.context).inflate(R.layout.container_barang, parent, false)
         return MyViewHolder(view)
