@@ -56,7 +56,6 @@ public class database(context:Context): SQLiteOpenHelper(context,
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_CONTACTS", null)
     }
-
     //method to read data
 
 
