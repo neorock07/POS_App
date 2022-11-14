@@ -23,21 +23,21 @@ import com.google.gson.reflect.TypeToken
 class MainActivity : AppCompatActivity() {
     lateinit var settingsFAB: CardView
     lateinit var adapter: CustomAdapter
-    lateinit var search:androidx.appcompat.widget.SearchView
+    lateinit var search: androidx.appcompat.widget.SearchView
     lateinit var recyclerview: RecyclerView
     lateinit var frameRefresh: FrameLayout
     lateinit var totalBeli: TextView
     lateinit var listitem: ArrayList<model_barang>
 
     var total: Int = 0
-    var arr_kode:ArrayList<String> = ArrayList()
+    var arr_kode: ArrayList<String> = ArrayList()
     var arr_harga = HashMap<String, Int>()
-    var arr_nama:ArrayList<String> = ArrayList()
+    var arr_nama: ArrayList<String> = ArrayList()
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
-    lateinit var btn_bayar:ImageView
-    private lateinit var sharedPref_total : SharedPreferences.Editor
-    private lateinit var sharedJumlah:SharedPreferences
+    lateinit var btn_bayar: ImageView
+    private lateinit var sharedPref_total: SharedPreferences.Editor
+    private lateinit var sharedJumlah: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,26 +49,27 @@ class MainActivity : AppCompatActivity() {
         recyclerview.setHasFixedSize(true)
         frameRefresh = findViewById(R.id.refresh)
         btn_bayar = findViewById(R.id.keranjang)
-        recyclerview.layoutManager= LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+        recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         search = findViewById(R.id.search_all)
         listitem = readAll()
         adapter = getAdapter2()
-        recyclerview.adapter=adapter
+        recyclerview.adapter = adapter
 
         //sharedPreferences
         sharedPref_total = getSharedPreferences("key", Context.MODE_PRIVATE).edit()
-        sharedJumlah = applicationContext.getSharedPreferences("key_item",0)
+        sharedJumlah = applicationContext.getSharedPreferences("key_item", 0)
         editor = sharedJumlah.edit()
 
-        settingsFAB.setOnClickListener{
+        settingsFAB.setOnClickListener {
             intent = Intent(this, form_login::class.java)
-            startActivity(intent).also{
+            startActivity(intent).also {
                 total = 0
                 totalBeli.text = "0"
             }
         }
         //search view query
-        search.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener{
+        search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
@@ -78,35 +79,44 @@ class MainActivity : AppCompatActivity() {
                 // calling a method to filter our recycler view.
                 filter(msg)
                 return false
-                }
+            }
         })
-       adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
-    fun readAll() : ArrayList<model_barang>{
+    fun readAll(): ArrayList<model_barang> {
 
         val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
         val modelItemx = ArrayList<model_barang>()
-        if (cursor.count>0){
-            while (cursor!!.moveToNext()){
+        if (cursor.count > 0) {
+            while (cursor!!.moveToNext()) {
                 var list_kode = cursor.getString(0)
                 var list_nama = cursor.getString(1)
                 var list_harga = cursor.getInt(2)
                 var list_jenis = cursor.getString(3)
                 var list_stok = cursor.getInt(4)
-                modelItemx.add(model_barang(list_kode,list_nama,list_harga,list_jenis,list_stok,totalBeli.text.toString()))
+                modelItemx.add(
+                    model_barang(
+                        list_kode,
+                        list_nama,
+                        list_harga,
+                        list_jenis,
+                        list_stok,
+                        totalBeli.text.toString()
+                    )
+                )
             }
-    }
+        }
         return modelItemx
     }
 
-    fun getAdapter2() : CustomAdapter{
-        adapter = CustomAdapter(this,readAll())
-        adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener{
+    fun getAdapter2(): CustomAdapter {
+        adapter = CustomAdapter(this, readAll())
+        adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener {
             override fun onItemClick(harga: Int) {
-                total +=harga
-                totalBeli.text  = NumberFormat(total.toString())
+                total += harga
+                totalBeli.text = NumberFormat(total.toString())
             }
 
             override fun onArrayItemClick(
@@ -118,35 +128,34 @@ class MainActivity : AppCompatActivity() {
             ) {
                 arr_kode = kode
                 arr_nama = nama
-                for(i in arr_nama)
-                {
+                for (i in arr_nama) {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = jumlah_total[i]!!
                     arr_jenis[i] = jenis[i]!!
                 }
 
-                val log:Intent = Intent(this@MainActivity, Pembayaran::class.java)
-                log.putExtra("key_kode", arr_kode )
-                log.putExtra("key_nama", arr_nama )
+                val log: Intent = Intent(this@MainActivity, Pembayaran::class.java)
+                log.putExtra("key_kode", arr_kode)
+                log.putExtra("key_nama", arr_nama)
                 log.putExtra("key_jenis", arr_jenis)
                 log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
 
-                if(arr_kode.isEmpty()){
+                if (arr_kode.isEmpty()) {
                     log.putExtra("key_uang", "Rp.0")
-                }else{
+                } else {
                     log.putExtra("key_uang", total)
                 }
 
                 val gson: Gson = Gson()
-                var json = sharedJumlah.getString("main_key",null)
-                val type:Type = object : TypeToken<ArrayList<String?>?>() {}.type
-                val jsonData:String = gson.toJson(arr_jumlah)
+                var json = sharedJumlah.getString("main_key", null)
+                val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+                val jsonData: String = gson.toJson(arr_jumlah)
                 editor.putString("jumlah_arr", jsonData)
                 editor.apply()
 
-                btn_bayar.setOnClickListener{
-                    startActivity(log).also{
+                btn_bayar.setOnClickListener {
+                    startActivity(log).also {
                         val sp_total = sharedPref_total
                         sp_total.putString("key_total", totalBeli.getText().toString())
                         sp_total.apply()
@@ -158,22 +167,24 @@ class MainActivity : AppCompatActivity() {
         recyclerview.adapter = adapter
         return adapter
     }
+
     override fun onResume() {
         super.onResume()
-        adapter=getAdapter2()
+        adapter = getAdapter2()
         adapter.notifyDataSetChanged()
         recyclerview.adapter = adapter
     }
 
-    fun NumberFormat(s:String):String{
-        var current:String = ""
-        var parsed:Double
-        var cleanString:String = s.replace("""[,.]""".toRegex(), "")
+    fun NumberFormat(s: String): String {
+        var current: String = ""
+        var parsed: Double
+        var cleanString: String = s.replace("""[,.]""".toRegex(), "")
         parsed = cleanString.toDouble()
-        var formatted:String = java.text.NumberFormat.getNumberInstance().format(parsed)
+        var formatted: String = java.text.NumberFormat.getNumberInstance().format(parsed)
         current = formatted
         return current
     }
+
     private fun filter(text: String) {
         // creating a new array list to filter our data.
         val filteredlist: ArrayList<model_barang> = ArrayList()
@@ -181,7 +192,11 @@ class MainActivity : AppCompatActivity() {
         // running a for loop to compare elements.
         for (item in listitem) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.nama.lowercase().contains(text.lowercase())||item.kode.contains(text) || item.jenis.contains(text.lowercase())) {
+            if (item.nama.lowercase()
+                    .contains(text.lowercase()) || item.kode.contains(text) || item.jenis.contains(
+                    text.lowercase()
+                )
+            ) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item)

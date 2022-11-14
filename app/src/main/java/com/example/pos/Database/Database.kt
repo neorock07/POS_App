@@ -8,8 +8,9 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.util.Log
 
-public class Database(context:Context): SQLiteOpenHelper(context,
-    DATABASE_NAME,null,
+public class Database(context: Context) : SQLiteOpenHelper(
+    context,
+    DATABASE_NAME, null,
     DATABASE_VERSION
 ) {
     companion object {
@@ -26,49 +27,70 @@ public class Database(context:Context): SQLiteOpenHelper(context,
         private val COL_TOTAL_UNIT = "Total_Unit"
         private val COL_TOTAL_PENJUALAN = "Total_Penjualan"
         private val COL_TANGGAL = "Tanggal"
-
+        private val TABLE_USER = "User"
+        private val KEY_USER = "Id_User"
+        private val COL_USERNAME = "Username"
+        private val COL_PASSWORD = "Password"
     }
+
     override fun onCreate(db: SQLiteDatabase?) {
         //creating table with fields
-        val sql = "CREATE TABLE $TABLE_CONTACTS ($KEY_ID  TEXT PRIMARY KEY, $KEY_NAME TEXT, $KEY_HARGA INTEGER, $KEY_JENIS TEXT, $KEY_STOK INTEGER)"
+        val sql =
+            "CREATE TABLE $TABLE_CONTACTS (" +
+                    "$KEY_ID  TEXT PRIMARY KEY, " +
+                    "$KEY_NAME TEXT, " +
+                    "$KEY_HARGA INTEGER, " +
+                    "$KEY_JENIS TEXT, " +
+                    "$KEY_STOK INTEGER )"
         val sql2 = "CREATE TABLE $TABLE_PENJUALAN (" +
                 "$KEY_PENJUALAN INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$KEY_ID TEXT , " +
                 "$COL_TOTAL_UNIT INTEGER, " +
                 "$COL_TOTAL_PENJUALAN INTEGER, " +
                 "$COL_TANGGAL DATE ," +
-                " FOREIGN KEY ($KEY_ID) REFERENCES $TABLE_CONTACTS ($KEY_ID) ); " +
+                " FOREIGN KEY ($KEY_ID) REFERENCES $TABLE_CONTACTS ($KEY_ID) )"
+        val sql3 = "CREATE TABLE $TABLE_USER (" +
+                "$KEY_USER INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$COL_USERNAME TEXT , " +
+                "$COL_PASSWORD TEXT )"
         Log.d("Data", "onCreate: $sql")
         Log.d("Data", "onCreate: $sql2")
+        Log.d("Data", "onCreate: $sql3")
         db?.execSQL(sql)
         db?.execSQL(sql2)
+        db?.execSQL(sql3)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_PENJUALAN")
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_USER")
         onCreate(db)
     }
 
     //method to read data
-    fun viewBarang():Cursor{
+    fun viewBarang(): Cursor {
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_CONTACTS", null)
     }
-    //method to read data
-
-    fun viewLaporan():Cursor{
+    fun viewUser(): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT  * FROM $TABLE_USER", null)
+    }
+    fun viewLaporan(): Cursor {
         val db = this.readableDatabase
         return db.rawQuery("SELECT  *FROM $TABLE_PENJUALAN", null)
     }
+
     //function to read where kode is
-    fun RetDatafromKode(kode: String):Cursor {
+    fun RetDatafromKode(kode: String): Cursor {
         val db = this.writableDatabase
         val qeri = "SELECT * FROM $TABLE_CONTACTS WHERE $kode = ?"
         return db.rawQuery(qeri, arrayOf(kode))
     }
+
     //function to delete
-    fun deleteData(kode:String):Int{
+    fun deleteData(kode: String): Int {
         val db = this.writableDatabase
         return db.delete(TABLE_CONTACTS, "Kode=?", arrayOf(kode))
     }

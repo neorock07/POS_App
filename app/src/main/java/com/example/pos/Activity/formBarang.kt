@@ -16,27 +16,38 @@ import java.lang.NumberFormatException
 import java.text.NumberFormat
 
 class formBarang : AppCompatActivity() {
-private lateinit var dropmenu : AutoCompleteTextView
-    private lateinit var arrayAdapter: ArrayAdapter <String>
-    private lateinit var scan:ImageView
-    private lateinit var ed_kode:EditText
-    private lateinit var name :EditText
-    private lateinit var harga :EditText
-    private lateinit var stok :EditText
-    private lateinit var kembali :ImageView
-    private lateinit var btn_simpan:Button
+    private lateinit var dropmenu: AutoCompleteTextView
+    private lateinit var arrayAdapter: ArrayAdapter<String>
+    private lateinit var scan: ImageView
+    private lateinit var ed_kode: EditText
+    private lateinit var name: EditText
+    private lateinit var harga: EditText
+    private lateinit var stok: EditText
+    private lateinit var kembali: ImageView
+    private lateinit var btn_simpan: Button
     private var TABLE_CONTACTS = "Barang2"
     private var KEY_ID = "Kode"
     private val KEY_NAME = "Nama"
     private val KEY_HARGA = "Harga"
     private val KEY_JENIS = "Jenis"
     private val KEY_STOK = "Stok"
-    private var parsed:Double? = null
+    private var parsed: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_barang)
-        var item = arrayOf("Kertas","Alat Tulis","Buku", "Sampul","Kotak Pensil","Aksesoris", "Makanan", "Minuman","Alat Mandi", "Lainnya")
+        var item = arrayOf(
+            "Kertas",
+            "Alat Tulis",
+            "Buku",
+            "Sampul",
+            "Kotak Pensil",
+            "Aksesoris",
+            "Makanan",
+            "Minuman",
+            "Alat Mandi",
+            "Lainnya"
+        )
         //assign variable
         dropmenu = findViewById(R.id.jenis_barang)
         scan = findViewById(R.id.scan_code)
@@ -48,21 +59,21 @@ private lateinit var dropmenu : AutoCompleteTextView
         btn_simpan = findViewById(R.id.simpan)
 
         //array adapter for dropdown menu
-        arrayAdapter = ArrayAdapter(applicationContext,R.layout.dropdown_jenis,item)
+        arrayAdapter = ArrayAdapter(applicationContext, R.layout.dropdown_jenis, item)
         dropmenu.setAdapter(arrayAdapter)
 
         //go to scan
-        scan.setOnClickListener(){
+        scan.setOnClickListener() {
             startActivity(Intent(this@formBarang, Scanner_Activity::class.java))
             finish()
         }
         //get data from scanner
-        try{
+        try {
             var data: String? = intent.extras!!.getString("kode")
             ed_kode!!.setText(data)
 
-        }catch (e:NullPointerException){
-            Toast.makeText(this, "Memulai\n"+ e.message, Toast.LENGTH_SHORT).show()
+        } catch (e: NullPointerException) {
+            Toast.makeText(this, "Memulai\n" + e.message, Toast.LENGTH_SHORT).show()
         }
 
         //btn kembali
@@ -72,18 +83,19 @@ private lateinit var dropmenu : AutoCompleteTextView
             finish()
         }
         //formatting harga
-        harga.addTextChangedListener(object : TextWatcher{
+        harga.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                var current:String =""
 
-                if(!p0.toString().equals(current)){
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var current: String = ""
+
+                if (!p0.toString().equals(current)) {
                     harga.removeTextChangedListener(this)
-                    var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
+                    var cleanString: String = p0.toString().replace("""[,.]""".toRegex(), "")
                     parsed = cleanString.toDouble()
-                    var formatted:String = NumberFormat.getNumberInstance().format(parsed)
+                    var formatted: String = NumberFormat.getNumberInstance().format(parsed)
                     current = formatted
                     harga.setText(formatted)
                     harga.setSelection(formatted.length)
@@ -91,34 +103,42 @@ private lateinit var dropmenu : AutoCompleteTextView
 
                 }
             }
+
             override fun afterTextChanged(p0: Editable?) {
             }
         })
         //btn simpan
-        btn_simpan.setOnClickListener(){
-            try{
+        btn_simpan.setOnClickListener() {
+            try {
                 saveRecord()
-            }catch (e:Exception){
-                Toast.makeText(this, "Error : Data tidak valid\nParsed : \n" + parsed + e.message, Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this,
+                    "Error : Data tidak valid\nParsed : \n" + parsed + e.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
     }
 
-    fun saveRecord(){
+    fun saveRecord() {
 
         // Inserting Row
-        if(ed_kode.text.isEmpty() || name.text.isEmpty() || harga.text.isEmpty() || stok.text.isEmpty() || dropmenu.text.equals("Jenis Barang")){
+        if (ed_kode.text.isEmpty() || name.text.isEmpty() || harga.text.isEmpty() || stok.text.isEmpty() || dropmenu.text.equals(
+                "Jenis Barang"
+            )
+        ) {
             ed_kode.error = "Tidak boleh kosong!"
             name.error = "Tidak boleh kosong!"
             harga.error = "Tidak boleh kosong!"
             stok.error = "Tidak boleh kosong!"
             dropmenu.error = "Jenis tidak valid"
-        }else{
+        } else {
 
             val idString = ed_kode.text.toString()
             val nameString = name.text.toString()
-            val jenisString= dropmenu.text.toString()
+            val jenisString = dropmenu.text.toString()
             val stokString = stok.text.toString().toInt()
             val databaseHandler: Database = Database(this)
             val db = databaseHandler.writableDatabase
@@ -133,7 +153,7 @@ private lateinit var dropmenu : AutoCompleteTextView
 
             //insert data
             db.insert(TABLE_CONTACTS, null, contentValues)
-            Toast.makeText(applicationContext,"record save", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "record save", Toast.LENGTH_LONG).show()
             ed_kode.text.clear()
             name.text.clear()
             harga.text.clear()
