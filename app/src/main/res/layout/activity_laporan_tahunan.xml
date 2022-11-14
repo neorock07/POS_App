@@ -48,7 +48,7 @@
                         android:layout_marginBottom="5pt"
                         android:fontFamily="@font/ralewaybold"
                         android:gravity="center"
-                        android:text="2022"
+                        android:text="TAHUNAN"
                         android:textColor="@color/white"
                         android:textSize="15pt"></TextView>
                 </LinearLayout>
@@ -59,7 +59,6 @@
             android:id="@+id/laporan_bulanan"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </LinearLayout>
 
 
