@@ -139,6 +139,9 @@ private lateinit var dropmenu : AutoCompleteTextView
             harga.text.clear()
             stok.text.clear()
             dropmenu.setText("Jenis Barang")
+            val intent = Intent(this@formBarang, daftar_barang::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
