@@ -1,14 +1,14 @@
-package com.example.pos.Database;
+package com.example.pos.Database
 
 
-import android.content.Context;
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 import android.util.Log
 
-public class database(context:Context): SQLiteOpenHelper(context,
+public class Database(context:Context): SQLiteOpenHelper(context,
     DATABASE_NAME,null,
     DATABASE_VERSION
 ) {
@@ -21,33 +21,32 @@ public class database(context:Context): SQLiteOpenHelper(context,
         private val KEY_HARGA = "Harga"
         private val KEY_JENIS = "Jenis"
         private val KEY_STOK = "Stok"
-        private val TABLE_LAPORAN = "Laporan"
-        private val KEY_LAPORAN = "Id_Laporan"
+        private val TABLE_PENJUALAN = "Penjualan"
+        private val KEY_PENJUALAN = "Id_Penjualan"
         private val COL_TOTAL_UNIT = "Total_Unit"
         private val COL_TOTAL_PENJUALAN = "Total_Penjualan"
-        private val COL_PENJUALAN = "Penjualan"
         private val COL_TANGGAL = "Tanggal"
 
     }
     override fun onCreate(db: SQLiteDatabase?) {
         //creating table with fields
         val sql = "CREATE TABLE $TABLE_CONTACTS ($KEY_ID  TEXT PRIMARY KEY, $KEY_NAME TEXT, $KEY_HARGA INTEGER, $KEY_JENIS TEXT, $KEY_STOK INTEGER)"
-        val sql2 = "CREATE TABLE $TABLE_LAPORAN (" +
-                "$KEY_LAPORAN INTEGER PRIMARY KEY AUTO INCREMENT, " +
-                "$KEY_ID TEXT FOREIGN KEY , " +
+        val sql2 = "CREATE TABLE $TABLE_PENJUALAN (" +
+                "$KEY_PENJUALAN INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$KEY_ID TEXT , " +
                 "$COL_TOTAL_UNIT INTEGER, " +
                 "$COL_TOTAL_PENJUALAN INTEGER, " +
-                "$COL_TANGGAL TEXT, " +
-                "$COL_TANGGAL DATE)"
-        Log.d("Data", "onCreate: $sql");
-        Log.d("Data", "onCreate: $sql2");
+                "$COL_TANGGAL DATE ," +
+                " FOREIGN KEY ($KEY_ID) REFERENCES $TABLE_CONTACTS ($KEY_ID) ); " +
+        Log.d("Data", "onCreate: $sql")
+        Log.d("Data", "onCreate: $sql2")
         db?.execSQL(sql)
         db?.execSQL(sql2)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
-        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_LAPORAN")
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_PENJUALAN")
         onCreate(db)
     }
 
@@ -58,10 +57,9 @@ public class database(context:Context): SQLiteOpenHelper(context,
     }
     //method to read data
 
-
     fun viewLaporan():Cursor{
         val db = this.readableDatabase
-        return db.rawQuery("SELECT  * FROM $TABLE_LAPORAN", null)
+        return db.rawQuery("SELECT  *FROM $TABLE_PENJUALAN", null)
     }
     //function to read where kode is
     fun RetDatafromKode(kode: String):Cursor {

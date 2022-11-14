@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pos.Database.database
+import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_Dft_Barang
@@ -63,7 +63,7 @@ class daftar_barang : AppCompatActivity() {
 
     }
     fun readBarangAll() : ArrayList<model_barang>{
-        val db: database = database(this)
+        val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
         val modelItemx = ArrayList<model_barang>()
         if (cursor.count>0){
