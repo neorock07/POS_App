@@ -61,12 +61,12 @@
                         android:background="@drawable/bg_item"
                         android:padding="15dp"
                         >
+
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/min"
                             android:layout_centerInParent="true"
-                            />
+                            android:src="@drawable/min" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView

@@ -5,53 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbartahun"
-        android:layout_width="413dp"
-        android:layout_height="143dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txt_judul_laporantahunan"
-        android:layout_width="177dp"
-        android:layout_height="69dp"
-        android:text="LAPORAN"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="34sp"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="17dp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/txt_tahunan"
-        android:layout_width="169dp"
-        android:layout_height="37dp"
-        android:fontFamily="@font/ralewaybold"
-        android:text="TAHUNAN"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="27sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="121dp"
-        tools:layout_editor_absoluteY="86dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_data_bulanan"
-        android:layout_width="372dp"
-        android:layout_height="409dp"
-        tools:layout_editor_absoluteX="23dp"
-        tools:layout_editor_absoluteY="161dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+                    <TextView
+                        android:id="@+id/txt_judul_laporan_bulan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:gravity="center"
+                        android:text="LAPORAN"
+                        android:textColor="@color/white"
+                        android:textSize="15pt"></TextView>
 
-    <ImageView
-        android:id="@+id/back_tahun"
-        android:layout_width="37dp"
-        android:layout_height="36dp"
-        app:srcCompat="@drawable/back"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+                    <TextView
+                        android:id="@+id/txt_bulan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5pt"
+                        android:fontFamily="@font/ralewaybold"
+                        android:gravity="center"
+                        android:text="2022"
+                        android:textColor="@color/white"
+                        android:textSize="15pt"></TextView>
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/laporan_bulanan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
