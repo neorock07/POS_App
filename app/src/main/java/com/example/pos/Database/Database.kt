@@ -58,6 +58,8 @@ public class database(context:Context): SQLiteOpenHelper(context,
     }
 
     //method to read data
+
+
     fun viewLaporan():Cursor{
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_LAPORAN", null)
