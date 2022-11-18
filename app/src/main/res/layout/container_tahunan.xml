@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_thn"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
@@ -46,7 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_bulan"
+                    android:id="@+id/txt_tahun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ralewaybold"
@@ -55,10 +56,10 @@
                     android:textSize="28dp"></TextView>
 
                 <TextView
-                    android:id="@+id/total_pendapatan_bulan"
+                    android:id="@+id/total_pendapatan_tahun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/ralewaybold"
+                    android:fontFamily="sans-serif-black"
                     android:text="Rp. 100,000"
                     android:textColor="@color/white"
                     android:textSize="20dp"></TextView>

@@ -131,7 +131,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 app:queryHint="Mau cari apa ?"
-                                android:layout_marginEnd="80dp"
                                 />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

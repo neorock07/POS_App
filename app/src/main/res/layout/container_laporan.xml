@@ -49,7 +49,7 @@
                 <TextView android:id="@+id/total_pendapatan_bulan"
                     android:text="Rp. 100,000"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/ralewaybold"
+                    android:fontFamily="sans-serif-black"
                     android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
