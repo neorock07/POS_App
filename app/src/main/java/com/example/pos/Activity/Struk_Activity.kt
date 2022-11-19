@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pos.Database.Database
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
 import com.mazenrashed.printooth.Printooth
@@ -43,19 +44,23 @@ class Struk_Activity : AppCompatActivity() {
     private lateinit var list_harga:ArrayList<Int>
     private lateinit var list_jumlah:ArrayList<Int>
     private lateinit var totalHarga:String
+    private lateinit var bayar:String
+    private lateinit var kembali:String
+
+    val main:MainActivity = MainActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_struk)
 
         Printooth.init(this)
         //assign variable
-        val main:MainActivity = MainActivity()
         rv = findViewById(R.id.rv_empty)
         rc = findViewById(R.id.rc_item_cetak)
         btn_kembali = findViewById(R.id.btn_kembali)
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         btn_print = findViewById(R.id.btn_cetak)
+
         //cek koneksi
         if(Printooth.hasPairedPrinter()){
             print = Printooth.printer()
@@ -103,6 +108,11 @@ class Struk_Activity : AppCompatActivity() {
         list_harga = intent.getSerializableExtra("key_harga") as ArrayList<Int>
         list_jumlah = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
         totalHarga = intent.getStringExtra("key_total")!!
+        bayar = intent.getStringExtra("key_bayar")!!
+        kembali = intent.getStringExtra("key_return")!!
+
+        Toast.makeText(this, "Bayar : $bayar\nKembali : $kembali",Toast.LENGTH_LONG).show()
+
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
@@ -112,6 +122,23 @@ class Struk_Activity : AppCompatActivity() {
         }
 
     }
+
+    fun InsertDataPembelian(){
+        val calender:Calendar = Calendar.getInstance()
+        val db:Database = Database(this)
+            val day = calender.get(Calendar.DAY_OF_MONTH)
+            val month  = calender.get(Calendar.MONTH) + 1
+            val year = calender.get(Calendar.YEAR)
+            val date:String = "$year-$month-$day"
+        try{
+            for(i in 0..list_kode.size -1){
+                db.insertDataPembelian(list_kode[i],list_jumlah[i],list_jumlah[i]*list_harga[i],date)
+            }
+        }catch (e:Exception){
+            Toast.makeText(this, "Error + ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         initListener()
@@ -126,9 +153,18 @@ class Struk_Activity : AppCompatActivity() {
                         ScanningActivity::class.java
                     ),
                 )
+
             }else{
                 printDetails()
             }
+//            resultLaunh.launch(
+//                Intent(
+//                    this@Struk_Activity,
+//                    ScanningActivity::class.java
+//                ),
+//            )
+            //printDetails()
+            InsertDataPembelian()
         }
 
     }
@@ -138,7 +174,8 @@ class Struk_Activity : AppCompatActivity() {
     }
 
     private fun MsgPrint() =  ArrayList<Printable>().apply {
-        val calender:Calendar = Calendar.getInstance()
+
+        var calender: Calendar = Calendar.getInstance()
         val jam = calender.get(Calendar.HOUR_OF_DAY)
         val menit = calender.get(Calendar.MINUTE)
         val mm = calender.get(Calendar.MILLISECOND)
@@ -147,13 +184,10 @@ class Struk_Activity : AppCompatActivity() {
         val year = calender.get(Calendar.YEAR)
 
         add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
-        //logo
-        add(ImagePrintable.Builder(R.drawable.logo, resources)
-            .setAlignment(DefaultPrinter.ALIGNMENT_CENTER).build())
-        //cetak tulisan point of sales di tengah
+//        //logo
         add(
             TextPrintable.Builder()
-                .setText("Point of Sale")
+                .setText("Invoice")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
@@ -162,51 +196,70 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
-        var n = 10
-        val arr_id = ByteArray(256)
-        val randomStr:String = String(arr_id, Charset.forName("UTF-8"))
-        var strBuilder:StringBuilder = StringBuilder()
-        for(i in (0..randomStr.length-1)){
-            val ch = randomStr.get(i)
-            if((ch >= 'a' &&  ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') && (n > 0)){
-                strBuilder.append(ch)
-                n--
-            }
-        }
-        strBuilder.toString()
+
+
+        val rnm = (1111111..9999999).random()
         add(
             TextPrintable.Builder()
-                .setText("ID Pemesanan\t: $strBuilder")
+                .setText("ID\t: $rnm")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
         add(
             TextPrintable.Builder()
-                .setText("Tanggal\t\t: $day/$month/$year $jam:$menit:$mm")
+                .setText("Tanggal\t: $day/$month/$year $jam:$menit:$mm")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
+        add(
+            TextPrintable.Builder()
+                .setText("Item\t:")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
+        lateinit var value:String
+        var valuePrice:String =""
+        var jml:String=""
         for(i in (0..list_kode.size -1)){
+                value = list_nama.get(i)
+                valuePrice = main.NumberFormat(list_harga.get(i).toString())
+                jml = main.NumberFormat(list_jumlah.get(i).toString())
             add(
                 TextPrintable.Builder()
-                    .setText("$list_nama.get($i)\t\t: Rp$list_harga.get($i)")
+                    .setText("x$jml\t$value\tRp$valuePrice\n----------------------")
                     .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                     .setNewLinesAfter(1)
                     .build()
             )
         }
+
         add(
             TextPrintable.Builder()
-                .setText("========================================")
+                .setText("===============================")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
         add(
             TextPrintable.Builder()
-                .setText("Total\t\t\t Rp $totalHarga")
+                .setText("Total\t\t Rp $totalHarga")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
+        add(
+            TextPrintable.Builder()
+                .setText("Bayar\t\t Rp $bayar")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
+        add(
+            TextPrintable.Builder()
+                .setText("Kembali\t\t Rp $kembali")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(2)
                 .build()
@@ -222,8 +275,18 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
-        val qr:Bitmap = QRCode.from("ID Pemesanan : $strBuilder\n" +
-                "Tanggal : $day/$month/$year $jam:$menit:$mm\n" + "Jumlah : Rp.$totalHarga\n\nQRCode made with POS App")
+        add(
+            TextPrintable.Builder()
+                .setText("*Simpan Struk Sebagai Bukti*")
+                .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+                .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+                .setFontSize(DefaultPrinter.FONT_SIZE_NORMAL)
+                .setUnderlined(DefaultPrinter.UNDERLINED_MODE_OFF)
+                .setNewLinesAfter(1)
+                .build()
+        )
+        val qr:Bitmap = QRCode.from("ID\t: $rnm\n" +
+                "Tanggal\t: $day/$month/$year $jam:$menit:$mm\n" + "Total\t: Rp.${main.NumberFormat(totalHarga)}\n\nQRCode made with POS App")
             .withSize(200,200).bitmap()
 
         add(
@@ -231,17 +294,19 @@ class Struk_Activity : AppCompatActivity() {
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .build()
         )
+
         add(
             TextPrintable.Builder()
-                .setText("Made with POS App")
+                .setText("Powered with POS App")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
-                .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
+                .setFontSize(DefaultPrinter.FONT_SIZE_NORMAL)
                 .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
                 .setUnderlined(DefaultPrinter.UNDERLINED_MODE_OFF)
                 .setNewLinesAfter(1)
                 .build()
         )
+
         add(
             RawPrintable.Builder(byteArrayOf(27,100,4)).build()
         )

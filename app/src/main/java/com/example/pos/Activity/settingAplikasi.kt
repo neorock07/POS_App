@@ -33,5 +33,9 @@ class settingAplikasi : AppCompatActivity() {
 
         }
 
+        btn_rekap.setOnClickListener{
+            startActivity(Intent(this@settingAplikasi, Laporan_Tahunan::class.java))
+        }
+
     }
 }
