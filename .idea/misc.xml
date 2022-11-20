@@ -57,6 +57,14 @@
         <entry key="..\:/Users/TYO/OneDrive/Dokumen/Android Studio/POS_App/app/src/main/res/layout/activity_pembayaran.xml" value="0.19074074074074074" />
         <entry key="..\:/Users/TYO/OneDrive/Dokumen/Android Studio/POS_App/app/src/main/res/layout/activity_struk.xml" value="0.2" />
         <entry key="..\:/Users/TYO/OneDrive/Dokumen/Android Studio/POS_App/app/src/main/res/layout/container_item_beli.xml" value="0.18611111111111112" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/activity_laporan_harian.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/activity_struk.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_barang.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_harian.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_item_beli.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_laporan.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/pf30p/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_tahunan.xml" value="0.1" />
       </map>
     </option>
   </component>
