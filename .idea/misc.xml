@@ -3,6 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/account.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/account2.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/add_2.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/add_3.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/back.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/back1.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/bg_item.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/bg_scan.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/bgform.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/border.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/button_login.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/edit_text.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/ic_baseline_account_circle_24_1.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.164" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/layout/container_harian.xml" value="0.1286231884057971" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/account2.xml" value="0.1295" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/back.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bg_item.xml" value="0.2145" />
