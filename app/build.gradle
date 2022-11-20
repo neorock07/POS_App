@@ -53,5 +53,5 @@ dependencies {
     implementation "com.github.mazenrashed:Printooth:$printooth"
     implementation 'com.github.kenglxn.QRGen:android:2.6.0'
    //gson
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.9'
 }

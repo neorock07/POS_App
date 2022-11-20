@@ -27,13 +27,19 @@ class Pembayaran : AppCompatActivity() {
     lateinit var ed_total:TextInputEditText
     var parsed:Double = 0.0
     var jumlah = 0
+    var bayarTotal = ""
+     var formatted:String=""
+     var formatted2:String=""
+    var kembalianHehe = ""
     val mainActivity:MainActivity = MainActivity()
-    lateinit var kembalian:EditText
-
+    lateinit var kembalian:TextView
+    lateinit var log2:Intent
     var hasil:Double =0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
+        log2 = Intent(this@Pembayaran, Struk_Activity::class.java)
+
         //assign variable
         total_beli_pem = findViewById(R.id.total_beli_pembayaran)
         btn_cetak = findViewById(R.id.to_cetak)
@@ -46,8 +52,7 @@ class Pembayaran : AppCompatActivity() {
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         ed_total.addTextChangedListener(object : TextWatcher{
-            lateinit var formatted:String
-            lateinit var formatted2:String
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -58,8 +63,10 @@ class Pembayaran : AppCompatActivity() {
                     var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
                     parsed = cleanString.toDouble()
                     formatted = NumberFormat.getNumberInstance().format(parsed)
+
                     ed_total.setText(formatted)
                     ed_total.setSelection(formatted.length)
+                    log2.putExtra("key_bayar", formatted.toString())
                     ed_total.addTextChangedListener(this)
                 }
             }
@@ -69,12 +76,16 @@ class Pembayaran : AppCompatActivity() {
                 formatted2 = NumberFormat.getNumberInstance().format(hasil)
                 if(hasil > 0){
                     kembalian.setText(mainActivity.NumberFormat(formatted2))
+                    log2.putExtra("key_return",kembalian.text.toString())
                 }else{
                     kembalian.setText("0")
+                    log2.putExtra("key_return",kembalian.text.toString())
                 }
             }
         }
         )
+
+        RetrieveData()
     }
     fun RetrieveData():ArrayList<model_barang>{
 
@@ -121,14 +132,13 @@ class Pembayaran : AppCompatActivity() {
         }
 
         //go to halaman cetak struk
-        var log2:Intent = Intent(this@Pembayaran, Struk_Activity::class.java)
+
         log2.putExtra("key_kode", list_kode2)
         log2.putExtra("key_nama", list_nama2)
         log2.putExtra("key_harga", hargaList)
         log2.putExtra("key_jenis", jenisList)
         log2.putExtra("key_jumlah", jumlahList)
-        log2.putExtra("key_bayar", ed_total.text.toString())
-        log2.putExtra("key_return",kembalian.text.toString())
+
         log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
         btn_cetak.setOnClickListener{
             startActivity(log2)
