@@ -12,6 +12,7 @@
         android:layout_marginBottom="20dp"
         android:foreground="?selectableItemBackground"
         android:clickable="true"
+        android:focusable="true"
         android:layout_constraintTop_toTopOf="parent"
         android:layout_constraintStart_toEndOf="parent"
         android:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +86,7 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="109dp"
         tools:layout_editor_absoluteY="131dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/jenis_item"
@@ -97,7 +98,8 @@
             android:text="Kertas"
             android:textSize="6pt"
             android:layout_marginBottom="3dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"></TextView>
+
         <TextView
             android:id="@+id/detail_item"
             android:layout_width="wrap_content"
@@ -107,7 +109,7 @@
             android:textColor="@color/white"
             android:text="Kertas SIDU A4 "
             android:textSize="6pt"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"></TextView>
         <TextView
             android:id="@+id/harga_item"
             android:layout_width="wrap_content"
@@ -117,6 +119,6 @@
             android:textColor="@color/white"
             android:text="Rp. 0"
             android:textSize="5pt"
-            tools:ignore="MissingConstraints" />
-
+            tools:ignore="MissingConstraints"></TextView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
