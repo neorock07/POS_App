@@ -1,53 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="ExtraText">
 
     <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="64dp"
-        android:orientation="vertical"
-        android:padding="5dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="109dp"
-        tools:layout_editor_absoluteY="131dp">
-
-        <TextView
-            android:id="@+id/jenis_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="3dp"
-            android:fontFamily="@font/ralewaybold"
-            android:text="Kertas"
-            android:textColor="@color/black"
-            android:textSize="6pt"
-            tools:ignore="MissingConstraints"></TextView>
-
-        <TextView
-            android:id="@+id/detail_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/ralewayregular"
-            android:text="Kertas SIDU A4 "
-            android:textColor="@color/black"
-            android:textSize="6pt"
-            tools:ignore="MissingConstraints"></TextView>
-
-        <TextView
-            android:id="@+id/harga_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="sans-serif-black"
-            android:text="Rp. 0"
-            android:textColor="@color/black"
-            android:textSize="5pt"
-            tools:ignore="MissingConstraints"></TextView>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_marginStart="20dp"
@@ -104,25 +65,9 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <LinearLayout
-        android:layout_width="77dp"
-        android:layout_height="63dp"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="131dp">
-
-        <TextView
-            android:id="@+id/jumlah_barang"
-            android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_gravity="center"
-            android:background="@color/green"
-            android:fontFamily="@font/ralewaybold"
-            android:text="1"
-            android:textAlignment="center"
-            android:textSize="40sp"></TextView>
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</LinearLayout>
