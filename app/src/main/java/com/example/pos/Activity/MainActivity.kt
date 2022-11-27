@@ -237,6 +237,7 @@ class MainActivity : AppCompatActivity() {
             if (item.nama.lowercase()
                     .contains(text.lowercase()) || item.kode.contains(text) || item.jenis.contains(
                     text.lowercase()
+
                 )
             ) {
                 // if the item is matched we are

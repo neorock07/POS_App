@@ -15,6 +15,7 @@ class form_login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_login)
         val kembali: ImageView= findViewById(R.id.kembali)
+
 //        val username:String = "Login"
 //        val password:String = "123"
 
