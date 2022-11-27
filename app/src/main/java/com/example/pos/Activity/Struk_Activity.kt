@@ -2,7 +2,9 @@ package com.example.pos.Activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -190,6 +192,13 @@ class Struk_Activity : AppCompatActivity() {
 
         add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
 //        //logo
+        val resource: Resources = resources
+        val image : Bitmap= BitmapFactory.decodeResource(resource,R.drawable.ya)
+        add(
+            ImagePrintable.Builder(image)
+                .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+                .build()
+        )
         add(
             TextPrintable.Builder()
                 .setText("Invoice")
@@ -299,6 +308,7 @@ class Struk_Activity : AppCompatActivity() {
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .build()
         )
+
 
         add(
             TextPrintable.Builder()
