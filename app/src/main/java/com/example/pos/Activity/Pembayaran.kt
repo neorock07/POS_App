@@ -140,11 +140,18 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_jumlah", jumlahList)
 
         log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
+
         btn_cetak.setOnClickListener{
             startActivity(log2)
         }
 
         return listItem
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+
     }
 
     override fun onResume() {

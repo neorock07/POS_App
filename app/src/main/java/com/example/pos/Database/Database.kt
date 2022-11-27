@@ -42,6 +42,7 @@ public class Database(context: Context) : SQLiteOpenHelper(
                     "$KEY_HARGA INTEGER, " +
                     "$KEY_JENIS TEXT, " +
                     "$KEY_STOK INTEGER )"
+
         val sql2 = "CREATE TABLE $TABLE_PENJUALAN (" +
                 "$KEY_PENJUALAN INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$KEY_ID TEXT , " +
