@@ -2,9 +2,13 @@ package com.example.pos.Activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RelativeLayout
@@ -153,7 +157,6 @@ class Struk_Activity : AppCompatActivity() {
                         ScanningActivity::class.java
                     ),
                 )
-
             }else{
                 printDetails()
             }
@@ -170,7 +173,11 @@ class Struk_Activity : AppCompatActivity() {
     }
     private fun printDetails(){
         val printMsg = MsgPrint()
-        print!!.print(printMsg)
+        try{
+            print!!.print(printMsg)
+        }catch(e:Exception){
+            Log.d("Eror print : ", "Null pointer")
+        }
     }
 
     private fun MsgPrint() =  ArrayList<Printable>().apply {
@@ -185,6 +192,13 @@ class Struk_Activity : AppCompatActivity() {
 
         add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
 //        //logo
+        val resource: Resources = resources
+        val image : Bitmap= BitmapFactory.decodeResource(resource,R.drawable.logotiket)
+        add(
+            ImagePrintable.Builder(image)
+                .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+                .build()
+        )
         add(
             TextPrintable.Builder()
                 .setText("Invoice")
@@ -229,7 +243,7 @@ class Struk_Activity : AppCompatActivity() {
                 jml = main.NumberFormat(list_jumlah.get(i).toString())
             add(
                 TextPrintable.Builder()
-                    .setText("x$jml\t$value\tRp$valuePrice\n----------------------")
+                    .setText("x$jml $value\tRp$valuePrice\n-------------------------------")
                     .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                     .setNewLinesAfter(1)
                     .build()
@@ -294,6 +308,7 @@ class Struk_Activity : AppCompatActivity() {
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .build()
         )
+
 
         add(
             TextPrintable.Builder()

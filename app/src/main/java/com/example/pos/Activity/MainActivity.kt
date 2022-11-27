@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,13 +29,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var frameRefresh: FrameLayout
     lateinit var totalBeli: TextView
     lateinit var listitem: ArrayList<model_barang>
-
+    var nama_arr:ArrayList<String> = ArrayList()
+    var array_jml_item = HashMap<String, Int>()
+    var jml_arr:ArrayList<Int> = ArrayList()
     var total: Int = 0
+    lateinit var modelItemx:ArrayList<model_barang>
     var arr_kode: ArrayList<String> = ArrayList()
     var arr_harga = HashMap<String, Int>()
-    var arr_nama: ArrayList<String> = ArrayList()
+    private var arr_nama: ArrayList<String> = ArrayList()
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
+    var jml_item:ArrayList<Int> = ArrayList()
+    var bundle:Bundle = Bundle()
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
     private lateinit var sharedJumlah: SharedPreferences
@@ -44,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         var kembali: ImageView= findViewById(R.id.kembali)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
@@ -84,14 +91,23 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+
         adapter.notifyDataSetChanged()
+
+        if(savedInstanceState != null){
+            var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
+            if(list != null){
+                bundle = list
+            }
+        }
+
+
     }
 
     fun readAll(): ArrayList<model_barang> {
-
         val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
-        val modelItemx = ArrayList<model_barang>()
+         modelItemx = ArrayList<model_barang>()
         if (cursor.count > 0) {
             while (cursor!!.moveToNext()) {
                 var list_kode = cursor.getString(0)
@@ -99,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 var list_harga = cursor.getInt(2)
                 var list_jenis = cursor.getString(3)
                 var list_stok = cursor.getInt(4)
-                modelItemx.add(
+                modelItemx!!.add(
                     model_barang(
                         list_kode,
                         list_nama,
@@ -109,13 +125,14 @@ class MainActivity : AppCompatActivity() {
                         totalBeli.text.toString()
                     )
                 )
+                nama_arr.add(list_nama)
             }
         }
         return modelItemx
     }
 
     fun getAdapter2(): CustomAdapter {
-        adapter = CustomAdapter(this, readAll())
+        adapter = CustomAdapter(this, readAll(),bundle)
         adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener {
             override fun onItemClick(harga: Int) {
                 total += harga
@@ -135,27 +152,28 @@ class MainActivity : AppCompatActivity() {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = jumlah_total[i]!!
                     arr_jenis[i] = jenis[i]!!
+                    bundle.putInt(i, arr_jumlah.get(i)!!)
                 }
+
 
                 val log: Intent = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode)
                 log.putExtra("key_nama", arr_nama)
                 log.putExtra("key_jenis", arr_jenis)
-                log.putExtra("key_jumlah", arr_jumlah)
+                //log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
+
+                if(arr_jumlah.isEmpty() && !bundle.isEmpty){
+                    log.putExtra("key_jumlah", bundle)
+                }else{
+                    log.putExtra("key_jumlah", arr_jumlah)
+                }
 
                 if (arr_kode.isEmpty()) {
                     log.putExtra("key_uang", "Rp.0")
                 } else {
                     log.putExtra("key_uang", total)
                 }
-
-                val gson: Gson = Gson()
-                var json = sharedJumlah.getString("main_key", null)
-                val type: Type = object : TypeToken<ArrayList<String?>?>() {}.type
-                val jsonData: String = gson.toJson(arr_jumlah)
-                editor.putString("jumlah_arr", jsonData)
-                editor.apply()
 
                 btn_bayar.setOnClickListener {
                     startActivity(log).also {
@@ -165,17 +183,37 @@ class MainActivity : AppCompatActivity() {
                         totalBeli.setText(totalBeli.getText().toString())
                     }
                 }
+
             }
+
+//            override fun getItemOnPosition(jml: HashMap<String, Int>, pos: ArrayList<Int>) {
+//                for(i in arr_nama){
+//                    array_jml_item[i] = jml[i]!!
+//                }
+//                pos_item = pos
+//
+//            }
+
+
         })
         recyclerview.adapter = adapter
         return adapter
     }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putBundle("LIST_JUMLAH",bundle)
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+
 
     override fun onResume() {
         super.onResume()
         adapter = getAdapter2()
         adapter.notifyDataSetChanged()
         recyclerview.adapter = adapter
+        //adapter to load all data jumlah
+        Toast.makeText(this, bundle.toString(),Toast.LENGTH_LONG).show()
     }
 
     fun NumberFormat(s: String): String {
