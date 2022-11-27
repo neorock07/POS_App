@@ -193,7 +193,7 @@ class Struk_Activity : AppCompatActivity() {
         add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
 //        //logo
         val resource: Resources = resources
-        val image : Bitmap= BitmapFactory.decodeResource(resource,R.drawable.ya)
+        val image : Bitmap= BitmapFactory.decodeResource(resource,R.drawable.logotiket)
         add(
             ImagePrintable.Builder(image)
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
