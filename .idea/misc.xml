@@ -18,7 +18,9 @@
         <entry key="..\:/POS_App/app/src/main/res/layout/activity_struk.xml" value="0.25" />
         <entry key="..\:/POS_App/app/src/main/res/layout/container_barang.xml" value="0.25" />
         <entry key="..\:/POS_App/app/src/main/res/layout/container_barang_laporan.xml" value="0.25" />
-        <entry key="..\:/POS_App/app/src/main/res/layout/container_harian.xml" value="0.1" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_bulan.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_harian.xml" value="0.2" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_item_barang_laporan_harian.xml" value="0.25" />
         <entry key="..\:/POS_App/app/src/main/res/layout/container_item_beli.xml" value="0.25" />
         <entry key="..\:/POS_App/app/src/main/res/layout/container_laporan.xml" value="0.2" />
         <entry key="..\:/POS_App/app/src/main/res/layout/container_tahunan.xml" value="0.25" />

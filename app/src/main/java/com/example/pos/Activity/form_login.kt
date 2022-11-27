@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.pos.R
@@ -13,7 +14,7 @@ class form_login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_login)
-
+        val kembali: ImageView= findViewById(R.id.kembali)
 //        val username:String = "Login"
 //        val password:String = "123"
 
@@ -38,5 +39,8 @@ class form_login : AppCompatActivity() {
                 ed_password.error = "Tidak boleh kosong"
             }
         }
+        kembali.setOnClickListener{
+                    onBackPressed()
+                }
     }
 }

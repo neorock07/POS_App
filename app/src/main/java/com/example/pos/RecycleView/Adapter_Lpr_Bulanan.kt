@@ -14,7 +14,7 @@ class Adapter_Lpr_Bulanan(private val context: Context, val list_data:ArrayList<
     RecyclerView.Adapter<Adapter_Lpr_Bulanan.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val v:View = LayoutInflater.from(parent.context).inflate(R.layout.container_laporan, parent, false)
+        val v:View = LayoutInflater.from(parent.context).inflate(R.layout.container_tahunan, parent, false)
         return Holder(v)
     }
 
@@ -30,7 +30,7 @@ class Adapter_Lpr_Bulanan(private val context: Context, val list_data:ArrayList<
 
     class Holder(itemView: View):RecyclerView.ViewHolder(itemView) {
         val bulan = itemView.findViewById<TextView>(R.id.txt_bulan)
-        val income = itemView.findViewById<TextView>(R.id.total_pendapatan_bulan)
+        val income = itemView.findViewById<TextView>(R.id.total_pendapatan_tahun)
     }
 
 }
