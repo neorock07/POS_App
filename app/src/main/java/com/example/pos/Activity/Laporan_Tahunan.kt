@@ -21,7 +21,7 @@ class Laporan_Tahunan : AppCompatActivity() {
         setContentView(R.layout.activity_laporan_tahunan)
 
         //inisiasi variable
-        rc = findViewById(R.id.laporan_bulanan)
+        //rc = findViewById(R.id.laporan_bulanan)
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
 

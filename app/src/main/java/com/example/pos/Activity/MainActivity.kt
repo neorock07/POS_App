@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
+
 import java.lang.reflect.Type
 import java.util.LinkedHashMap
-import com.google.gson.reflect.TypeToken
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var settingsFAB: CardView

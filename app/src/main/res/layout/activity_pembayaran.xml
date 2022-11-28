@@ -151,7 +151,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Total Beli"
+                        android:hint="Uang Tunai"
                         android:textSize="8pt"
                         android:inputType="number"
                         android:textColor="@color/black"

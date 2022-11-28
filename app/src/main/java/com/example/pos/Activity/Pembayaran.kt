@@ -136,7 +136,13 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_jumlah", jumlahList)
         log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
         btn_cetak.setOnClickListener{
-            startActivity(log2)
+
+            if (ed_total.text.toString().isEmpty()){
+                ed_total.error = "Nilai tidak valid"
+                Toast.makeText(this, "Masukkan nilai uang", Toast.LENGTH_SHORT).show()
+            }else{
+                startActivity(log2)
+            }
         }
 
         return listItem
@@ -146,6 +152,8 @@ class Pembayaran : AppCompatActivity() {
         finish()
         return true
     }
+
+
 
     override fun onResume() {
         super.onResume()
