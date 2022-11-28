@@ -90,19 +90,42 @@ class CustomAdapter(
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {
                     arr[position] = --arr[position]
-                    if(holder.jumlah.text.toString().toInt() > 0){
-                        var num = holder.jumlah.text.toString().toInt()
+                    Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
+//                    if(holder.jumlah.text.toString().toInt() > 0){
+//                        Toast.makeText(context, "lebih dari 0 nih!",Toast.LENGTH_SHORT).show()
+//                        var num = holder.jumlah.text.toString().toInt()
+//                        num -= 1
+//                        if(num < 0){
+//                            num = 0
+//                            holder.jumlah.text = num.toString()
+//                        }
+//                        Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
+//                        holder.jumlah.text = num.toString()
+//                    }else{
+//                        holder.jumlah.text = arr[position].toString()
+//                    }
+
+                    var num = holder.jumlah.text.toString().toInt()
+                    if(holder.jumlah.text.toString().toInt() >= 0){
                         num -= 1
+                        Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
                         holder.jumlah.text = num.toString()
-                    }else{
-                        holder.jumlah.text = arr[position].toString()
                     }
-                    listener!!.onItemClick(refresh2(modelitem.get(position).harga))
+                    else{
+//                    holder.jumlah.text = arr[position].toString()
+                        holder.jumlah.text = num.toString()
+                    }
+
+
+
+                    listener!!.onItemClick(refresh3(modelitem.get(position).harga))
                     //holder.jumlah.text = arr[position].toString()
                     if (arr[position] > 0) {
+
                         for (i in kk) {
                             arr_kode.add(i)
                         }
+
                         for (i in k2) {
                             arr_nama.add(i)
                         }
@@ -118,6 +141,7 @@ class CustomAdapter(
                             arr_jenis,
                             arr_jmlh
                         )
+
                     } else {
                         arr_kode.clear()
                         arr_harga.clear()
@@ -135,12 +159,15 @@ class CustomAdapter(
                 arr[position] = ++arr[position]
 //                holder.jumlah.text = arr[position].toString()
 //                listener!!.onItemClick(modelitem.get(position).harga)
-                if(holder.jumlah.text.toString().toInt() > 0){
-                    var num = holder.jumlah.text.toString().toInt()
+                var num = holder.jumlah.text.toString().toInt()
+                if(holder.jumlah.text.toString().toInt() >= 0){
                     num += 1
+                    Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
                     holder.jumlah.text = num.toString()
-                }else{
-                    holder.jumlah.text = arr[position].toString()
+                }
+                else{
+//                    holder.jumlah.text = arr[position].toString()
+                    holder.jumlah.text = num.toString()
                 }
                 listener!!.onItemClick(refresh2(modelitem.get(position).harga))
 
@@ -152,14 +179,12 @@ class CustomAdapter(
                     for (i in k2) {
                         arr_nama.add(i)
                     }
-
-                    //hashMap
+//                    //hashMap
                     arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
                     arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
                     arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
 
-                    Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
-                    pos_item.add(position)
+                    //Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
                 }
   //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
                 listener!!.onArrayItemClick(arr_kode, arr_harga, arr_nama, arr_jenis, arr_jmlh)
@@ -170,6 +195,11 @@ class CustomAdapter(
     fun refresh2(harga: Int): Int {
         var x = 0
         x += harga
+        return x
+    }
+    fun refresh3(harga: Int): Int {
+        var x = 0
+        x -= harga
         return x
     }
 

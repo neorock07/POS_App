@@ -111,11 +111,9 @@ class Pembayaran : AppCompatActivity() {
             list_jenis?.get(i)?.let { jenisList.add(it) }
             list_jml?.get(i)?.let { jumlahList.add(it) }
         }
-
         for(i in kode_lt){
             list_kode2.add(i)
         }
-
         for(i in nama_lt){
             list_nama2.add(i)
         }
@@ -130,17 +128,13 @@ class Pembayaran : AppCompatActivity() {
             adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
             rc.adapter = adapter
         }
-
         //go to halaman cetak struk
-
         log2.putExtra("key_kode", list_kode2)
         log2.putExtra("key_nama", list_nama2)
         log2.putExtra("key_harga", hargaList)
         log2.putExtra("key_jenis", jenisList)
         log2.putExtra("key_jumlah", jumlahList)
-
         log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
-
         btn_cetak.setOnClickListener{
             startActivity(log2)
         }
@@ -151,14 +145,12 @@ class Pembayaran : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
-
     }
 
     override fun onResume() {
         super.onResume()
-        RetrieveData()
         try{
-
+            RetrieveData()
         }catch (e:Exception){
             Toast.makeText(this, "Error reading\n" + e, Toast.LENGTH_SHORT).show()
         }

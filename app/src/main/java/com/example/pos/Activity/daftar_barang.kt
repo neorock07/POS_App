@@ -18,19 +18,16 @@ class daftar_barang : AppCompatActivity() {
     private lateinit var btn_add_barang: FloatingActionButton
     private lateinit var back: ImageView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var list_kode: ArrayList<String>
-    private lateinit var list_nama: ArrayList<String>
-    private lateinit var list_jenis: ArrayList<String>
-    private lateinit var list_stok: ArrayList<Int>
-    private lateinit var list_harga: ArrayList<Int>
     private lateinit var mainActivity: MainActivity
     private lateinit var adapter: Adapter_Dft_Barang
     lateinit var search: androidx.appcompat.widget.SearchView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar_barang)
+
         search = findViewById(R.id.search_all)
         mainActivity = MainActivity()
+
         //assign variable
         btn_add_barang = findViewById(R.id.add_barang)
         back = findViewById(R.id.back_barang)
@@ -38,14 +35,17 @@ class daftar_barang : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         adapter = getAdapter2()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
         btn_add_barang.setOnClickListener {
             startActivity(Intent(this@daftar_barang, formBarang::class.java))
             finish()
         }
+
         back.setOnClickListener {
             startActivity(Intent(this@daftar_barang, MainActivity::class.java))
             finish()
         }
+
         search.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -61,7 +61,6 @@ class daftar_barang : AppCompatActivity() {
         })
         recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
-
     }
 
     fun readBarangAll(): ArrayList<model_barang> {
@@ -85,9 +84,7 @@ class daftar_barang : AppCompatActivity() {
                         "0"
                     )
                 )
-
             }
-
         }
         return modelItemx
     }
@@ -104,7 +101,6 @@ class daftar_barang : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                 }
             }
-
         })
         recyclerView.adapter = adapter
         return adapter

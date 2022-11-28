@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var totalBeli: TextView
     lateinit var listitem: ArrayList<model_barang>
     var nama_arr:ArrayList<String> = ArrayList()
-    var array_jml_item = HashMap<String, Int>()
-    var jml_arr:ArrayList<Int> = ArrayList()
     var total: Int = 0
     lateinit var modelItemx:ArrayList<model_barang>
     var arr_kode: ArrayList<String> = ArrayList()
@@ -39,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     private var arr_nama: ArrayList<String> = ArrayList()
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
-    var jml_item:ArrayList<Int> = ArrayList()
     var bundle:Bundle = Bundle()
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
@@ -93,9 +90,13 @@ class MainActivity : AppCompatActivity() {
 
         if(savedInstanceState != null){
             var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
-            if(list != null){
+            var hrg:Int? = savedInstanceState.getInt("Key_Harga_Save")
+            if(list != null ){
                 bundle = list
+                total = hrg!!
+                bundle.clear()
             }
+
         }
 
 
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 arr_kode = kode
                 arr_nama = nama
+
                 for (i in arr_nama) {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = jumlah_total[i]!!
@@ -173,14 +175,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 btn_bayar.setOnClickListener {
-                    startActivity(log).also {
-                        val sp_total = sharedPref_total
-                        sp_total.putString("key_total", totalBeli.getText().toString())
-                        sp_total.apply()
-                        totalBeli.setText(totalBeli.getText().toString())
-                    }
+//                    startActivity(log).also {
+////                        val sp_total = sharedPref_total
+////                        sp_total.putString("key_total", totalBeli.getText().toString())
+////                        sp_total.apply()
+////                        totalBeli.setText(totalBeli.getText().toString())
+//                    }
+                    startActivity(log)
                 }
-
             }
 
 //            override fun getItemOnPosition(jml: HashMap<String, Int>, pos: ArrayList<Int>) {
@@ -199,6 +201,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         outState.putBundle("LIST_JUMLAH",bundle)
+        outState.putInt("Key_Harga_Save", total)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
