@@ -43,10 +43,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedJumlah: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        var kembali: ImageView= findViewById(R.id.kembali)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
         totalBeli = findViewById(R.id.total_beli)
         settingsFAB = findViewById(R.id.setting)
@@ -229,6 +232,7 @@ class MainActivity : AppCompatActivity() {
     private fun filter(text: String) {
         // creating a new array list to filter our data.
         val filteredlist: ArrayList<model_barang> = ArrayList()
+        val kembali: ImageView= findViewById(R.id.kembali)
 
         // running a for loop to compare elements.
         for (item in listitem) {
@@ -236,6 +240,7 @@ class MainActivity : AppCompatActivity() {
             if (item.nama.lowercase()
                     .contains(text.lowercase()) || item.kode.contains(text) || item.jenis.contains(
                     text.lowercase()
+
                 )
             ) {
                 // if the item is matched we are
@@ -251,6 +256,9 @@ class MainActivity : AppCompatActivity() {
             // at last we are passing that filtered
             // list to our adapter class.
             adapter.filterList(filteredlist)
+        }
+        kembali.setOnClickListener{
+            onBackPressed()
         }
     }
 }

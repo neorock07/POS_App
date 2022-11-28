@@ -44,7 +44,7 @@
                         android:layout_marginBottom="5pt"
                         android:fontFamily="@font/ralewaybold"
                         android:gravity="center"
-                        android:text="2020"
+                        android:text="Desember"
                         android:textColor="@color/white"
                         android:textSize="15pt"></TextView>
                 </LinearLayout>
@@ -61,6 +61,7 @@
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
     <ImageView
+        android:id="@+id/kembali"
         android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

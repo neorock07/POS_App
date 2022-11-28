@@ -30,7 +30,7 @@ class daftar_barang : AppCompatActivity() {
 
         //assign variable
         btn_add_barang = findViewById(R.id.add_barang)
-        back = findViewById(R.id.back_barang)
+        back = findViewById(R.id.kembali)
         recyclerView = findViewById(R.id.rc_listBarang)
         recyclerView.setHasFixedSize(true)
         adapter = getAdapter2()
