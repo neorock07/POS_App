@@ -77,6 +77,7 @@ class Struk_Activity : AppCompatActivity() {
             onBackPressed()
             finish()
         }
+
         btn_print.setOnClickListener {
             btnPrint()
         }

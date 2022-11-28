@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -99,10 +98,7 @@ class MainActivity : AppCompatActivity() {
                 total = hrg!!
                 bundle.clear()
             }
-
         }
-
-
     }
 
     fun readAll(): ArrayList<model_barang> {
@@ -135,6 +131,7 @@ class MainActivity : AppCompatActivity() {
     fun getAdapter2(): CustomAdapter {
         adapter = CustomAdapter(this, readAll(),bundle)
         adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener {
+
             override fun onItemClick(harga: Int) {
                 total += harga
                 totalBeli.text = NumberFormat(total.toString())
@@ -188,15 +185,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-//            override fun getItemOnPosition(jml: HashMap<String, Int>, pos: ArrayList<Int>) {
-//                for(i in arr_nama){
-//                    array_jml_item[i] = jml[i]!!
-//                }
-//                pos_item = pos
-//
-//            }
-
-
         })
         recyclerview.adapter = adapter
         return adapter
@@ -207,8 +195,6 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("Key_Harga_Save", total)
         super.onSaveInstanceState(outState, outPersistentState)
     }
-
-
 
     override fun onResume() {
         super.onResume()
