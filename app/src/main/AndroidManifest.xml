@@ -30,6 +30,9 @@
             android:name=".Activity.Laporan_Bulanan"
             android:exported="false" />
         <activity
+            android:name=".Activity.Laporan_Harian"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Laporan_Tahunan"
             android:exported="false" />
         <activity

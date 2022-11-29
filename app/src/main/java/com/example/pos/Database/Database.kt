@@ -104,7 +104,21 @@ public class Database(context: Context) : SQLiteOpenHelper(
                 "END AS BULAN," +
                 " SUM($COL_TOTAL_PENJUALAN) AS INCOME FROM $TABLE_PENJUALAN WHERE strftime('%Y',$COL_TANGGAL) = '$tahun' ",null)
                    }
-
+    fun readPerTanggal(bulan: String, tahun: String): Cursor{
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT distinct strftime('%d', Penjualan.tanggal) AS TANGGAL1 FROM Barang2 " +
+                "LEFT JOIN Penjualan " +
+                "ON Barang2.kode = Penjualan.kode " +
+                "WHERE strftime('%Y %m',Penjualan.tanggal) = '$tahun $bulan'", null)
+    }
+fun readPerDetail(tanggal : String, tahun: String, bulan: String):Cursor{
+    var ymd = "$tahun-$bulan-$tanggal"
+    val db = this.readableDatabase
+    return db.rawQuery("SELECT Barang2.Kode, Nama, Harga, Jenis, Penjualan.Total_Unit, Penjualan.Tanggal AS TANGGAL1 FROM Barang2 " +
+            "                LEFT JOIN Penjualan " +
+            "                ON Barang2.Kode = Penjualan.Kode " +
+            "                WHERE Penjualan.Tanggal = '$ymd'", null)
+}
     fun viewUser(): Cursor {
         val db = this.readableDatabase
         return db.rawQuery("SELECT  * FROM $TABLE_USER", null)

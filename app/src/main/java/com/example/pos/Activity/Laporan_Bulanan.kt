@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Database.Database
+import com.example.pos.Model.model_bulan
 import com.example.pos.Model.model_tahunan
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_Lpr_Bulanan
@@ -17,7 +18,7 @@ import org.w3c.dom.Text
 class Laporan_Bulanan : AppCompatActivity() {
     private lateinit var  rc: RecyclerView
     private lateinit var adapter: Adapter_Lpr_Bulanan
-    private  lateinit var list_data:ArrayList<model_tahunan>
+    private  lateinit var list_data:ArrayList<model_bulan>
     private lateinit var db: Database
     private lateinit var tx_thn:TextView
     private lateinit var name_tahun: String
@@ -44,15 +45,16 @@ class Laporan_Bulanan : AppCompatActivity() {
                 var bulan = cursor.getString(0)
                 var income = cursor.getInt(1)
                 list_data.add(
-                    model_tahunan(
-                        bulan,
-                        income
+                    model_bulan(
+                        name_tahun,
+                        income,
+                        bulan
                     )
                 )
             }
         }
         Toast.makeText(this,"Isi : " + list_data.toString(), Toast.LENGTH_LONG).show()
-        adapter = Adapter_Lpr_Bulanan(this,list_data)
+        adapter = Adapter_Lpr_Bulanan(this, list_data)
         rc.adapter = adapter
         adapter.notifyDataSetChanged()
     }

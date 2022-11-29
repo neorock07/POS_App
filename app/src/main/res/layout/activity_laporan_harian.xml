@@ -37,7 +37,7 @@
                         android:textSize="15pt"></TextView>
 
                     <TextView
-                        android:id="@+id/txt_tahun"
+                        android:id="@+id/txt_bulan"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -50,7 +50,8 @@
                 </LinearLayout>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/Recycleview_laporan"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Recycleview_laporan"
             android:layout_margin="18dp"
             app:layout_constraintVertical_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
