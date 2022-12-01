@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPref_total: SharedPreferences.Editor
     private lateinit var sharedJumlah: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
-
+    private lateinit var log:Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,14 +91,21 @@ class MainActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
         if(savedInstanceState != null){
-            var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
+            val bundle1:Bundle = intent.getBundleExtra("Data_Item")!!
+          //  var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
             var hrg:Int? = savedInstanceState.getInt("Key_Harga_Save")
-            if(list != null ){
-                bundle = list
+            if(bundle1 != null ){
+                bundle = bundle1
                 total = hrg!!
-                bundle.clear()
+
             }
+
         }
+
+        btn_bayar.setOnClickListener {
+            startActivity(log)
+        }
+
     }
 
     fun readAll(): ArrayList<model_barang> {
@@ -136,7 +143,6 @@ class MainActivity : AppCompatActivity() {
                 total += harga
                 totalBeli.text = NumberFormat(total.toString())
             }
-
             override fun onArrayItemClick(
                 kode: ArrayList<String>,
                 Arr_harga: HashMap<String, Int>,
@@ -153,9 +159,8 @@ class MainActivity : AppCompatActivity() {
                     arr_jenis[i] = jenis[i]!!
                     bundle.putInt(i, arr_jumlah.get(i)!!)
                 }
+                 log = Intent(this@MainActivity, Pembayaran::class.java)
 
-
-                val log: Intent = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode)
                 log.putExtra("key_nama", arr_nama)
                 log.putExtra("key_jenis", arr_jenis)
@@ -174,15 +179,6 @@ class MainActivity : AppCompatActivity() {
                     log.putExtra("key_uang", total)
                 }
 
-                btn_bayar.setOnClickListener {
-//                    startActivity(log).also {
-////                        val sp_total = sharedPref_total
-////                        sp_total.putString("key_total", totalBeli.getText().toString())
-////                        sp_total.apply()
-////                        totalBeli.setText(totalBeli.getText().toString())
-//                    }
-                    startActivity(log)
-                }
             }
 
         })
@@ -226,7 +222,6 @@ class MainActivity : AppCompatActivity() {
             if (item.nama.lowercase()
                     .contains(text.lowercase()) || item.kode.contains(text) || item.jenis.contains(
                     text.lowercase()
-
                 )
             ) {
                 // if the item is matched we are

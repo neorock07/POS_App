@@ -23,6 +23,7 @@ class Pembayaran : AppCompatActivity() {
     lateinit var adapter:Adapter_pembayaran
     lateinit var total_beli_pem:TextView
     var total_uang:Int = 0
+    lateinit var btn_back:ImageView
     lateinit var rv:RelativeLayout
     lateinit var ed_total:TextInputEditText
     var parsed:Double = 0.0
@@ -35,6 +36,7 @@ class Pembayaran : AppCompatActivity() {
     lateinit var kembalian:TextView
     lateinit var log2:Intent
     var hasil:Double =0.0
+    val bundle:Bundle = Bundle()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
@@ -43,6 +45,7 @@ class Pembayaran : AppCompatActivity() {
         //assign variable
         total_beli_pem = findViewById(R.id.total_beli_pembayaran)
         btn_cetak = findViewById(R.id.to_cetak)
+        btn_back = findViewById(R.id.btn_back_byr)
         rc = findViewById(R.id.rc_pembayaran)
         rv = findViewById(R.id.rv_empty)
         kembalian = findViewById(R.id.txt_kembalian)
@@ -86,6 +89,12 @@ class Pembayaran : AppCompatActivity() {
         )
 
         RetrieveData()
+
+        btn_back.setOnClickListener{
+            log2.putExtra("Data_Item", bundle)
+            onBackPressed()
+        }
+
     }
     fun RetrieveData():ArrayList<model_barang>{
 
@@ -110,6 +119,7 @@ class Pembayaran : AppCompatActivity() {
             list_harga?.get(i)?.let { hargaList.add(it) }
             list_jenis?.get(i)?.let { jenisList.add(it) }
             list_jml?.get(i)?.let { jumlahList.add(it) }
+            bundle.putInt(i, list_jml!!.get(i)!!)
         }
         for(i in kode_lt){
             list_kode2.add(i)

@@ -72,8 +72,10 @@ public class Database(context: Context) : SQLiteOpenHelper(
     //method to load data grouping by year
     fun readIncomePerYear():Cursor{
         val db = this.readableDatabase
+        //SELECT strftime('%Y',TANGGAL) AS TAHUN,SUM(JML_BRG) FROM TB_PEMBELIAN
+        //GROUP BY strftime('%Y',TANGGAL) ORDER BY strftime('%Y',TANGGAL) DESC
         return db.rawQuery("SELECT strftime('%Y',$COL_TANGGAL) AS TAHUN, SUM($COL_TOTAL_PENJUALAN) AS INCOME FROM $TABLE_PENJUALAN" +
-                " GROUP BY strftime('%Y',$COL_TANGGAL)",null)
+                " GROUP BY strftime('%Y',$COL_TANGGAL) ORDER BY strftime('%Y',$COL_TANGGAL) DESC",null)
     }
     //method to insert data Pembelian
     fun insertDataPembelian(id:String,unit:Int, total:Int,tanggal:String){

@@ -82,7 +82,6 @@ class Laporan_Harian : AppCompatActivity() {
                         readDataDay1(tanggal,name_tahun,name_bulan1)
                     )
                 )
-
             }
         }
         Toast.makeText(this, tanggal.toString(), Toast.LENGTH_LONG).show()

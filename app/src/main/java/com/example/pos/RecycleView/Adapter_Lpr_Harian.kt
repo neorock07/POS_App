@@ -43,14 +43,12 @@ class Adapter_Lpr_Harian(private val context: Context, private var list_data:Arr
             parentItem
                 ?.getChildItemList()
         )
-
         holder.ChildRecyclerView.layoutManager = layoutManager
         holder.ChildRecyclerView.adapter = childItemAdapter
         holder.ChildRecyclerView
             .setRecycledViewPool(viewPool)
         holder.txt_bulan.text = list_data!!.get(position).bulan
         holder.txt_tanggal.text = list_data!!.get(position).tanggal
-
     }
     override fun getItemCount(): Int {
         return list_data!!.size

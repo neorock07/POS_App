@@ -2,9 +2,7 @@ package com.example.pos.Activity
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -38,6 +36,7 @@ import kotlin.collections.ArrayList
 
 class Struk_Activity : AppCompatActivity() {
     private var print: Printing? =null
+    private var printCallback:PrintingCallback? = null
     private lateinit var btn_print:Button
     private lateinit var rc:RecyclerView
     private lateinit var rv:RelativeLayout
@@ -70,41 +69,102 @@ class Struk_Activity : AppCompatActivity() {
             print = Printooth.printer()
         }
 
-        //callback from printooth to get printer process
-        print?.printingCallback = object : PrintingCallback{
-            override fun connectingWithPrinter() {
-                Toast.makeText(this@Struk_Activity, "Connecting with printer...",Toast.LENGTH_SHORT).show()
-            }
+        initView()
+        initListener()
 
-            override fun connectionFailed(error: String) {
-                Toast.makeText(this@Struk_Activity, "Failed to connect printer",Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun disconnected() {
-                Toast.makeText(this@Struk_Activity, "Connection disconnect",Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun onError(error: String) {
-                Toast.makeText(this@Struk_Activity, "getting an error : \n" + error,Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onMessage(message: String) {
-                Toast.makeText(this@Struk_Activity, "Message : \n" + message,Toast.LENGTH_SHORT).show()
-
-            }
-
-            override fun printingOrderSentSuccessfully() {
-                Toast.makeText(this@Struk_Activity, "Order successfully sent to printer!",Toast.LENGTH_SHORT).show()
-            }
-        }
            //button kembali
         btn_kembali.setOnClickListener{
             onBackPressed()
             finish()
         }
+
+        btn_print.setOnClickListener {
+            btnPrint()
+            InsertDataPembelian()
+
+        }
     }
+
+    private fun initListener() {
+        //callback from printooth to get printer process
+        if (print != null && printCallback == null) {
+            printCallback = object : PrintingCallback {
+                override fun connectingWithPrinter() {
+                    Toast.makeText(
+                        this@Struk_Activity,
+                        "Connecting with printer...",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+                override fun connectionFailed(error: String) {
+                    Toast.makeText(this@Struk_Activity, "Failed to connect", Toast.LENGTH_SHORT)
+                        .show()
+
+                }
+
+                override fun disconnected() {
+                    Toast.makeText(
+                        this@Struk_Activity,
+                        "Disconnected with printer",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+                override fun onError(error: String) {
+                    Toast.makeText(this@Struk_Activity, "Error occured", Toast.LENGTH_SHORT).show()
+
+                }
+
+                override fun onMessage(message: String) {
+                    Toast.makeText(this@Struk_Activity, "Msg: $message", Toast.LENGTH_SHORT).show()
+
+                }
+
+                override fun printingOrderSentSuccessfully() {
+                    Toast.makeText(
+                        this@Struk_Activity,
+                        "Succesfully Sending data...",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+            }
+            Printooth.printer().printingCallback = printCallback
+        }
+    }
+//        print?.printingCallback = object : PrintingCallback{
+//            override fun connectingWithPrinter() {
+//                Toast.makeText(this@Struk_Activity, "Connecting with printer...",Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun connectionFailed(error: String) {
+//                Toast.makeText(this@Struk_Activity, "Failed to connect printer",Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//            override fun disconnected() {
+//                Toast.makeText(this@Struk_Activity, "Connection disconnect",Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//            override fun onError(error: String) {
+//                Toast.makeText(this@Struk_Activity, "getting an error : \n" + error,Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onMessage(message: String) {
+//                Toast.makeText(this@Struk_Activity, "Message : \n" + message,Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//            override fun printingOrderSentSuccessfully() {
+//                Toast.makeText(this@Struk_Activity, "Order successfully sent to printer!",Toast.LENGTH_SHORT).show()
+//            }
+//        }
+
     private fun RetrieveData(){
         list_kode = intent.getSerializableExtra("key_kode") as ArrayList<String>
         list_nama = intent.getSerializableExtra("key_nama") as ArrayList<String>
@@ -117,14 +177,12 @@ class Struk_Activity : AppCompatActivity() {
 
         Toast.makeText(this, "Bayar : $bayar\nKembali : $kembali",Toast.LENGTH_LONG).show()
 
-
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
         }else{
             val adapter:Adapter_pembayaran = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah)
             rc.adapter = adapter
         }
-
     }
 
     fun InsertDataPembelian(){
@@ -133,13 +191,28 @@ class Struk_Activity : AppCompatActivity() {
             val day = calender.get(Calendar.DAY_OF_MONTH)
             val month  = calender.get(Calendar.MONTH) + 1
             val year = calender.get(Calendar.YEAR)
-            val date:String = "$year-$month-$day"
+            var date:String=""
+        if(day <=9){
+                date = "$year-$month-0$day"
+            }else{
+                date =  "$year-$month-$day"
+            }
+
         try{
             for(i in 0..list_kode.size -1){
                 db.insertDataPembelian(list_kode[i],list_jumlah[i],list_jumlah[i]*list_harga[i],date)
+                Toast.makeText(this,"Bulan : $date",Toast.LENGTH_LONG).show()
             }
         }catch (e:Exception){
             Toast.makeText(this, "Error + ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun btnPrint(){
+        if(!Printooth.hasPairedPrinter()){
+            startActivityForResult(Intent(this@Struk_Activity, ScanningActivity::class.java),ScanningActivity.SCANNING_FOR_PRINTER)
+        }else{
+            printMsg()
         }
     }
 
@@ -148,40 +221,35 @@ class Struk_Activity : AppCompatActivity() {
         initListener()
         RetrieveData()
     }
-    private fun initListener(){
-        btn_print.setOnClickListener{
-            if(!Printooth.hasPairedPrinter()){
-                resultLaunh.launch(
-                    Intent(
-                        this@Struk_Activity,
-                        ScanningActivity::class.java
-                    ),
-                )
-            }else{
-                printDetails()
-            }
-//            resultLaunh.launch(
-//                Intent(
-//                    this@Struk_Activity,
-//                    ScanningActivity::class.java
-//                ),
-//            )
-            //printDetails()
-            InsertDataPembelian()
-        }
+//    private fun InitListener(){
+//        btn_print.setOnClickListener{
+//            if(!Printooth.hasPairedPrinter()){
+//                resultLaunh.launch(
+//                    Intent(
+//                        this@Struk_Activity,
+//                        ScanningActivity::class.java
+//                    ),
+//                )
+//            }else{
+//                printDetails()
+//            }
+//
+//            //printDetails()
+//            InsertDataPembelian()
+//        }
+//
+//    }
+//    private fun printDetails(){
+//        val printMsg = MsgPrint()
+//        try{
+//            print!!.print(printMsg)
+//        }catch(e:Exception){
+//            Log.d("Eror print : ", "Null pointer")
+//        }
+//    }
 
-    }
-    private fun printDetails(){
-        val printMsg = MsgPrint()
-        try{
-            print!!.print(printMsg)
-        }catch(e:Exception){
-            Log.d("Eror print : ", "Null pointer")
-        }
-    }
-
-    private fun MsgPrint() =  ArrayList<Printable>().apply {
-
+    private fun MsgPrint():ArrayList<Printable>{
+        var al:ArrayList<Printable> = ArrayList()
         var calender: Calendar = Calendar.getInstance()
         val jam = calender.get(Calendar.HOUR_OF_DAY)
         val menit = calender.get(Calendar.MINUTE)
@@ -190,16 +258,9 @@ class Struk_Activity : AppCompatActivity() {
         val month = calender.get(Calendar.MONTH) + 1
         val year = calender.get(Calendar.YEAR)
 
-        add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
+        al.add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build())
 //        //logo
-        val resource: Resources = resources
-        val image : Bitmap= BitmapFactory.decodeResource(resource,R.drawable.logotiket)
-        add(
-            ImagePrintable.Builder(image)
-                .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
-                .build()
-        )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Invoice")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
@@ -211,23 +272,22 @@ class Struk_Activity : AppCompatActivity() {
                 .build()
         )
 
-
         val rnm = (1111111..9999999).random()
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("ID\t: $rnm")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Tanggal\t: $day/$month/$year $jam:$menit:$mm")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Item\t:")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
@@ -239,46 +299,48 @@ class Struk_Activity : AppCompatActivity() {
         var jml:String=""
         for(i in (0..list_kode.size -1)){
                 value = list_nama.get(i)
-                valuePrice = main.NumberFormat(list_harga.get(i).toString())
-                jml = main.NumberFormat(list_jumlah.get(i).toString())
-            add(
+                valuePrice = list_harga.get(i).toString()
+                jml = list_jumlah.get(i).toString()
+                val total = jml.toInt() * valuePrice.toInt()
+            al.add(
                 TextPrintable.Builder()
-                    .setText("x$jml $value\tRp$valuePrice\n-------------------------------")
+                    .setText("$value\n@$valuePrice x$jml : Rp ${main.NumberFormat(total.toString())}\n" +
+                            "-------------------------------")
                     .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                     .setNewLinesAfter(1)
                     .build()
             )
         }
 
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("===============================")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Total\t\t Rp $totalHarga")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Bayar\t\t Rp $bayar")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Kembali\t\t Rp $kembali")
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(2)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Lunas")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
@@ -289,7 +351,7 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("*Simpan Struk Sebagai Bukti*")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
@@ -303,14 +365,13 @@ class Struk_Activity : AppCompatActivity() {
                 "Tanggal\t: $day/$month/$year $jam:$menit:$mm\n" + "Total\t: Rp.${main.NumberFormat(totalHarga)}\n\nQRCode made with POS App")
             .withSize(200,200).bitmap()
 
-        add(
+        al.add(
             ImagePrintable.Builder(qr)
                 .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
                 .build()
         )
 
-
-        add(
+        al.add(
             TextPrintable.Builder()
                 .setText("Powered with POS App")
                 .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
@@ -322,15 +383,36 @@ class Struk_Activity : AppCompatActivity() {
                 .build()
         )
 
-        add(
+        al.add(
             RawPrintable.Builder(byteArrayOf(27,100,4)).build()
         )
+        return al
     }
-    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        result -> if(result.resultCode == ScanningActivity.SCANNING_FOR_PRINTER && result.resultCode == Activity.RESULT_OK ){
-            printDetails()
+//    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+//        result -> if(result.resultCode == ScanningActivity.SCANNING_FOR_PRINTER && result.resultCode == Activity.RESULT_OK ){
+//            printDetails()
+//    }
+//
+//    }
+    fun printMsg(){
+    if(print != null){
+        print!!.print(MsgPrint())
+    }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("Msg : ", "onActivityResult " + requestCode)
+        if(requestCode == ScanningActivity.SCANNING_FOR_PRINTER && resultCode == Activity.RESULT_OK ){
+            initListener()
+            printMsg()
+        }
+        initView()
     }
 
+    private fun initView() {
+        if(Printooth.getPairedPrinter() != null){
+            Toast.makeText(this, "Pair with " + Printooth.getPairedPrinter()!!.name, Toast.LENGTH_SHORT ).show()
+        }
     }
 }
 
