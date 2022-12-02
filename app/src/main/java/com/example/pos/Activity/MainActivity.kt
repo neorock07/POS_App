@@ -79,6 +79,9 @@ class MainActivity : AppCompatActivity() {
                 totalBeli.text = "0"
             }
         }
+        kembali.setOnClickListener {
+            finishAffinity()
+        }
         //search view query
         search.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
