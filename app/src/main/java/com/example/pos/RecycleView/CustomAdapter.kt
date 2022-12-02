@@ -69,6 +69,7 @@ class CustomAdapter(
         holder.namaBarang.text = modelitem.get(position).nama
         val hargaString = "Rp" + NumberFormat(modelitem.get(position).harga.toString())
         holder.hargaBarang.text = hargaString
+        holder.stok.text = modelitem[position].stok.toString()
 
         // holder.jumlah.text = jumlah_item_select.get(position).toString()
         val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
