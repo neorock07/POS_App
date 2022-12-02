@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Database.Database
+import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
 import com.mazenrashed.printooth.Printooth
@@ -30,6 +31,7 @@ import net.glxn.qrgen.android.QRCode
 import java.nio.charset.Charset
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 //import com.mazenrashed.printooth.Printooth
 //import com.mazenrashed.printooth.utilities.Printing
@@ -46,7 +48,13 @@ class Struk_Activity : AppCompatActivity() {
     private lateinit var list_jenis:ArrayList<String>
     private lateinit var list_harga:ArrayList<Int>
     private lateinit var list_jumlah:ArrayList<Int>
-    private lateinit var totalHarga:String
+    private lateinit var list_kode2:ArrayList<String>
+    private lateinit var list_nama2:ArrayList<String>
+    private lateinit var list_jenis2:ArrayList<String>
+    private lateinit var list_harga2:ArrayList<Int>
+    private lateinit var list_jumlah2:ArrayList<Int>
+    var totalHarga : Int = 0
+    lateinit var adapter:Adapter_pembayaran
     private lateinit var bayar:String
     private lateinit var kembali:String
 
@@ -166,21 +174,37 @@ class Struk_Activity : AppCompatActivity() {
 //        }
 
     private fun RetrieveData(){
-        list_kode = intent.getSerializableExtra("key_kode") as ArrayList<String>
-        list_nama = intent.getSerializableExtra("key_nama") as ArrayList<String>
-        list_jenis = intent.getSerializableExtra("key_jenis") as ArrayList<String>
-        list_harga = intent.getSerializableExtra("key_harga") as ArrayList<Int>
-        list_jumlah = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
-        totalHarga = intent.getStringExtra("key_total")!!
+        list_kode = ArrayList<String>()
+        list_harga = ArrayList<Int>()
+        list_jenis = ArrayList<String>()
+        list_nama = ArrayList<String>()
+        list_jumlah = ArrayList<Int>()
+
+        list_kode2 = intent.getSerializableExtra("key_kode") as ArrayList<String>
+        list_nama2 = intent.getSerializableExtra("key_nama") as ArrayList<String>
+        list_jenis2 = intent.getSerializableExtra("key_jenis") as ArrayList<String>
+        list_harga2 = intent.getSerializableExtra("key_harga") as ArrayList<Int>
+        list_jumlah2 = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+        totalHarga = intent.getIntExtra("key_total", 0)
         bayar = intent.getStringExtra("key_bayar")!!
         kembali = intent.getStringExtra("key_return")!!
+
+        for (i in list_jumlah2.indices){
+            if (list_jumlah2[i] != 0){
+                list_kode.add(list_kode2[i])
+                list_harga.add(list_harga2[i])
+                list_jenis.add(list_jenis2[i])
+                list_nama.add(list_nama2[i])
+                list_jumlah.add(list_jumlah2[i])
+            }
+        }
 
         Toast.makeText(this, "Bayar : $bayar\nKembali : $kembali",Toast.LENGTH_LONG).show()
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
         }else{
-            val adapter:Adapter_pembayaran = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah)
+             adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah)
             rc.adapter = adapter
         }
     }
@@ -362,7 +386,7 @@ class Struk_Activity : AppCompatActivity() {
                 .build()
         )
         val qr:Bitmap = QRCode.from("ID\t: $rnm\n" +
-                "Tanggal\t: $day/$month/$year $jam:$menit:$mm\n" + "Total\t: Rp.${main.NumberFormat(totalHarga)}\n\nQRCode made with POS App")
+                "Tanggal\t: $day/$month/$year $jam:$menit:$mm\n" + "Total\t: Rp.${main.NumberFormat(totalHarga.toString())}\n\nQRCode made with POS App")
             .withSize(200,200).bitmap()
 
         al.add(

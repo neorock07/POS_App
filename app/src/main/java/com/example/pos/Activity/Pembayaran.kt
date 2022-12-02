@@ -15,6 +15,7 @@ import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
+import com.example.pos.RecycleView.CustomAdapter
 import com.google.android.material.textfield.TextInputEditText
 import java.text.NumberFormat
 
@@ -112,7 +113,7 @@ class Pembayaran : AppCompatActivity() {
 
         val hargaList:ArrayList<Int> = ArrayList()
         val jenisList:ArrayList<String> = ArrayList()
-        val jumlahList:ArrayList<Int> = ArrayList()
+        var jumlahList:ArrayList<Int> = ArrayList()
         val list_kode2:ArrayList<String> = ArrayList()
         val list_nama2:ArrayList<String> = ArrayList()
 
@@ -129,8 +130,8 @@ class Pembayaran : AppCompatActivity() {
             list_nama2.add(i)
         }
 
-        total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
 
+        total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
         listItem = ArrayList()
         if(list_kode2.isEmpty()){
             total_beli_pem.text = "Rp.0"
@@ -140,13 +141,23 @@ class Pembayaran : AppCompatActivity() {
             adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
             rc.adapter = adapter
         }
+        //SET WHEN CLICK LISTENER
+        adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
+
+            override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int) {
+                jumlahList = jumlah2
+                jumlah += total_harga
+                total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
+            }
+        })
+
         //go to halaman cetak struk
         log2.putExtra("key_kode", list_kode2)
         log2.putExtra("key_nama", list_nama2)
         log2.putExtra("key_harga", hargaList)
         log2.putExtra("key_jenis", jenisList)
         log2.putExtra("key_jumlah", jumlahList)
-        log2.putExtra("key_total", mainActivity.NumberFormat(jumlah.toString()))
+        log2.putExtra("key_total", jumlah)
         btn_cetak.setOnClickListener{
 
             if (ed_total.text.toString().isEmpty()){
