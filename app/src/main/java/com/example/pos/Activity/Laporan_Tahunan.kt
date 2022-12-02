@@ -3,6 +3,7 @@ package com.example.pos.Activity
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ class Laporan_Tahunan : AppCompatActivity() {
     private lateinit var adapter:Adapter_Lpr_Tahunan
     private  lateinit var list_data:ArrayList<model_tahunan>
     private lateinit var db:Database
+    val kembali: ImageView = findViewById(R.id.kembali)
     var tahun:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,9 @@ class Laporan_Tahunan : AppCompatActivity() {
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
 
-
+        kembali.setOnClickListener{
+            onBackPressed()
+        }
     }
     private fun RetData(){
         db = Database(this)
