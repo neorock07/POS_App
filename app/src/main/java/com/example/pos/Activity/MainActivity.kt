@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -83,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         kembali.setOnClickListener {
             finishAffinity()
         }
+
         //search view query
         search.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -100,21 +100,29 @@ class MainActivity : AppCompatActivity() {
 
         adapter.notifyDataSetChanged()
 
-        if(savedInstanceState != null){
+//        if(savedInstanceState != null){
+//          //  var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
+//
+//
+//        }
+        try {
+            var hrg:Int? = savedInstanceState!!.getInt("Key_Harga_Save")
             val bundle1:Bundle = intent.getBundleExtra("Data_Item")!!
-          //  var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
-            var hrg:Int? = savedInstanceState.getInt("Key_Harga_Save")
             if(bundle1 != null ){
                 bundle = bundle1
                 total = hrg!!
 
             }
+        } catch (e:Exception){
 
         }
 
-        btn_bayar.setOnClickListener {
-            startActivity(log)
-        }
+
+
+
+
+
+
         kembali.setOnClickListener{
             onBackPressed()
         }
@@ -192,17 +200,20 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     log.putExtra("key_uang", total)
                 }
+                btn_bayar.setOnClickListener {
+                    startActivity(log)
+                }
             }
         })
         recyclerview.adapter = adapter
         return adapter
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        outState.putBundle("LIST_JUMLAH",bundle)
-        outState.putInt("Key_Harga_Save", total)
-        super.onSaveInstanceState(outState, outPersistentState)
-    }
+//    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+//        outState.putBundle("LIST_JUMLAH",bundle)
+//        outState.putInt("Key_Harga_Save", total)
+//        super.onSaveInstanceState(outState, outPersistentState)
+//    }
 
     override fun onResume() {
         super.onResume()
