@@ -1,13 +1,14 @@
 package com.example.pos.Activity
 
+import android.content.ContentValues
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.*
 import androidx.core.widget.addTextChangedListener
+import com.example.pos.Database.Database
 import com.example.pos.R
 import java.text.NumberFormat
 
@@ -18,6 +19,14 @@ class Edit_Barang : AppCompatActivity() {
     private lateinit var    edit_stok:EditText
     private lateinit var     edit_harga:EditText
     private  var     main:MainActivity= MainActivity()
+    private var TABLE_CONTACTS = "Barang2"
+    private var KEY_ID = "Kode"
+    private val KEY_NAME = "Nama"
+    private val KEY_HARGA = "Harga"
+    private val KEY_JENIS = "Jenis"
+    private val KEY_STOK = "Stok"
+    private lateinit var ubah : Button
+    private lateinit var code:String
     var nilai:Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +37,7 @@ class Edit_Barang : AppCompatActivity() {
          edit_jenis= findViewById(R.id.edit_jenis_barang)
          edit_stok = findViewById(R.id.edit_stok_barang)
          edit_harga= findViewById(R.id.edit_harga_barang)
-
+         ubah = findViewById(R.id.ubah)
         kembali.setOnClickListener{
             onBackPressed()
         }
@@ -58,9 +67,15 @@ class Edit_Barang : AppCompatActivity() {
             }
 
         })
+        ubah.setOnClickListener(){
+            updatedata()
+            val intent = Intent(this, Edit_Barang::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
     fun GetData(){
-        var code = intent.getStringExtra("key_kode")
+        code = intent.getStringExtra("key_kode")!!
         var jenis = intent.getStringExtra("key_jenis")
         var nama = intent.getStringExtra("key_nama")
         var harga = intent.getIntExtra("key_harga",0)
@@ -76,5 +91,27 @@ class Edit_Barang : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         GetData()
+    }
+    fun updatedata(){
+        if(edit_kode.text.isEmpty()|| edit_harga.text.isEmpty() || edit_nama.text.isEmpty() || edit_stok.text.isEmpty() || edit_jenis.text.isEmpty()){
+            edit_kode.error = "Tidak boleh kosong"
+            edit_harga.error = "Tidak boleh kosong"
+            edit_nama.error = "Tidak boleh kosong"
+            edit_stok.error = "Tidak boleh kosong"
+            edit_jenis.error = "Tidak boleh kosong"
+        }
+        else{
+            val db: Database=Database(this)
+            val dbhelper = db.writableDatabase
+            val content : ContentValues= ContentValues()
+            val hargaitem : Int = nilai.toInt()
+            content.put(KEY_ID, edit_kode.text.toString())
+            content.put(KEY_HARGA, hargaitem)
+            content.put(KEY_JENIS, edit_jenis.text.toString())
+            content.put(KEY_NAME, edit_nama.text.toString())
+            content.put(KEY_STOK, edit_stok.text.toString().toInt())
+            dbhelper.update(TABLE_CONTACTS,content,"$KEY_ID=?", arrayOf(code))
+            Toast.makeText(this,"Data berhasil diubah", Toast.LENGTH_SHORT).show()
+        }
     }
 }
