@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pos.Activity.MainActivity
 import com.example.pos.Model.model_barang
 import com.example.pos.R
 import java.util.*
@@ -33,6 +30,8 @@ class CustomAdapter(
     var arr_jenis = HashMap<String, String>()
     var arr_nama = ArrayList<String>()
     val arr_jmlh = HashMap<String, Int>()
+    val arr_stok = HashMap<String, Int>()
+
 
 
     fun setWhenClickListener(listener: OnItemsClickListener?) {
@@ -62,6 +61,7 @@ class CustomAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val arr = IntArray(itemCount)
 
+        var jmlh_stok = modelitem[position].stok
         val kode_tx = modelitem.get(position).kode
         // sets the image to the imageview from our itemHolder class
         holder.jenisItem.text = modelitem.get(position).jenis
@@ -116,7 +116,10 @@ class CustomAdapter(
                         holder.jumlah.text = num.toString()
                     }
 
+                    //stok
 
+                    jmlh_stok++
+                    holder.stok.text = jmlh_stok.toString()
 
                     listener!!.onItemClick(refresh3(modelitem.get(position).harga))
                     //holder.jumlah.text = arr[position].toString()
@@ -133,13 +136,16 @@ class CustomAdapter(
                         arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
                         arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
                         arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
+                        arr_stok[modelitem.get(position).nama] = holder.stok.text.toString().toInt()
+
 
                         listener!!.onArrayItemClick(
                             arr_kode,
                             arr_harga,
                             arr_nama,
                             arr_jenis,
-                            arr_jmlh
+                            arr_jmlh,
+                            arr_stok
                         )
 
                     } else {
@@ -148,6 +154,7 @@ class CustomAdapter(
                         arr_jenis.clear()
                         arr_nama.clear()
                         arr_jmlh.clear()
+                        arr_stok.clear()
                     }
                 }
             }
@@ -169,6 +176,9 @@ class CustomAdapter(
 //                    holder.jumlah.text = arr[position].toString()
                     holder.jumlah.text = num.toString()
                 }
+                jmlh_stok--
+                holder.stok.text = jmlh_stok.toString()
+
                 listener!!.onItemClick(refresh2(modelitem.get(position).harga))
 
                 if (arr[position] > 0) {
@@ -183,11 +193,20 @@ class CustomAdapter(
                     arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
                     arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
                     arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
+                    arr_stok[modelitem[position].nama] = holder.stok.text.toString().toInt()
+
 
                     //Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
                 }
   //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
-                listener!!.onArrayItemClick(arr_kode, arr_harga, arr_nama, arr_jenis, arr_jmlh)
+                listener!!.onArrayItemClick(
+                    arr_kode,
+                    arr_harga,
+                    arr_nama,
+                    arr_jenis,
+                    arr_jmlh,
+                    arr_stok
+                )
             }
         }
     }
@@ -225,6 +244,7 @@ class CustomAdapter(
         val plusButton: CardView = itemView.findViewById(R.id.btn_add)
         val minButton: CardView = itemView.findViewById(R.id.btn_min)
         val jumlah: TextView = itemView.findViewById(R.id.jumlah_item)
+        val stok: TextView = itemView.findViewById(R.id.stok)
     }
 
     interface OnItemsClickListener {
@@ -234,7 +254,8 @@ class CustomAdapter(
             Arr_harga: HashMap<String, Int>,
             nama: ArrayList<String>,
             jenis: HashMap<String, String>,
-            arr_jmlh: HashMap<String, Int>
+            arr_jmlh: HashMap<String, Int>,
+            arr_stok: HashMap<String, Int>
         )
 //        fun getJumlahItem(jml:HashMap<String,Int>)
 //        fun  getItemOnPosition(jml:HashMap<String,Int>,pos:ArrayList<Int>)

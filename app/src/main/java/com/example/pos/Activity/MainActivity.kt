@@ -1,24 +1,25 @@
 package com.example.pos.Activity
 
-import android.content.Context
-import com.example.pos.Database.Database
-import com.example.pos.RecycleView.CustomAdapter
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
-import android.nfc.Tag
-import com.example.pos.RecycleView.CustomAdapter.*
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
+import com.example.pos.RecycleView.CustomAdapter
+import com.example.pos.RecycleView.CustomAdapter.OnItemsClickListener
 
 
 class MainActivity : AppCompatActivity() {
