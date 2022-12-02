@@ -1,7 +1,9 @@
 package com.example.pos.Activity
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,7 @@ class Laporan_Harian : AppCompatActivity() {
     private lateinit var name_tahun: String
     private lateinit var name_bulan: String
     private lateinit var name_bulan1: String
+    private lateinit var kembali: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_laporan_harian)
@@ -38,7 +41,7 @@ class Laporan_Harian : AppCompatActivity() {
         name_tahun = intent.getStringExtra("Key_Tahun")!!
         name_bulan = intent.getStringExtra("Key_Bulan")!!
         txt_bulan.text = name_bulan
-
+        kembali = findViewById(R.id.kembali)
         if (name_bulan == "Januari"){
             name_bulan1 = '1'.toString()
         }else if (name_bulan == "Februari"){
@@ -65,6 +68,9 @@ class Laporan_Harian : AppCompatActivity() {
             name_bulan1 = "12"
         }
         readDataDay(name_bulan1, name_tahun)
+        kembali.setOnClickListener(){
+            onBackPressed()
+        }
     }
     private fun readDataDay(bulan: String, tahun: String){
         var tanggal = ""
