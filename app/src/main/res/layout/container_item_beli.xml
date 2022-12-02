@@ -39,7 +39,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             app:cardBackgroundColor="@color/abu"
             android:layout_marginStart="5dp"
             >
@@ -113,6 +113,15 @@
                             android:textColor="@color/white"
                             android:text="Rp. 0"
                             android:textSize="5pt" />
+                        <TextView
+                            android:id="@+id/stok_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="@color/white"
+                            android:text="stok = 0"
+                            android:textSize="6pt" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

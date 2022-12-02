@@ -69,6 +69,7 @@ class CustomAdapter(
         holder.namaBarang.text = modelitem.get(position).nama
         val hargaString = "Rp" + NumberFormat(modelitem.get(position).harga.toString())
         holder.hargaBarang.text = hargaString
+        holder.stok.text ="stok = " + modelitem.get(position).stok.toString()
 
         // holder.jumlah.text = jumlah_item_select.get(position).toString()
         val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
@@ -88,6 +89,7 @@ class CustomAdapter(
         //minus button
         holder.minButton.setOnClickListener {
             if (listener != null) {
+
                 if (holder.jumlah.text.toString() != "0") {
                     arr[position] = --arr[position]
                     Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
@@ -225,6 +227,7 @@ class CustomAdapter(
         val plusButton: CardView = itemView.findViewById(R.id.btn_add)
         val minButton: CardView = itemView.findViewById(R.id.btn_min)
         val jumlah: TextView = itemView.findViewById(R.id.jumlah_item)
+        var stok: TextView = itemView.findViewById(R.id.stok_item)
     }
 
     interface OnItemsClickListener {
