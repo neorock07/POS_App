@@ -3,6 +3,7 @@ package com.example.pos.RecycleView
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pos.Activity.Edit_Barang
 import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
@@ -39,6 +42,15 @@ class Adapter_Dft_Barang(
         holder.nama.text = modelitem.get(position).nama
         holder.stok.text = "Stok : " + NumberFormat(modelitem.get(position).stok.toString())
         holder.harga.text = "Rp" + NumberFormat(modelitem.get(position).harga.toString())
+        holder.card_edit.setOnClickListener(){
+            val log:Intent=Intent(context,Edit_Barang::class.java)
+            log.putExtra("key_jenis",modelitem.get(position).jenis)
+            log.putExtra("key_harga",modelitem.get(position).harga)
+            log.putExtra("key_nama",modelitem.get(position).nama)
+            log.putExtra("key_kode",modelitem.get(position).kode)
+            log.putExtra("key_stok",modelitem.get(position).stok)
+            ContextCompat.startActivity(context, log, null)
+        }
         //button onclick to delete data
         holder.btn_delete.setOnClickListener {
             val alertDialog = AlertDialog.Builder(context)
@@ -99,6 +111,7 @@ class Adapter_Dft_Barang(
         val nama = itemView.findViewById<TextView>(R.id.nama_item_brg)
         val stok = itemView.findViewById<TextView>(R.id.stok_item_brg)
         val btn_delete = itemView.findViewById<CardView>(R.id.btn_delete_brg)
+        val card_edit:CardView = itemView.findViewById(R.id.card_edit)
     }
 
     interface OnItemsClickListener {

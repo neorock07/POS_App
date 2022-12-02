@@ -113,6 +113,14 @@
                             android:textColor="@color/white"
                             android:text="Rp. 0"
                             android:textSize="5pt" />
+                        <TextView
+                            android:id="@+id/stok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="@color/white"
+                            android:text="Stok"
+                            android:textSize="5pt"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

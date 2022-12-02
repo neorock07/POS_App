@@ -3,6 +3,7 @@ package com.example.pos.Activity
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +24,10 @@ class Laporan_Bulanan : AppCompatActivity() {
     private lateinit var tx_thn:TextView
     private lateinit var name_tahun: String
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_laporan_bulanan)
+        val kembali: ImageView = findViewById(R.id.kembali)
         //inisiasi variable
         tx_thn = findViewById(R.id.txt_tahun)
         rc = findViewById(R.id.rc_bulanan)
@@ -33,6 +36,9 @@ class Laporan_Bulanan : AppCompatActivity() {
         //get tahun from adapter tahunan
         name_tahun = intent.getStringExtra("Key_Tahun")!!
         tx_thn.text = name_tahun
+        kembali.setOnClickListener{
+            onBackPressed()
+        }
 
     }
 
