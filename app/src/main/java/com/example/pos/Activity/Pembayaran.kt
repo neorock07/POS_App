@@ -2,6 +2,7 @@ package com.example.pos.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.system.Os.remove
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -134,7 +135,8 @@ class Pembayaran : AppCompatActivity() {
         if(list_kode2.isEmpty()){
             total_beli_pem.text = "Rp.0"
             rv.visibility = View.VISIBLE
-        }else{
+        }
+        else{
             adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
             rc.adapter = adapter
         }
@@ -150,7 +152,9 @@ class Pembayaran : AppCompatActivity() {
             if (ed_total.text.toString().isEmpty()){
                 ed_total.error = "Nilai tidak valid"
                 Toast.makeText(this, "Masukkan nilai uang", Toast.LENGTH_SHORT).show()
-            }else{
+            } else if(jumlah > parsed){
+                ed_total.error = "Uang Anda Kurang " + (parsed - jumlah).toString()
+            } else{
                 startActivity(log2)
             }
         }
