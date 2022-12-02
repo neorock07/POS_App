@@ -104,7 +104,7 @@ public class Database(context: Context) : SQLiteOpenHelper(
                 "WHEN strftime('%m',$COL_TANGGAL) = '11' THEN 'November' " +
                 "WHEN strftime('%m',$COL_TANGGAL) = '12' THEN 'Desember' " +
                 "END AS BULAN," +
-                " SUM($COL_TOTAL_PENJUALAN) AS INCOME FROM $TABLE_PENJUALAN WHERE strftime('%Y',$COL_TANGGAL) = '$tahun' ",null)
+                " SUM($COL_TOTAL_PENJUALAN) AS INCOME FROM $TABLE_PENJUALAN GROUP BY strftime('%m',$COL_TANGGAL) HAVING strftime('%Y',$COL_TANGGAL) = '$tahun'",null)
                    }
     fun readPerTanggal(bulan: String, tahun: String): Cursor{
         val db = this.readableDatabase
