@@ -1,7 +1,10 @@
 package com.example.pos.RecycleView
 
+import android.annotation.SuppressLint
 import android.content.Context
+
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.parser.IntegerParser
 import com.example.pos.Activity.MainActivity
 import com.example.pos.Model.model_barang
 import com.example.pos.R
@@ -20,9 +24,12 @@ import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
 
 class CustomAdapter(
-    private var context: Context, private var modelitem: ArrayList<model_barang>,private var jml:Bundle
+    private var context: Context,
+    private var modelitem: ArrayList<model_barang>,
+    private var jml: Bundle
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     private var listener: OnItemsClickListener? = null
+
     //private var jumlah_item_select:ArrayList<Int> = ArrayList()
     val arrayname = Array<String>(itemCount) { "" }
 
@@ -33,11 +40,13 @@ class CustomAdapter(
     var arr_jenis = HashMap<String, String>()
     var arr_nama = ArrayList<String>()
     val arr_jmlh = HashMap<String, Int>()
+    val arr_stok = HashMap<String, Int>()
 
 
     fun setWhenClickListener(listener: OnItemsClickListener?) {
         this.listener = listener
     }
+
 
     // create new viewsbhg
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -58,10 +67,15 @@ class CustomAdapter(
         notifyDataSetChanged()
     }
 
+    fun cek() {
+        val a = 0
+    }
+
     // binds the list items to a viewd3
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val arr = IntArray(itemCount)
-
+        var jmlh_stok = modelitem[position].stok
         val kode_tx = modelitem.get(position).kode
         // sets the image to the imageview from our itemHolder class
         holder.jenisItem.text = modelitem.get(position).jenis
@@ -69,6 +83,7 @@ class CustomAdapter(
         holder.namaBarang.text = modelitem.get(position).nama
         val hargaString = "Rp" + NumberFormat(modelitem.get(position).harga.toString())
         holder.hargaBarang.text = hargaString
+        holder.stok.text = "Stok : " + modelitem.get(position).stok.toString()
 
         // holder.jumlah.text = jumlah_item_select.get(position).toString()
         val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
@@ -76,13 +91,15 @@ class CustomAdapter(
         val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
         val k2 = LinkedHashSet(nama_lt).toMutableList()
 
-        if(jml.isEmpty ||  jml[modelitem.get(position).nama].toString().equals("null") ){
+        if (jml.isEmpty || jml[modelitem.get(position).nama].toString().equals("null")) {
             holder.jumlah.text = "0"
-        }else{
-            if(jml[modelitem.get(position).nama] == null || jml[modelitem.get(position).nama].toString().toInt() < 0){
+        } else {
+            if (jml[modelitem.get(position).nama] == null || jml[modelitem.get(position).nama].toString()
+                    .toInt() < 0
+            ) {
                 holder.jumlah.text = "0"
             }
-                holder.jumlah.text = jml[modelitem.get(position).nama].toString()
+            holder.jumlah.text = jml[modelitem.get(position).nama].toString()
         }
 
         //minus button
@@ -90,7 +107,7 @@ class CustomAdapter(
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {
                     arr[position] = --arr[position]
-                    Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Masih 0", Toast.LENGTH_SHORT).show()
 //                    if(holder.jumlah.text.toString().toInt() > 0){
 //                        Toast.makeText(context, "lebih dari 0 nih!",Toast.LENGTH_SHORT).show()
 //                        var num = holder.jumlah.text.toString().toInt()
@@ -106,17 +123,18 @@ class CustomAdapter(
 //                    }
 
                     var num = holder.jumlah.text.toString().toInt()
-                    if(holder.jumlah.text.toString().toInt() >= 0){
+                    if (holder.jumlah.text.toString().toInt() >= 0) {
                         num -= 1
-                        Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
                         holder.jumlah.text = num.toString()
-                    }
-                    else{
+                    } else {
 //                    holder.jumlah.text = arr[position].toString()
                         holder.jumlah.text = num.toString()
                     }
+                    //stok
 
-
+                    jmlh_stok++
+                    holder.stok.text = jmlh_stok.toString()
 
                     listener!!.onItemClick(refresh3(modelitem.get(position).harga))
                     //holder.jumlah.text = arr[position].toString()
@@ -125,21 +143,25 @@ class CustomAdapter(
                         for (i in kk) {
                             arr_kode.add(i)
                         }
-
                         for (i in k2) {
                             arr_nama.add(i)
                         }
 
                         arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
                         arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
-                        arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
+                        arr_jmlh[modelitem.get(position).nama] =
+                            holder.jumlah.text.toString().toInt()
+                        arr_stok[modelitem.get(position).nama] =
+                            holder.stok.text.toString().toInt()
+
 
                         listener!!.onArrayItemClick(
                             arr_kode,
                             arr_harga,
                             arr_nama,
                             arr_jenis,
-                            arr_jmlh
+                            arr_jmlh,
+                            arr_stok
                         )
 
                     } else {
@@ -160,17 +182,20 @@ class CustomAdapter(
 //                holder.jumlah.text = arr[position].toString()
 //                listener!!.onItemClick(modelitem.get(position).harga)
                 var num = holder.jumlah.text.toString().toInt()
-                if(holder.jumlah.text.toString().toInt() >= 0){
+                if (holder.jumlah.text.toString().toInt() >= 0) {
                     num += 1
-                    Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
                     holder.jumlah.text = num.toString()
-                }
-                else{
+                } else {
 //                    holder.jumlah.text = arr[position].toString()
                     holder.jumlah.text = num.toString()
                 }
-                listener!!.onItemClick(refresh2(modelitem.get(position).harga))
+                //stok
 
+                jmlh_stok--
+                holder.stok.text = jmlh_stok.toString()
+
+                listener!!.onItemClick(refresh2(modelitem.get(position).harga))
                 if (arr[position] > 0) {
                     for (i in kk) {
                         arr_kode.add(i)
@@ -180,14 +205,22 @@ class CustomAdapter(
                         arr_nama.add(i)
                     }
 //                    //hashMap
-                    arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
-                    arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
-                    arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
+                    arr_harga[modelitem[position].nama] = modelitem.get(position).harga
+                    arr_jenis[modelitem[position].nama] = modelitem.get(position).jenis
+                    arr_jmlh[modelitem[position].nama] = holder.jumlah.text.toString().toInt()
+                    arr_stok[modelitem[position].nama] = holder.stok.text.toString().toInt()
 
                     //Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
                 }
-  //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
-                listener!!.onArrayItemClick(arr_kode, arr_harga, arr_nama, arr_jenis, arr_jmlh)
+                //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
+                listener!!.onArrayItemClick(
+                    arr_kode,
+                    arr_harga,
+                    arr_nama,
+                    arr_jenis,
+                    arr_jmlh,
+                    arr_stok
+                )
             }
         }
     }
@@ -197,6 +230,7 @@ class CustomAdapter(
         x += harga
         return x
     }
+
     fun refresh3(harga: Int): Int {
         var x = 0
         x -= harga
@@ -212,6 +246,7 @@ class CustomAdapter(
         current = formatted
         return current
     }
+
     // return the number of the items in the list
     override fun getItemCount(): Int {
         return modelitem!!.size
@@ -225,6 +260,7 @@ class CustomAdapter(
         val plusButton: CardView = itemView.findViewById(R.id.btn_add)
         val minButton: CardView = itemView.findViewById(R.id.btn_min)
         val jumlah: TextView = itemView.findViewById(R.id.jumlah_item)
+        val stok: TextView = itemView.findViewById(R.id.stok)
     }
 
     interface OnItemsClickListener {
@@ -234,7 +270,8 @@ class CustomAdapter(
             Arr_harga: HashMap<String, Int>,
             nama: ArrayList<String>,
             jenis: HashMap<String, String>,
-            arr_jmlh: HashMap<String, Int>
+            arr_jmlh: HashMap<String, Int>,
+            arr_stok: HashMap<String, Int>
         )
 //        fun getJumlahItem(jml:HashMap<String,Int>)
 //        fun  getItemOnPosition(jml:HashMap<String,Int>,pos:ArrayList<Int>)

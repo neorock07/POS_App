@@ -16,7 +16,7 @@
         >
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="71dp"
             app:cardBackgroundColor="@color/green"
             android:layout_gravity="center"
             >
@@ -39,7 +39,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/abu"
             android:layout_marginStart="5dp"
             >
@@ -112,7 +112,16 @@
                             android:fontFamily="sans-serif-black"
                             android:textColor="@color/white"
                             android:text="Rp. 0"
-                            android:textSize="5pt" />
+                            android:textSize="5pt"/>
+                        <TextView
+                            android:id="@+id/stok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="@color/white"
+                            android:text="Stok"
+                            android:textSize="5pt"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
