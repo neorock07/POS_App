@@ -115,6 +115,9 @@ class MainActivity : AppCompatActivity() {
         btn_bayar.setOnClickListener {
             startActivity(log)
         }
+        kembali.setOnClickListener{
+            onBackPressed()
+        }
 
     }
 
