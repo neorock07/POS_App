@@ -18,7 +18,7 @@ class Laporan_Tahunan : AppCompatActivity() {
     private lateinit var adapter:Adapter_Lpr_Tahunan
     private  lateinit var list_data:ArrayList<model_tahunan>
     private lateinit var db:Database
-    val kembali: ImageView = findViewById(R.id.kembali)
+    private lateinit var kembali: ImageView
     var tahun:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,7 @@ class Laporan_Tahunan : AppCompatActivity() {
         rc = findViewById(R.id.laporan_tahunan)
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
+        kembali = findViewById(R.id.kembali)
 
         kembali.setOnClickListener{
             onBackPressed()
