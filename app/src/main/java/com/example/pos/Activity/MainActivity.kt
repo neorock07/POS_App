@@ -1,30 +1,31 @@
 package com.example.pos.Activity
 
-import android.content.Context
-import com.example.pos.Database.Database
-import com.example.pos.RecycleView.CustomAdapter
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.widget.*
+import android.util.Log
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import java.lang.reflect.Type
-import java.util.LinkedHashMap
+import com.example.pos.RecycleView.CustomAdapter
+import com.example.pos.RecycleView.CustomAdapter.OnItemsClickListener
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var settingsFAB: CardView
     lateinit var adapter: CustomAdapter
-    lateinit var search: androidx.appcompat.widget.SearchView
+    lateinit var search: SearchView
     lateinit var recyclerview: RecyclerView
     lateinit var frameRefresh: FrameLayout
     lateinit var totalBeli: TextView
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var arr_nama: ArrayList<String> = ArrayList()
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
+    var arr_stok = HashMap<String, Int>()
     var bundle:Bundle = Bundle()
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
@@ -44,10 +46,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var log:Intent
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        Log.d("bbb", "hallo")
+
         var kembali: ImageView= findViewById(R.id.kembali)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
         totalBeli = findViewById(R.id.total_beli)
@@ -58,11 +65,11 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         search = findViewById(R.id.search_all)
         listitem = readAll()
-        adapter = getAdapter2()
+        adapter = getAdapter2() //adapterBarang
         recyclerview.adapter = adapter
 
         //sharedPreferences
-        sharedPref_total = getSharedPreferences("key", Context.MODE_PRIVATE).edit()
+        sharedPref_total = getSharedPreferences("key", MODE_PRIVATE).edit()
         sharedJumlah = applicationContext.getSharedPreferences("key_item", 0)
         editor = sharedJumlah.edit()
 
@@ -78,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
         //search view query
         search.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
@@ -116,13 +123,13 @@ class MainActivity : AppCompatActivity() {
         var cursor: Cursor = db.viewBarang()
          modelItemx = ArrayList<model_barang>()
         if (cursor.count > 0) {
-            while (cursor!!.moveToNext()) {
+            while (cursor.moveToNext()) {
                 var list_kode = cursor.getString(0)
                 var list_nama = cursor.getString(1)
                 var list_harga = cursor.getInt(2)
                 var list_jenis = cursor.getString(3)
                 var list_stok = cursor.getInt(4)
-                modelItemx!!.add(
+                modelItemx.add(
                     model_barang(
                         list_kode,
                         list_nama,
@@ -138,9 +145,9 @@ class MainActivity : AppCompatActivity() {
         return modelItemx
     }
 
-    fun getAdapter2(): CustomAdapter {
+    private fun getAdapter2(): CustomAdapter {
         adapter = CustomAdapter(this, readAll(),bundle)
-        adapter!!.setWhenClickListener(object : CustomAdapter.OnItemsClickListener {
+        adapter.setWhenClickListener(object : OnItemsClickListener {
 
             override fun onItemClick(harga: Int) {
                 total += harga
@@ -151,14 +158,15 @@ class MainActivity : AppCompatActivity() {
                 Arr_harga: HashMap<String, Int>,
                 nama: ArrayList<String>,
                 jenis: HashMap<String, String>,
-                jumlah_total: HashMap<String, Int>
+                arr_jmlh: HashMap<String, Int>,
+                arr_stok: HashMap<String, Int>
             ) {
                 arr_kode = kode
                 arr_nama = nama
 
                 for (i in arr_nama) {
                     arr_harga[i] = Arr_harga[i]!!
-                    arr_jumlah[i] = jumlah_total[i]!!
+                    arr_jumlah[i] = arr_jmlh[i]!!
                     arr_jenis[i] = jenis[i]!!
                     bundle.putInt(i, arr_jumlah.get(i)!!)
                 }
@@ -181,9 +189,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     log.putExtra("key_uang", total)
                 }
-
             }
-
         })
         recyclerview.adapter = adapter
         return adapter
@@ -242,7 +248,7 @@ class MainActivity : AppCompatActivity() {
             adapter.filterList(filteredlist)
         }
         kembali.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }
