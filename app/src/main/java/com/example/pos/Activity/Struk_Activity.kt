@@ -326,10 +326,17 @@ class Struk_Activity : AppCompatActivity() {
                 valuePrice = list_harga.get(i).toString()
                 jml = list_jumlah.get(i).toString()
                 val total = jml.toInt() * valuePrice.toInt()
+
             al.add(
                 TextPrintable.Builder()
-                    .setText("$value\n@$valuePrice x$jml : Rp ${main.NumberFormat(total.toString())}\n" +
-                            "-------------------------------")
+                    .setText("===============================")
+                    .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                    .setNewLinesAfter(1)
+                    .build()
+            )
+            al.add(
+                TextPrintable.Builder()
+                    .setText("$value\n@$valuePrice x$jml : Rp ${main.NumberFormat(total.toString())}")
                     .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                     .setNewLinesAfter(1)
                     .build()
@@ -343,23 +350,29 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
+        val total = "$totalHarga"
+        val myHarga = String.format("Total Rp %20s %s", total)
         al.add(
             TextPrintable.Builder()
-                .setText("Total\t\t Rp $totalHarga")
+                .setText(myHarga)
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
+        val byr = "$bayar"
+        val myBayar = String.format("Bayar Rp %20s %s", byr)
         al.add(
             TextPrintable.Builder()
-                .setText("Bayar\t\t Rp $bayar")
+                .setText(myBayar)
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(1)
                 .build()
         )
+        val kmbl = "$kembali"
+        val myKembali = String.format("Kembali Rp %20s %s", kmbl)
         al.add(
             TextPrintable.Builder()
-                .setText("Kembali\t\t Rp $kembali")
+                .setText(myKembali)
                 .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                 .setNewLinesAfter(2)
                 .build()
