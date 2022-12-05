@@ -327,6 +327,15 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
+
+        al.add(
+            TextPrintable.Builder()
+                .setText("===============================")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
+
         lateinit var value:String
         var valuePrice:String =""
         var jml:String=""
@@ -338,14 +347,7 @@ class Struk_Activity : AppCompatActivity() {
 
             al.add(
                 TextPrintable.Builder()
-                    .setText("===============================")
-                    .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
-                    .setNewLinesAfter(1)
-                    .build()
-            )
-            al.add(
-                TextPrintable.Builder()
-                    .setText("$value\n@$valuePrice x$jml : Rp ${main.NumberFormat(total.toString())}")
+                    .setText("$value\n@$valuePrice x$jml\t Rp ${main.NumberFormat(total.toString())}")
                     .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
                     .setNewLinesAfter(1)
                     .build()
@@ -360,7 +362,7 @@ class Struk_Activity : AppCompatActivity() {
                 .build()
         )
         val total = "$totalHarga"
-        val myHarga = String.format("Total Rp %20s %s", total)
+        val myHarga = String.format("Total\t\t Rp.%s", total)
         al.add(
             TextPrintable.Builder()
                 .setText(myHarga)
@@ -369,7 +371,7 @@ class Struk_Activity : AppCompatActivity() {
                 .build()
         )
         val byr = "$bayar"
-        val myBayar = String.format("Bayar Rp %20s %s", byr)
+        val myBayar = String.format("Bayar\t\t Rp.%s", byr)
         al.add(
             TextPrintable.Builder()
                 .setText(myBayar)
@@ -377,8 +379,15 @@ class Struk_Activity : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
+        al.add(
+            TextPrintable.Builder()
+                .setText("Tunai")
+                .setCharacterCode(DefaultPrinter.CHARCODE_PC1252)
+                .setNewLinesAfter(1)
+                .build()
+        )
         val kmbl = "$kembali"
-        val myKembali = String.format("Kembali Rp %20s %s", kmbl)
+        val myKembali = String.format("Kembali\t\t Rp.%s", kmbl)
         al.add(
             TextPrintable.Builder()
                 .setText(myKembali)
