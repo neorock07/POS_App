@@ -177,25 +177,25 @@
     <!-- float button   -->
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:foreground="?actionBarItemBackground"
         android:src="@drawable/atur"
+        app:cardBackgroundColor="@color/green"
+        app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
-        app:cardBackgroundColor="@color/green"
-        android:id="@+id/setting"
-        app:cardCornerRadius="30dp"
-        android:foreground="?actionBarItemBackground"
-        android:clickable="true"
-        >
+        app:layout_constraintVertical_bias="1.0">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="7dp"
-            >
+            android:padding="7dp">
 
             <ImageView
                 android:layout_width="50dp"

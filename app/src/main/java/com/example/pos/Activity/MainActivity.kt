@@ -97,9 +97,7 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
-
         adapter.notifyDataSetChanged()
-
 //        if(savedInstanceState != null){
 //          //  var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
 //
@@ -111,22 +109,12 @@ class MainActivity : AppCompatActivity() {
             if(bundle1 != null ){
                 bundle = bundle1
                 total = hrg!!
-
             }
         } catch (e:Exception){
-
         }
-
-
-
-
-
-
-
         kembali.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
-
     }
 
     fun readAll(): ArrayList<model_barang> {
@@ -174,15 +162,13 @@ class MainActivity : AppCompatActivity() {
             ) {
                 arr_kode = kode
                 arr_nama = nama
-
                 for (i in arr_nama) {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = arr_jmlh[i]!!
                     arr_jenis[i] = jenis[i]!!
                     bundle.putInt(i, arr_jumlah.get(i)!!)
                 }
-                 log = Intent(this@MainActivity, Pembayaran::class.java)
-
+                log = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode)
                 log.putExtra("key_nama", arr_nama)
                 log.putExtra("key_jenis", arr_jenis)
@@ -200,9 +186,13 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     log.putExtra("key_uang", total)
                 }
-                btn_bayar.setOnClickListener {
-                    startActivity(log)
+
+                if (arr_kode.isNotEmpty()) {
+                    btn_bayar.setOnClickListener {
+                        startActivity(log)
+                    }
                 }
+
             }
         })
         recyclerview.adapter = adapter
