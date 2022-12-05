@@ -8,6 +8,17 @@
     android:background="@color/green"
     >
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        app:srcCompat="@drawable/logo" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,69 +35,70 @@
         />
 
     <TextView
+        android:id="@+id/pos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/ralewaybold"
         android:text="POS"
-        android:id="@+id/pos"
         android:textColor="@color/white"
         android:textSize="18pt"
-        android:fontFamily="@font/ralewaybold"
-        app:layout_constraintTop_toBottomOf="@id/welocme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.3"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welocme"
+        app:layout_constraintVertical_bias="0.45999998" />
+
     <TextView
+        android:id="@+id/pos_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/ralewaybold"
         android:text="Point of Sale"
-        android:id="@+id/pos_"
         android:textColor="@color/white"
         android:textSize="13pt"
-        app:layout_constraintVertical_bias="0.05"
-        android:fontFamily="@font/ralewaybold"
-        app:layout_constraintTop_toBottomOf="@id/pos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pos"
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pos_"
-        app:cardBackgroundColor="@color/white"
-        android:outlineSpotShadowColor="@color/green2"
-        android:outlineAmbientShadowColor="@color/white"
-        app:cardElevation="7dp"
-        android:foreground="?selectableItemBackground"
-        android:clickable="true"
-        app:layout_constraintVertical_bias="0.76"
-        android:visibility="visible"
         android:id="@+id/card_splash"
-        >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        android:outlineAmbientShadowColor="@color/white"
+        android:outlineSpotShadowColor="@color/green2"
+        android:visibility="visible"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pos_"
+        app:layout_constraintVertical_bias="0.7">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/poli"
                 android:layout_marginStart="10dp"
-                />
+                android:src="@drawable/poli" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -101,13 +113,6 @@
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
