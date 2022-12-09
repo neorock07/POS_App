@@ -1,6 +1,7 @@
 package com.example.pos.Activity
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -55,12 +56,19 @@ class Struk_Activity : AppCompatActivity() {
     private lateinit var list_jenis2:ArrayList<String>
     private lateinit var list_harga2:ArrayList<Int>
     private lateinit var list_jumlah2:ArrayList<Int>
+    private lateinit var list_stok:ArrayList<Int>
     var totalHarga : Int = 0
     lateinit var adapter:Adapter_pembayaran
     private lateinit var bayar:String
     private lateinit var kembali:String
-
+    private var TABLE_CONTACTS = "Barang2"
+    private var KEY_ID = "Kode"
+    private val KEY_NAME = "Nama"
+    private val KEY_HARGA = "Harga"
+    private val KEY_JENIS = "Jenis"
+    private val KEY_STOK = "Stok"
     val main:MainActivity = MainActivity()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_struk)
@@ -82,7 +90,7 @@ class Struk_Activity : AppCompatActivity() {
         initView()
         initListener()
 
-           //button kembali
+        //button kembali
         btn_kembali.setOnClickListener{
             onBackPressed()
             finish()
@@ -91,7 +99,9 @@ class Struk_Activity : AppCompatActivity() {
         btn_print.setOnClickListener {
             btnPrint()
             InsertDataPembelian()
-
+            updatedata()
+            startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
+            finish()
         }
     }
 
@@ -146,34 +156,6 @@ class Struk_Activity : AppCompatActivity() {
             Printooth.printer().printingCallback = printCallback
         }
     }
-//        print?.printingCallback = object : PrintingCallback{
-//            override fun connectingWithPrinter() {
-//                Toast.makeText(this@Struk_Activity, "Connecting with printer...",Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun connectionFailed(error: String) {
-//                Toast.makeText(this@Struk_Activity, "Failed to connect printer",Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            override fun disconnected() {
-//                Toast.makeText(this@Struk_Activity, "Connection disconnect",Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            override fun onError(error: String) {
-//                Toast.makeText(this@Struk_Activity, "getting an error : \n" + error,Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onMessage(message: String) {
-//                Toast.makeText(this@Struk_Activity, "Message : \n" + message,Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            override fun printingOrderSentSuccessfully() {
-//                Toast.makeText(this@Struk_Activity, "Order successfully sent to printer!",Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
     private fun RetrieveData(){
         list_kode = ArrayList<String>()
@@ -181,12 +163,14 @@ class Struk_Activity : AppCompatActivity() {
         list_jenis = ArrayList<String>()
         list_nama = ArrayList<String>()
         list_jumlah = ArrayList<Int>()
+        list_stok = ArrayList<Int>()
 
         list_kode2 = intent.getSerializableExtra("key_kode") as ArrayList<String>
         list_nama2 = intent.getSerializableExtra("key_nama") as ArrayList<String>
         list_jenis2 = intent.getSerializableExtra("key_jenis") as ArrayList<String>
         list_harga2 = intent.getSerializableExtra("key_harga") as ArrayList<Int>
         list_jumlah2 = intent.getSerializableExtra("key_jumlah") as ArrayList<Int>
+        val stok2 = intent.getSerializableExtra("key_stok") as ArrayList<Int>
         totalHarga = intent.getIntExtra("key_total", 0)
         bayar = intent.getStringExtra("key_bayar")!!
         kembali = intent.getStringExtra("key_return")!!
@@ -198,6 +182,7 @@ class Struk_Activity : AppCompatActivity() {
                 list_jenis.add(list_jenis2[i])
                 list_nama.add(list_nama2[i])
                 list_jumlah.add(list_jumlah2[i])
+                list_stok.add(stok2[i])
             }
         }
 
@@ -206,7 +191,7 @@ class Struk_Activity : AppCompatActivity() {
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
         }else{
-             adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah)
+            adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
             rc.adapter = adapter
         }
     }
@@ -214,15 +199,15 @@ class Struk_Activity : AppCompatActivity() {
     fun InsertDataPembelian(){
         val calender:Calendar = Calendar.getInstance()
         val db:Database = Database(this)
-            val day = calender.get(Calendar.DAY_OF_MONTH)
-            val month  = calender.get(Calendar.MONTH) + 1
-            val year = calender.get(Calendar.YEAR)
-            var date:String=""
+        val day = calender.get(Calendar.DAY_OF_MONTH)
+        val month  = calender.get(Calendar.MONTH) + 1
+        val year = calender.get(Calendar.YEAR)
+        var date:String=""
         if(day <=9){
-                date = "$year-$month-0$day"
-            }else{
-                date =  "$year-$month-$day"
-            }
+            date = "$year-$month-0$day"
+        }else{
+            date =  "$year-$month-$day"
+        }
 
         try{
             for(i in 0..list_kode.size -1){
@@ -232,6 +217,18 @@ class Struk_Activity : AppCompatActivity() {
         }catch (e:Exception){
             Toast.makeText(this, "Error + ${e.message}", Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun updatedata(){
+        val db: Database=Database(this)
+        val dbhelper = db.writableDatabase
+        val content : ContentValues = ContentValues()
+        for(i in list_stok.indices){
+            content.put(KEY_STOK, list_stok[i])
+            dbhelper.update(TABLE_CONTACTS,content,"$KEY_ID=?", arrayOf(list_kode[i]))
+        }
+        Toast.makeText(this,"Data berhasil diubah", Toast.LENGTH_SHORT).show()
+
     }
 
     fun btnPrint(){
@@ -247,32 +244,11 @@ class Struk_Activity : AppCompatActivity() {
         initListener()
         RetrieveData()
     }
-//    private fun InitListener(){
-//        btn_print.setOnClickListener{
-//            if(!Printooth.hasPairedPrinter()){
-//                resultLaunh.launch(
-//                    Intent(
-//                        this@Struk_Activity,
-//                        ScanningActivity::class.java
-//                    ),
-//                )
-//            }else{
-//                printDetails()
-//            }
-//
-//            //printDetails()
-//            InsertDataPembelian()
-//        }
-//
-//    }
-//    private fun printDetails(){
-//        val printMsg = MsgPrint()
-//        try{
-//            print!!.print(printMsg)
-//        }catch(e:Exception){
-//            Log.d("Eror print : ", "Null pointer")
-//        }
-//    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 
     private fun MsgPrint():ArrayList<Printable>{
         var al:ArrayList<Printable> = ArrayList()
@@ -340,10 +316,10 @@ class Struk_Activity : AppCompatActivity() {
         var valuePrice:String =""
         var jml:String=""
         for(i in (0..list_kode.size -1)){
-                value = list_nama.get(i)
-                valuePrice = list_harga.get(i).toString()
-                jml = list_jumlah.get(i).toString()
-                val total = jml.toInt() * valuePrice.toInt()
+            value = list_nama.get(i)
+            valuePrice = list_harga.get(i).toString()
+            jml = list_jumlah.get(i).toString()
+            val total = jml.toInt() * valuePrice.toInt()
 
             al.add(
                 TextPrintable.Builder()
@@ -443,16 +419,16 @@ class Struk_Activity : AppCompatActivity() {
         )
         return al
     }
-//    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    //    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
 //        result -> if(result.resultCode == ScanningActivity.SCANNING_FOR_PRINTER && result.resultCode == Activity.RESULT_OK ){
 //            printDetails()
 //    }
 //
 //    }
     fun printMsg(){
-    if(print != null){
-        print!!.print(MsgPrint())
-    }
+        if(print != null){
+            print!!.print(MsgPrint())
+        }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

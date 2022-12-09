@@ -30,15 +30,15 @@ class Pembayaran : AppCompatActivity() {
     lateinit var ed_total:TextInputEditText
     var parsed:Double = 0.0
     var jumlah = 0
-    var bayarTotal = ""
-     var formatted:String=""
-     var formatted2:String=""
+    var formatted:String=""
+    var formatted2:String=""
     var kembalianHehe = ""
     val mainActivity:MainActivity = MainActivity()
     lateinit var kembalian:TextView
     lateinit var log2:Intent
     var hasil:Double =0.0
     val bundle:Bundle = Bundle()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
@@ -110,17 +110,20 @@ class Pembayaran : AppCompatActivity() {
         val nama_lt = LinkedHashSet(list_nama).toMutableSet()
         val list_jenis= intent.getSerializableExtra("key_jenis") as HashMap<String, String>?
         val list_jml = intent.getSerializableExtra("key_jumlah") as HashMap<String, Int>?
+        var list_stok = intent.getSerializableExtra("key_stok") as HashMap<String, Int>?
 
         val hargaList:ArrayList<Int> = ArrayList()
         val jenisList:ArrayList<String> = ArrayList()
         var jumlahList:ArrayList<Int> = ArrayList()
         val list_kode2:ArrayList<String> = ArrayList()
         val list_nama2:ArrayList<String> = ArrayList()
+        var list_stok2:ArrayList<Int> = ArrayList()
 
         for (i in nama_lt){
             list_harga?.get(i)?.let { hargaList.add(it) }
             list_jenis?.get(i)?.let { jenisList.add(it) }
             list_jml?.get(i)?.let { jumlahList.add(it) }
+            list_stok?.get(i)?.let { list_stok2.add(it) }
             bundle.putInt(i, list_jml!!.get(i)!!)
         }
         for(i in kode_lt){
@@ -130,7 +133,6 @@ class Pembayaran : AppCompatActivity() {
             list_nama2.add(i)
         }
 
-
         total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
         listItem = ArrayList()
         if(list_kode2.isEmpty()){
@@ -138,14 +140,15 @@ class Pembayaran : AppCompatActivity() {
             rv.visibility = View.VISIBLE
         }
         else{
-            adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList)
+            adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList, list_stok2)
             rc.adapter = adapter
         }
         //SET WHEN CLICK LISTENER
         adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
 
-            override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int) {
+            override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {
                 jumlahList = jumlah2
+                list_stok2 = stok
                 jumlah += total_harga
                 total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
             }
@@ -158,6 +161,7 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_jenis", jenisList)
         log2.putExtra("key_jumlah", jumlahList)
         log2.putExtra("key_total", jumlah)
+        log2.putExtra("key_stok", list_stok2)
         btn_cetak.setOnClickListener{
 
             if (ed_total.text.toString().isEmpty()){

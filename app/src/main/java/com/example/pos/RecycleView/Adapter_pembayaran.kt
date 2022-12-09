@@ -17,7 +17,8 @@ class Adapter_pembayaran(
     private var list_nama: ArrayList<String>?,
     private var list_harga: ArrayList<Int>?,
     private var list_jenis: ArrayList<String>?,
-    private var list_jumlah: ArrayList<Int>?
+    private var list_jumlah: ArrayList<Int>?,
+    private var list_stok:ArrayList<Int>?
 ) : RecyclerView.Adapter<Adapter_pembayaran.MyHolder>() {
     private var listener: Adapter_pembayaran.OnItemsClickListener? = null
     val arr_jmlh = HashMap<String, Int>()
@@ -31,7 +32,8 @@ class Adapter_pembayaran(
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-
+        var jml:Int = list_stok!!.get(position)
+        var jmlStok:ArrayList<Int> = ArrayList()
 //        var model = model_item.get(position)
 //        holder.namaBarang.text = model.nama
         holder.hargaBarang.text = "Rp." + NumberFormat(list_harga!!.get(position).toString())
@@ -40,20 +42,26 @@ class Adapter_pembayaran(
         holder.jenisItem.text = list_jenis!!.get(position)
         // sets the text to the textview from our itemHolder class
         holder.namaBarang.text = list_nama!!.get(position)
+        holder.stok.text = "Stok : " + NumberFormat(list_stok!!.get(position).toString())
+
         var num = holder.jumlah.text.toString().toInt()
         val hargaString = "Rp" + NumberFormat(list_harga!!.get(position).toString())
         holder.plusButton.setOnClickListener {
             if (listener != null) {
-                    if(holder.jumlah.text.toString().toInt() >= 0){
-                        num += 1
-                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
-                        holder.jumlah.text = num.toString()
-                        list_jumlah!!.set(position,num)
-                    } else{
-                        holder.jumlah.text = num.toString()
-                    }
-                    arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
-                    listener!!.onItemClick(list_jumlah!!, refresh2(list_harga!!.get(position)))
+                if(holder.jumlah.text.toString().toInt() >= 0){
+                    num += 1
+                    Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
+                    holder.jumlah.text = num.toString()
+                    list_jumlah!!.set(position,num)
+
+                }else{
+                    holder.jumlah.text = num.toString()
+                }
+                jml--
+                jmlStok!!.set(position,jml)
+                holder.stok.text = "Stok : " + NumberFormat(jml.toString())
+                arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
+                listener!!.onItemClick(list_jumlah!!, refresh2(list_harga!!.get(position)),jmlStok)
 
             }
         }
@@ -61,16 +69,19 @@ class Adapter_pembayaran(
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {
                     Toast.makeText(context, "Masih 0", Toast.LENGTH_SHORT).show()
-                        if (holder.jumlah.text.toString().toInt() >= 0) {
-                            num -= 1
-                            Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
-                            holder.jumlah.text = num.toString()
-                            list_jumlah!!.set(position,num)
-                        } else {
-                            holder.jumlah.text = num.toString()
-                        }
+                    if (holder.jumlah.text.toString().toInt() >= 0) {
+                        num -= 1
+                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
+                        holder.jumlah.text = num.toString()
+                        list_jumlah!!.set(position,num)
+                    } else {
+                        holder.jumlah.text = num.toString()
+                    }
+                    jml++
+                    jmlStok!!.set(position,jml)
+                    holder.stok.text = "Stok : " + NumberFormat(jml.toString())
                     arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
-                        listener!!.onItemClick(list_jumlah!!, refresh3(list_harga!!.get(position)))
+                    listener!!.onItemClick(list_jumlah!!, refresh3(list_harga!!.get(position)),jmlStok)
                 }
             }
         }
@@ -101,7 +112,7 @@ class Adapter_pembayaran(
         val stok: TextView = itemView.findViewById(R.id.stok)
     }
     interface OnItemsClickListener {
-        fun onItemClick(jumlah: ArrayList<Int>, total_harga : Int)
+        fun onItemClick(jumlah: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>)
     }
     fun refresh2(harga: Int): Int {
         var x = 0
