@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.example.pos.Database.Database
 import com.example.pos.R
+import java.lang.NullPointerException
 import java.text.NumberFormat
 
 class Edit_Barang : AppCompatActivity() {
@@ -90,7 +92,12 @@ class Edit_Barang : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        GetData()
+        try{
+            GetData()
+        }catch (e:NullPointerException){
+            Log.d("Null", e.message.toString())
+        }
+
     }
     fun updatedata(){
         if(edit_kode.text.isEmpty()|| edit_harga.text.isEmpty() || edit_nama.text.isEmpty() || edit_stok.text.isEmpty() || edit_jenis.text.isEmpty()){

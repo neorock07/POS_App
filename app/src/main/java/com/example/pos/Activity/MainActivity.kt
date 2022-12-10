@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var arr_nama: ArrayList<String> = ArrayList()
     var arr_jenis = HashMap<String, String>()
     var arr_jumlah = HashMap<String, Int>()
-    var arr_stok = HashMap<String, Int>()
+    var arr_stok2 = HashMap<String, Int>()
     var bundle:Bundle = Bundle()
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        Log.d("bbb", "hallo")
 
         var kembali: ImageView= findViewById(R.id.kembali)
         recyclerview = findViewById<RecyclerView>(R.id.listBarang)
@@ -166,6 +165,7 @@ class MainActivity : AppCompatActivity() {
                     arr_harga[i] = Arr_harga[i]!!
                     arr_jumlah[i] = arr_jmlh[i]!!
                     arr_jenis[i] = jenis[i]!!
+                    arr_stok2[i] = arr_stok[i]!!
                     bundle.putInt(i, arr_jumlah.get(i)!!)
                 }
                 log = Intent(this@MainActivity, Pembayaran::class.java)
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                 log.putExtra("key_jenis", arr_jenis)
                 //log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
-
+                log.putExtra("key_stok", arr_stok2)
                 if(arr_jumlah.isEmpty() && !bundle.isEmpty){
                     log.putExtra("key_jumlah", bundle)
                 }else{
