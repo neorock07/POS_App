@@ -58,24 +58,4 @@ class Adapter_Lpr_Harian(private val context: Context, private var list_data:Arr
         val txt_bulan = itemView.findViewById<TextView>(R.id.txt_bulan)
         val txt_tanggal = itemView.findViewById<TextView>(R.id.txt_tanggal)
     }
-//    private fun readDataDay1(tanggal: String, tahun: String, bulan: String){
-//        list_data2 = ArrayList()
-//        db = Database(context)
-//        val cursor: Cursor = db.readPerDetail(tanggal, tahun, bulan)
-//        if(cursor.count > 0){
-//            while(cursor.moveToNext()){
-//                var nama = cursor.getString(0)
-//                var harga = cursor.getString(1)
-//                var jenis = cursor.getString(2)
-//                var jumlah = cursor.getString(3)
-//
-//                list_data2.add(
-//                    model_harian_detail(
-//                        nama,harga,jenis,jumlah.toInt()
-//                    )
-//                )
-//            }
-//        }
-//    }
-
 }

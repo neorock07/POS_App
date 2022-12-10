@@ -47,25 +47,30 @@ class Adapter_pembayaran(
         val hargaString = "Rp" + NumberFormat(list_harga!!.get(position).toString())
         holder.plusButton.setOnClickListener {
             if (listener != null) {
-                    if(holder.jumlah.text.toString().toInt() >= 0){
+                if (holder.stok.text.toString() != "Stok : 0") {
+                    if (holder.jumlah.text.toString().toInt() >= 0) {
                         num += 1
                         Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
                         holder.jumlah.text = num.toString()
-                        list_jumlah!!.set(position,num)
+                        list_jumlah!!.set(position, num)
                         jml--
                         //jmlStok!!.set(position,num)
                         //jmlStok.add(jml)
                         list_stok!!.set(position, jml)
-                    }else{
+                    } else {
                         holder.jumlah.text = num.toString()
                     }
 
                     holder.stok.text = "Stok : " + NumberFormat(jml.toString())
                     arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
-                    listener!!.onItemClick(list_jumlah!!, refresh2(list_harga!!.get(position)),list_stok!!)
+                    listener!!.onItemClick(
+                        list_jumlah!!,
+                        refresh2(list_harga!!.get(position)),
+                        list_stok!!
+                    )
+                }
             }
         }
-
         holder.minButton.setOnClickListener {
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {

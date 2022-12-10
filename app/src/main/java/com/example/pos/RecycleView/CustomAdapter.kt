@@ -150,6 +150,7 @@ class CustomAdapter(
         //add button
         holder.plusButton.setOnClickListener {
             if (listener != null) {
+                if (holder.stok.text.toString() != "Stok : 0"){
                 arr[position] = ++arr[position]
 //                holder.jumlah.text = arr[position].toString()
 //                listener!!.onItemClick(modelitem.get(position).harga)
@@ -194,6 +195,7 @@ class CustomAdapter(
                     arr_jmlh,
                     arr_stok
                 )
+            }
             }
         }
     }

@@ -38,6 +38,8 @@ class Pembayaran : AppCompatActivity() {
     lateinit var log2:Intent
     var hasil:Double =0.0
     val bundle:Bundle = Bundle()
+    val bundle1:Bundle = Bundle()
+    val bundle2:Bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +95,9 @@ class Pembayaran : AppCompatActivity() {
         RetrieveData()
 
         btn_back.setOnClickListener{
-            log2.putExtra("Data_Item", bundle)
+            log2.putExtra("Data_Jumlah", bundle)
+            log2.putExtra("Data_Stok", bundle1)
+            log2.putExtra("Data_Harga", bundle2)
             onBackPressed()
         }
 
@@ -124,7 +128,7 @@ class Pembayaran : AppCompatActivity() {
             list_jenis?.get(i)?.let { jenisList.add(it) }
             list_jml?.get(i)?.let { jumlahList.add(it) }
             list_stok?.get(i)?.let { list_stok2.add(it) }
-            bundle.putInt(i, list_jml!!.get(i)!!)
+            ///bundle.putInt(i, list_jml!!.get(i)!!)
         }
         for(i in kode_lt){
             list_kode2.add(i)
@@ -152,10 +156,17 @@ class Pembayaran : AppCompatActivity() {
                 list_stok2 = stok
                 jumlah += total_harga
                 total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
+                var p : Int = 0
+                for (i in nama_lt) {
+                    bundle.putInt(i, jumlah2[p])
+                    bundle1.putInt(i, stok[p])
+                    bundle2.putInt(i, total_harga)
+                    p++
+                }
             }
         })
 
-        //go to halaman cetak struk
+        //go to  halaman cetak struk
         log2.putExtra("key_kode", list_kode2)
         log2.putExtra("key_nama", list_nama2)
         log2.putExtra("key_harga", hargaList)
@@ -163,6 +174,7 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_jumlah", jumlahList)
         log2.putExtra("key_total", jumlah)
         log2.putExtra("key_stok", list_stok2)
+
         btn_cetak.setOnClickListener{
 
             if (ed_total.text.toString().isEmpty()){
@@ -174,7 +186,6 @@ class Pembayaran : AppCompatActivity() {
                 startActivity(log2)
             }
         }
-
         return listItem
     }
 
@@ -183,14 +194,14 @@ class Pembayaran : AppCompatActivity() {
         return true
     }
 
-
-
     override fun onResume() {
         super.onResume()
+
         try{
             RetrieveData()
         }catch (e:Exception){
             Toast.makeText(this, "Error reading\n" + e, Toast.LENGTH_SHORT).show()
         }
     }
+
 }
