@@ -83,7 +83,7 @@ class CustomAdapter(
             if(jml[modelitem.get(position).nama] == null || jml[modelitem.get(position).nama].toString().toInt() < 0){
                 holder.jumlah.text = "0"
             }
-                holder.jumlah.text = jml[modelitem.get(position).nama].toString()
+            holder.jumlah.text = jml[modelitem.get(position).nama].toString()
         }
 
         //minus button
@@ -185,7 +185,7 @@ class CustomAdapter(
 
                     //Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
                 }
-  //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
+                //              listener!!.getItemOnPosition(arr_jmlh,pos_item)
                 listener!!.onArrayItemClick(
                     arr_kode,
                     arr_harga,

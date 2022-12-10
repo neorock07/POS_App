@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     fun readAll(): ArrayList<model_barang> {
         val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
-         modelItemx = ArrayList<model_barang>()
+        modelItemx = ArrayList<model_barang>()
         if (cursor.count > 0) {
             while (cursor.moveToNext()) {
                 var list_kode = cursor.getString(0)
