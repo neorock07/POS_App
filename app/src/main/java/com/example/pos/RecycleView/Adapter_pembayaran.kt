@@ -83,7 +83,7 @@ class Adapter_pembayaran(
                             holder.jumlah.text = num.toString()
                         }
 
-                    holder.stok.text = "Stok : " + NumberFormat(jml.toString())
+                    holder.stok.text = "Stok :  " + NumberFormat(jml.toString())
                     arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
                         listener!!.onItemClick(list_jumlah!!, refresh3(list_harga!!.get(position)),list_stok!!)
                 }
