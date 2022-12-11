@@ -42,6 +42,8 @@ class Laporan_Harian : AppCompatActivity() {
         name_bulan = intent.getStringExtra("Key_Bulan")!!
         txt_bulan.text = name_bulan
         kembali = findViewById(R.id.kembali)
+
+
         if (name_bulan == "Januari"){
             name_bulan1 = '1'.toString()
         }else if (name_bulan == "Februari"){
@@ -64,7 +66,8 @@ class Laporan_Harian : AppCompatActivity() {
             name_bulan1 = "10"
         }else if(name_bulan == "November"){
             name_bulan1 = "11"
-        }else{
+        }
+        else{
             name_bulan1 = "12"
         }
         readDataDay(name_bulan1, name_tahun)

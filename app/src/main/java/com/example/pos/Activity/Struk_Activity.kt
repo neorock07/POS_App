@@ -1,12 +1,14 @@
 package com.example.pos.Activity
 
-import android.app.Activity
+import android.app.*
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.nfc.Tag
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -67,6 +69,11 @@ class Struk_Activity : AppCompatActivity() {
     private val KEY_HARGA = "Harga"
     private val KEY_JENIS = "Jenis"
     private val KEY_STOK = "Stok"
+    private var day:Int = 0
+    private var month:Int = 0
+    private var year:Int = 0
+
+
     val main:MainActivity = MainActivity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +106,7 @@ class Struk_Activity : AppCompatActivity() {
         btn_print.setOnClickListener {
             btnPrint()
             InsertDataPembelian()
+            makeNotif()
             updatedata()
             startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
             finish()
@@ -199,9 +207,9 @@ class Struk_Activity : AppCompatActivity() {
     fun InsertDataPembelian(){
         val calender:Calendar = Calendar.getInstance()
         val db:Database = Database(this)
-            val day = calender.get(Calendar.DAY_OF_MONTH)
-            val month  = calender.get(Calendar.MONTH) + 1
-            val year = calender.get(Calendar.YEAR)
+            day = calender.get(Calendar.DAY_OF_MONTH)
+            month  = calender.get(Calendar.MONTH) + 1
+            year = calender.get(Calendar.YEAR)
             var date:String=""
         if(day <=9){
                 date = "$year-$month-0$day"
@@ -238,6 +246,40 @@ class Struk_Activity : AppCompatActivity() {
             printMsg()
         }
     }
+
+    fun makeNotif(){
+        val notif:NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channel:NotificationChannel
+        val builder:Notification.Builder
+        //jika diklik intent pindah ke halaman laporan harian
+        val intent:Intent = Intent(this@Struk_Activity, Laporan_Harian::class.java)
+        intent.putExtra("Key_Bulan",month.toString())
+        intent.putExtra("Key_Tahun",year.toString())
+        val pendingIntent = PendingIntent.getActivity(this, 0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = NotificationChannel("id","notif1",NotificationManager.IMPORTANCE_HIGH)
+            channel.enableLights(true)
+            channel.enableVibration(false)
+            notif.createNotificationChannel(channel)
+
+            builder = Notification.Builder(this, "id")
+                .setContentText("Transaksi Berhasil!\nKlik untuk rekap hari ini:)")
+                .setSmallIcon(R.drawable.logotiket)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.logo))
+                .setContentIntent(pendingIntent)
+        }else{
+            builder = Notification.Builder(this)
+                .setContentText("Transaksi Berhasil!\nKlik untuk rekap hari ini :)")
+                .setSmallIcon(R.drawable.logotiket)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.drawable.logo))
+                .setContentIntent(pendingIntent)
+        }
+        notif.notify(12,builder.build())
+
+
+    }
+
 
     override fun onResume() {
         super.onResume()
