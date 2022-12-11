@@ -1,5 +1,7 @@
 package com.example.pos.Activity
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
@@ -20,7 +22,9 @@ import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.CustomAdapter
 import com.example.pos.RecycleView.CustomAdapter.OnItemsClickListener
+import com.example.pos.Toast.showCustomToast
 import java.nio.BufferUnderflowException
+import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var list_nama:String
     var list_harga:Int = 0
     var list_stok:Int = 0
+    var cek:Boolean = false
     private lateinit var list_jenis:String
 
 
@@ -134,6 +139,11 @@ class MainActivity : AppCompatActivity() {
         kembali.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
+        btn_bayar.setOnClickListener{
+            if (cek == false){
+                Toast(this).showCustomToast (this)
+            }
+        }
     }
 
     fun readAll(): ArrayList<model_barang> {
@@ -209,9 +219,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (arr_kode.isNotEmpty()) {
+                    cek = true
                     btn_bayar.setOnClickListener {
                         startActivity(log)
                     }
+                }else{
+                    cek = false
                 }
 
             }

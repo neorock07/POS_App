@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Database.Database
@@ -27,6 +28,7 @@ class Pembayaran : AppCompatActivity() {
     var total_uang:Int = 0
     lateinit var btn_back:ImageView
     lateinit var rv:RelativeLayout
+    lateinit var card1:ConstraintLayout
     lateinit var ed_total:TextInputEditText
     var parsed:Double = 0.0
     var jumlah = 0
@@ -54,6 +56,7 @@ class Pembayaran : AppCompatActivity() {
         rv = findViewById(R.id.rv_empty)
         kembalian = findViewById(R.id.txt_kembalian)
         ed_total = findViewById(R.id.ed_total_beli)
+        card1 = findViewById(R.id.bottom_ly)
         //recycleView
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -142,38 +145,38 @@ class Pembayaran : AppCompatActivity() {
         if(list_kode2.isEmpty()){
             total_beli_pem.text = "Rp.0"
             rv.visibility = View.VISIBLE
+            card1.visibility = View.GONE
         }
         else{
             adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList, list_stok2)
             rc.adapter = adapter
             Toast.makeText(this, "Data stok: ${list_stok2.toString()}",Toast.LENGTH_LONG).show()
-        }
-        //SET WHEN CLICK LISTENER
-        adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
-            override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {
-                jumlahList = jumlah2
-                list_stok2 = stok
-                jumlah += total_harga
-                total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
-                var p : Int = 0
-                for (i in nama_lt) {
-                    bundle.putInt(i, jumlah2[p])
-                    bundle1.putInt(i, stok[p])
-                    bundle2.putInt(i, total_harga)
-                    p++
+            //SET WHEN CLICK LISTENER
+            adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
+                override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {
+                    jumlahList = jumlah2
+                    list_stok2 = stok
+                    jumlah += total_harga
+                    total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
+                    var p : Int = 0
+                    for (i in nama_lt) {
+                        bundle.putInt(i, jumlah2[p])
+                        bundle1.putInt(i, stok[p])
+                        bundle2.putInt(i, total_harga)
+                        p++
+                    }
                 }
             }
+            )
+            //go to  halaman cetak struk
+            log2.putExtra("key_kode", list_kode2)
+            log2.putExtra("key_nama", list_nama2)
+            log2.putExtra("key_harga", hargaList)
+            log2.putExtra("key_jenis", jenisList)
+            log2.putExtra("key_jumlah", jumlahList)
+            log2.putExtra("key_total", jumlah)
+            log2.putExtra("key_stok", list_stok2)
         }
-        )
-        //go to  halaman cetak struk
-        log2.putExtra("key_kode", list_kode2)
-        log2.putExtra("key_nama", list_nama2)
-        log2.putExtra("key_harga", hargaList)
-        log2.putExtra("key_jenis", jenisList)
-        log2.putExtra("key_jumlah", jumlahList)
-        log2.putExtra("key_total", jumlah)
-        log2.putExtra("key_stok", list_stok2)
-
         btn_cetak.setOnClickListener{
             if (ed_total.text.toString().isEmpty()){
                 ed_total.error = "Nilai tidak valid"

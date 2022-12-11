@@ -198,6 +198,7 @@ class Struk_Activity : AppCompatActivity() {
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
+            btn_print.visibility = View.GONE
         }else{
              adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
             rc.adapter = adapter

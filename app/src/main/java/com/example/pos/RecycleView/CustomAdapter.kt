@@ -247,6 +247,7 @@ class CustomAdapter(
             jenis: HashMap<String, String>,
             arr_jmlh: HashMap<String, Int>,
             arr_stok: HashMap<String, Int>
+
         )
 //        fun getJumlahItem(jml:HashMap<String,Int>)
 //        fun  getItemOnPosition(jml:HashMap<String,Int>,pos:ArrayList<Int>)
