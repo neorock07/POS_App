@@ -3,16 +3,22 @@ package com.example.pos.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Camera
+import android.hardware.camera2.CameraManager
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.security.identity.IdentityCredentialStore
 import android.util.SparseArray
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.example.pos.R
 import com.google.android.gms.vision.CameraSource
@@ -31,6 +37,7 @@ class Scanner_Activity : AppCompatActivity() {
     private lateinit var tv:TextView
     private lateinit var data:String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
@@ -39,6 +46,7 @@ class Scanner_Activity : AppCompatActivity() {
         tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
         scv = findViewById(R.id.sc_view)
         tv = findViewById(R.id.tx_code)
+
     }
     private fun initialDetector(){
         barcode = BarcodeDetector.Builder(applicationContext).setBarcodeFormats(Barcode.ALL_FORMATS).build()
@@ -115,13 +123,19 @@ class Scanner_Activity : AppCompatActivity() {
 
     }
 
+
+
+
+
     override fun onPause() {
         super.onPause()
         camera.release()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onResume() {
         super.onResume()
         initialDetector()
+
     }
 }

@@ -33,6 +33,7 @@
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bg_scan.xml" value="0.1295" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/bgform.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/border.xml" value="0.1" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/border_scan.xml" value="0.115" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/button_login.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/edit_text.xml" value="0.156" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/drawable/scanner.xml" value="0.156" />
@@ -48,7 +49,7 @@
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_laporan_tahunan2.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_pembayaran.xml" value="0.2" />
-        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_scanner.xml" value="0.1" />
+        <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_scanner.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_setting_aplikasi.xml" value="0.25" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/POS/app/src/main/res/layout/activity_splash2.xml" value="0.2151268115942029" />
