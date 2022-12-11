@@ -123,13 +123,11 @@ class Struk_Activity : AppCompatActivity() {
                         "Connecting with printer...",
                         Toast.LENGTH_SHORT
                     ).show()
-
                 }
 
                 override fun connectionFailed(error: String) {
                     Toast.makeText(this@Struk_Activity, "Failed to connect", Toast.LENGTH_SHORT)
                         .show()
-
                 }
 
                 override fun disconnected() {
@@ -138,7 +136,6 @@ class Struk_Activity : AppCompatActivity() {
                         "Disconnected with printer",
                         Toast.LENGTH_SHORT
                     ).show()
-
                 }
 
                 override fun onError(error: String) {
@@ -159,7 +156,6 @@ class Struk_Activity : AppCompatActivity() {
                     ).show()
 
                 }
-
             }
             Printooth.printer().printingCallback = printCallback
         }
@@ -200,7 +196,7 @@ class Struk_Activity : AppCompatActivity() {
             rv.visibility = View.VISIBLE
             btn_print.visibility = View.GONE
         }else{
-             adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
+            adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
             rc.adapter = adapter
         }
     }
