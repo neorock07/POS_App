@@ -284,19 +284,19 @@ class Struk_Activity : AppCompatActivity() {
         val pendingIntent = PendingIntent.getActivity(this, 0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = NotificationChannel("id","notif1",NotificationManager.IMPORTANCE_HIGH)
+            channel = NotificationChannel("id","notifikasi transaksi",NotificationManager.IMPORTANCE_HIGH)
             channel.enableLights(true)
             channel.enableVibration(false)
             notif.createNotificationChannel(channel)
 
             builder = Notification.Builder(this, "id")
-                .setContentText("Transaksi Berhasil!\nKlik untuk rekap hari ini:)")
+                .setContentText("Transaksi Berhasil! Klik untuk rekap hari ini:)")
                 .setSmallIcon(R.drawable.logotiket)
                 .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.logo))
                 .setContentIntent(pendingIntent)
         }else{
             builder = Notification.Builder(this)
-                .setContentText("Transaksi Berhasil!\nKlik untuk rekap hari ini :)")
+                .setContentText("Transaksi Berhasil! Klik untuk rekap hari ini :)")
                 .setSmallIcon(R.drawable.logotiket)
                 .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.drawable.logo))
                 .setContentIntent(pendingIntent)
