@@ -16,11 +16,11 @@ import java.text.NumberFormat
 
 class Edit_Barang : AppCompatActivity() {
     private lateinit var edit_kode:EditText
-    private lateinit var   edit_nama:EditText
-    private lateinit var     edit_jenis: AutoCompleteTextView
-    private lateinit var    edit_stok:EditText
-    private lateinit var     edit_harga:EditText
-    private  var     main:MainActivity= MainActivity()
+    private lateinit var edit_nama:EditText
+    private lateinit var edit_jenis: AutoCompleteTextView
+    private lateinit var edit_stok:EditText
+    private lateinit var edit_harga:EditText
+    private var main:MainActivity= MainActivity()
     private var TABLE_CONTACTS = "Barang2"
     private var KEY_ID = "Kode"
     private val KEY_NAME = "Nama"
@@ -29,7 +29,10 @@ class Edit_Barang : AppCompatActivity() {
     private val KEY_STOK = "Stok"
     private lateinit var ubah : Button
     private lateinit var code:String
+    private lateinit var arrayAdapter: ArrayAdapter<String>
+    private lateinit var dropmenu: AutoCompleteTextView
     var nilai:Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_barang)
@@ -40,6 +43,24 @@ class Edit_Barang : AppCompatActivity() {
          edit_stok = findViewById(R.id.edit_stok_barang)
          edit_harga= findViewById(R.id.edit_harga_barang)
          ubah = findViewById(R.id.ubah)
+         dropmenu = findViewById(R.id.edit_jenis_barang)
+
+        var item = arrayOf(
+            "Kertas",
+            "Alat Tulis",
+            "Buku",
+            "Sampul",
+            "Kotak Pensil",
+            "Aksesoris",
+            "Makanan",
+            "Minuman",
+            "Alat Mandi",
+            "Lainnya"
+        )
+
+        arrayAdapter = ArrayAdapter(applicationContext, R.layout.dropdown_jenis, item)
+        dropmenu.setAdapter(arrayAdapter)
+
         kembali.setOnClickListener{
             onBackPressed()
         }
@@ -71,7 +92,7 @@ class Edit_Barang : AppCompatActivity() {
         })
         ubah.setOnClickListener(){
             updatedata()
-            val intent = Intent(this, Edit_Barang::class.java)
+            val intent = Intent(this, daftar_barang::class.java)
             startActivity(intent)
             finish()
         }
@@ -84,10 +105,12 @@ class Edit_Barang : AppCompatActivity() {
         var stok = intent.getIntExtra("key_stok",0)
 
         edit_kode.setText(code)
+        edit_kode.isEnabled = false
+        edit_kode.isFocusable = false
         edit_nama.setText(nama)
         edit_harga.setText(main.NumberFormat(harga.toString()))
         edit_stok.setText((main.NumberFormat(stok.toString())))
-        edit_jenis.setText(jenis)
+
     }
 
     override fun onResume() {

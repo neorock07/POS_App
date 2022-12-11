@@ -88,7 +88,7 @@ class CustomAdapter(
 
         //minus button
         holder.minButton.setOnClickListener {
-            if (listener != null) {
+            if (listener != null || listener == null) {
                 if (holder.jumlah.text.toString() != "0") {
                     arr[position] = --arr[position]
                     Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
@@ -228,13 +228,13 @@ class CustomAdapter(
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 
-        val jenisItem: TextView = itemView.findViewById(R.id.jenis_item)
-        val namaBarang: TextView = itemView.findViewById(R.id.detail_item)
-        val hargaBarang: TextView = itemView.findViewById(R.id.harga_item)
-        val plusButton: CardView = itemView.findViewById(R.id.btn_add)
-        val minButton: CardView = itemView.findViewById(R.id.btn_min)
-        val jumlah: TextView = itemView.findViewById(R.id.jumlah_item)
-        val stok: TextView = itemView.findViewById(R.id.stok)
+        val jenisItem: TextView     = itemView.findViewById(R.id.jenis_item)
+        val namaBarang: TextView    = itemView.findViewById(R.id.detail_item)
+        val hargaBarang: TextView   = itemView.findViewById(R.id.harga_item)
+        val plusButton: CardView    = itemView.findViewById(R.id.btn_add)
+        val minButton: CardView     = itemView.findViewById(R.id.btn_min)
+        val jumlah: TextView        = itemView.findViewById(R.id.jumlah_item)
+        val stok: TextView          = itemView.findViewById(R.id.stok)
 
     }
 
