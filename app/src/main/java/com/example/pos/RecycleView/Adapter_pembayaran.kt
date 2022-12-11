@@ -33,7 +33,6 @@ class Adapter_pembayaran(
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         var jml:Int = list_stok!!.get(position)
-        var jmlStok:ArrayList<Int> = ArrayList()
 //        var model = model_item.get(position)
 //        holder.namaBarang.text = model.nama
         holder.hargaBarang.text = "Rp." + NumberFormat(list_harga!!.get(position).toString())
@@ -48,40 +47,50 @@ class Adapter_pembayaran(
         val hargaString = "Rp" + NumberFormat(list_harga!!.get(position).toString())
         holder.plusButton.setOnClickListener {
             if (listener != null) {
-                if(holder.jumlah.text.toString().toInt() >= 0){
-                    num += 1
-                    Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
-                    holder.jumlah.text = num.toString()
-                    list_jumlah!!.set(position,num)
+                if (holder.stok.text.toString() != "Stok : 0") {
+                    if (holder.jumlah.text.toString().toInt() >= 0) {
+                        num += 1
+                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
+                        holder.jumlah.text = num.toString()
+                        list_jumlah!!.set(position, num)
+                        jml--
+                        //jmlStok!!.set(position,num)
+                        //jmlStok.add(jml)
+                        list_stok!!.set(position, jml)
+                    } else {
+                        holder.jumlah.text = num.toString()
+                    }
 
-                }else{
-                    holder.jumlah.text = num.toString()
+                    holder.stok.text = "Stok : " + NumberFormat(jml.toString())
+                    arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
+                    listener!!.onItemClick(
+                        list_jumlah!!,
+                        refresh2(list_harga!!.get(position)),
+                        list_stok!!
+                    )
                 }
-                jml--
-                jmlStok!!.set(position,jml)
-                holder.stok.text = "Stok : " + NumberFormat(jml.toString())
-                arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
-                listener!!.onItemClick(list_jumlah!!, refresh2(list_harga!!.get(position)),jmlStok)
-
             }
         }
         holder.minButton.setOnClickListener {
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {
                     Toast.makeText(context, "Masih 0", Toast.LENGTH_SHORT).show()
-                    if (holder.jumlah.text.toString().toInt() >= 0) {
-                        num -= 1
-                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
-                        holder.jumlah.text = num.toString()
-                        list_jumlah!!.set(position,num)
-                    } else {
-                        holder.jumlah.text = num.toString()
-                    }
-                    jml++
-                    jmlStok!!.set(position,jml)
-                    holder.stok.text = "Stok : " + NumberFormat(jml.toString())
+                        if (holder.jumlah.text.toString().toInt() >= 0) {
+                            num -= 1
+                            Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
+                            holder.jumlah.text = num.toString()
+                            list_jumlah!!.set(position,num)
+                            jml++
+                            //jmlStok!!.set(position,num)
+                            //jmlStok.add(jml)
+                            list_stok!!.set(position,jml)
+                        } else {
+                            holder.jumlah.text = num.toString()
+                        }
+
+                    holder.stok.text = "Stok :  " + NumberFormat(jml.toString())
                     arr_jmlh[list_nama!!.get(position)] = holder.jumlah.text.toString().toInt()
-                    listener!!.onItemClick(list_jumlah!!, refresh3(list_harga!!.get(position)),jmlStok)
+                        listener!!.onItemClick(list_jumlah!!, refresh3(list_harga!!.get(position)),list_stok!!)
                 }
             }
         }

@@ -1,12 +1,14 @@
 package com.example.pos.Activity
 
-import android.app.Activity
+import android.app.*
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.nfc.Tag
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -67,6 +69,11 @@ class Struk_Activity : AppCompatActivity() {
     private val KEY_HARGA = "Harga"
     private val KEY_JENIS = "Jenis"
     private val KEY_STOK = "Stok"
+    private var day:Int = 0
+    private var month:Int = 0
+    private var year:Int = 0
+
+
     val main:MainActivity = MainActivity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +97,7 @@ class Struk_Activity : AppCompatActivity() {
         initView()
         initListener()
 
-        //button kembali
+           //button kembali
         btn_kembali.setOnClickListener{
             onBackPressed()
             finish()
@@ -99,6 +106,7 @@ class Struk_Activity : AppCompatActivity() {
         btn_print.setOnClickListener {
             btnPrint()
             InsertDataPembelian()
+            makeNotif()
             updatedata()
             startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
             finish()
@@ -190,8 +198,9 @@ class Struk_Activity : AppCompatActivity() {
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
+            btn_print.visibility = View.GONE
         }else{
-            adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
+             adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
             rc.adapter = adapter
         }
     }
@@ -199,15 +208,15 @@ class Struk_Activity : AppCompatActivity() {
     fun InsertDataPembelian(){
         val calender:Calendar = Calendar.getInstance()
         val db:Database = Database(this)
-        val day = calender.get(Calendar.DAY_OF_MONTH)
-        val month  = calender.get(Calendar.MONTH) + 1
-        val year = calender.get(Calendar.YEAR)
-        var date:String=""
+            day = calender.get(Calendar.DAY_OF_MONTH)
+            month  = calender.get(Calendar.MONTH) + 1
+            year = calender.get(Calendar.YEAR)
+            var date:String=""
         if(day <=9){
-            date = "$year-$month-0$day"
-        }else{
-            date =  "$year-$month-$day"
-        }
+                date = "$year-$month-0$day"
+            }else{
+                date =  "$year-$month-$day"
+            }
 
         try{
             for(i in 0..list_kode.size -1){
@@ -220,14 +229,14 @@ class Struk_Activity : AppCompatActivity() {
     }
 
     fun updatedata(){
-        val db: Database=Database(this)
-        val dbhelper = db.writableDatabase
-        val content : ContentValues = ContentValues()
-        for(i in list_stok.indices){
-            content.put(KEY_STOK, list_stok[i])
-            dbhelper.update(TABLE_CONTACTS,content,"$KEY_ID=?", arrayOf(list_kode[i]))
-        }
-        Toast.makeText(this,"Data berhasil diubah", Toast.LENGTH_SHORT).show()
+            val db: Database=Database(this)
+            val dbhelper = db.writableDatabase
+            val content : ContentValues = ContentValues()
+            for(i in list_stok.indices){
+                content.put(KEY_STOK, list_stok[i])
+                dbhelper.update(TABLE_CONTACTS,content,"$KEY_ID=?", arrayOf(list_kode[i]))
+            }
+            Toast.makeText(this,"Data berhasil diubah", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -238,6 +247,66 @@ class Struk_Activity : AppCompatActivity() {
             printMsg()
         }
     }
+
+    fun makeNotif(){
+        val notif:NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channel:NotificationChannel
+        val builder:Notification.Builder
+        //jika diklik intent pindah ke halaman laporan harian
+        val intent:Intent = Intent(this@Struk_Activity, Laporan_Harian::class.java)
+        if (month == 1){
+            intent.putExtra("Key_Bulan","Januari")
+        }else if (month == 2){
+            intent.putExtra("Key_Bulan","Februari")
+        }else if (month == 3){
+            intent.putExtra("Key_Bulan","Maret")
+        }else if (month == 4){
+            intent.putExtra("Key_Bulan","April")
+        }else if (month == 5){
+            intent.putExtra("Key_Bulan","Mei")
+        }else if (month == 6){
+            intent.putExtra("Key_Bulan","Juni")
+        }else if (month == 7){
+            intent.putExtra("Key_Bulan","Juli")
+        }else if (month == 8){
+            intent.putExtra("Key_Bulan","Agustus")
+        }else if (month == 9){
+            intent.putExtra("Key_Bulan","September")
+        }else if (month == 10){
+            intent.putExtra("Key_Bulan","Oktober")
+        }else if (month == 11){
+            intent.putExtra("Key_Bulan","November")
+        }
+        else{
+            intent.putExtra("Key_Bulan","Desember")
+        }
+        intent.putExtra("Key_Tahun",year.toString())
+
+        val pendingIntent = PendingIntent.getActivity(this, 0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = NotificationChannel("id","notifikasi transaksi",NotificationManager.IMPORTANCE_HIGH)
+            channel.enableLights(true)
+            channel.enableVibration(false)
+            notif.createNotificationChannel(channel)
+
+            builder = Notification.Builder(this, "id")
+                .setContentText("Transaksi Berhasil! Klik untuk rekap hari ini:)")
+                .setSmallIcon(R.drawable.logotiket)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.logo))
+                .setContentIntent(pendingIntent)
+        }else{
+            builder = Notification.Builder(this)
+                .setContentText("Transaksi Berhasil! Klik untuk rekap hari ini :)")
+                .setSmallIcon(R.drawable.logotiket)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.drawable.logo))
+                .setContentIntent(pendingIntent)
+        }
+        notif.notify(12,builder.build())
+
+
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -316,10 +385,10 @@ class Struk_Activity : AppCompatActivity() {
         var valuePrice:String =""
         var jml:String=""
         for(i in (0..list_kode.size -1)){
-            value = list_nama.get(i)
-            valuePrice = list_harga.get(i).toString()
-            jml = list_jumlah.get(i).toString()
-            val total = jml.toInt() * valuePrice.toInt()
+                value = list_nama.get(i)
+                valuePrice = list_harga.get(i).toString()
+                jml = list_jumlah.get(i).toString()
+                val total = jml.toInt() * valuePrice.toInt()
 
             al.add(
                 TextPrintable.Builder()
@@ -419,16 +488,16 @@ class Struk_Activity : AppCompatActivity() {
         )
         return al
     }
-    //    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+//    var resultLaunh = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
 //        result -> if(result.resultCode == ScanningActivity.SCANNING_FOR_PRINTER && result.resultCode == Activity.RESULT_OK ){
 //            printDetails()
 //    }
 //
 //    }
     fun printMsg(){
-        if(print != null){
-            print!!.print(MsgPrint())
-        }
+    if(print != null){
+        print!!.print(MsgPrint())
+    }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

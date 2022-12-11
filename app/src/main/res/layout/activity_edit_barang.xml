@@ -87,7 +87,7 @@
                 android:backgroundTint="@color/green"
                 android:textColor="@color/green"
                 android:hint="Kode Barang"
-                android:inputType="text"
+                android:inputType="none"
                 android:textColorHint="@color/green"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:ignore="TouchTargetSizeCheck" />

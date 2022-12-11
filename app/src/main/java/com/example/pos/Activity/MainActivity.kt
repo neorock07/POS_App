@@ -1,5 +1,7 @@
 package com.example.pos.Activity
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
@@ -20,6 +22,9 @@ import com.example.pos.Model.model_barang
 import com.example.pos.R
 import com.example.pos.RecycleView.CustomAdapter
 import com.example.pos.RecycleView.CustomAdapter.OnItemsClickListener
+import com.example.pos.Toast.showCustomToast
+import java.nio.BufferUnderflowException
+import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,12 +45,20 @@ class MainActivity : AppCompatActivity() {
     var arr_jumlah = HashMap<String, Int>()
     var arr_stok2 = HashMap<String, Int>()
     var bundle:Bundle = Bundle()
+    var bundle1:Bundle = Bundle()
+    var bundle2:Bundle = Bundle()
+
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
     private lateinit var sharedJumlah: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var log:Intent
-
+    private lateinit var list_kode:String
+    private lateinit var list_nama:String
+    var list_harga:Int = 0
+    var list_stok:Int = 0
+    var cek:Boolean = false
+    private lateinit var list_jenis:String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,10 +91,30 @@ class MainActivity : AppCompatActivity() {
                 totalBeli.text = "0"
             }
         }
+        try {
+            var hrg:Int? = savedInstanceState!!.getInt("Key_Harga_Save")
+            val bundle1_2:Bundle = intent.getBundleExtra("Data_Jumlah")!!
+            val bundle2_2:Bundle = intent.getBundleExtra("Data_Stok")!!
+            val bundle3:Bundle = intent.getBundleExtra("Data_Harga")!!
+
+            for (i in nama_arr){
+
+                if(bundle1 != null ){
+
+                    bundle = bundle1_2
+                    bundle1 = bundle2_2
+                    total = hrg!!
+                    list_stok = bundle2.getInt(i)
+
+                }
+            }
+
+        } catch (e:Exception){
+        }
         kembali.setOnClickListener {
             finishAffinity()
         }
-
+                Toast.makeText(this, "Data list_jumlah : ${bundle.toString()}\nData list_stok : ${bundle1.toString()}",Toast.LENGTH_LONG).show()
         //search view query
         search.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -97,22 +130,19 @@ class MainActivity : AppCompatActivity() {
             }
         })
         adapter.notifyDataSetChanged()
-//        if(savedInstanceState != null){
-//          //  var list: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
-//
-//
-//        }
-        try {
-            var hrg:Int? = savedInstanceState!!.getInt("Key_Harga_Save")
-            val bundle1:Bundle = intent.getBundleExtra("Data_Item")!!
-            if(bundle1 != null ){
-                bundle = bundle1
-                total = hrg!!
-            }
-        } catch (e:Exception){
+
+        if(savedInstanceState != null){
+            var bnd_jml: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
+            var bnd_stok:Bundle? = savedInstanceState.getBundle("LIST_STOK")
         }
+
         kembali.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
+        }
+        btn_bayar.setOnClickListener{
+            if (cek == false){
+                Toast(this).showCustomToast (this)
+            }
         }
     }
 
@@ -122,11 +152,11 @@ class MainActivity : AppCompatActivity() {
         modelItemx = ArrayList<model_barang>()
         if (cursor.count > 0) {
             while (cursor.moveToNext()) {
-                var list_kode = cursor.getString(0)
-                var list_nama = cursor.getString(1)
-                var list_harga = cursor.getInt(2)
-                var list_jenis = cursor.getString(3)
-                var list_stok = cursor.getInt(4)
+                list_kode = cursor.getString(0)
+                list_nama = cursor.getString(1)
+                list_harga = cursor.getInt(2)
+                list_jenis = cursor.getString(3)
+                list_stok = cursor.getInt(4)
                 modelItemx.add(
                     model_barang(
                         list_kode,
@@ -140,6 +170,7 @@ class MainActivity : AppCompatActivity() {
                 nama_arr.add(list_nama)
             }
         }
+
         return modelItemx
     }
 
@@ -188,9 +219,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (arr_kode.isNotEmpty()) {
+                    cek = true
                     btn_bayar.setOnClickListener {
                         startActivity(log)
                     }
+                }else{
+                    cek = false
                 }
 
             }
@@ -199,11 +233,24 @@ class MainActivity : AppCompatActivity() {
         return adapter
     }
 
-//    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-//        outState.putBundle("LIST_JUMLAH",bundle)
-//        outState.putInt("Key_Harga_Save", total)
-//        super.onSaveInstanceState(outState, outPersistentState)
-//    }
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+
+        outState.putBundle("LIST_JUMLAH",bundle)
+        outState.putBundle("LIST_STOK",bundle1)
+        //outState.putBundle("LIST_JUMLAH",bundle)
+
+        outState.putInt("Key_Harga_Save", total)
+        super.onSaveInstanceState(outState, outPersistentState)
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        bundle = savedInstanceState.getBundle("LIST_JUMLAH")!!
+        bundle1 = savedInstanceState.getBundle("LIST_STOK")!!
+
+    }
+
 
     override fun onResume() {
         super.onResume()
