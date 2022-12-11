@@ -27,11 +27,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CETAK STRUK"
-                    android:fontFamily="@font/ralewaybold"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/ralewaybold"
                     android:textColor="@color/white"
-                    android:textSize="10pt"
-                    />
+                    android:textSize="10pt" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 

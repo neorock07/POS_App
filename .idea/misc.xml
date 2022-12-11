@@ -3,6 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_daftar_barang.xml" value="0.22916666666666666" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_daftar_penjualan.xml" value="0.22916666666666666" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_edit_barang.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_form_barang.xml" value="0.22916666666666666" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_form_login.xml" value="0.20652173913043478" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_laporan_bulanan.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_main.xml" value="0.20652173913043478" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_pembayaran.xml" value="0.20652173913043478" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_scanner.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_setting_aplikasi.xml" value="0.20652173913043478" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/activity_struk.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_barang.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_harian.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_item_barang_laporan_harian.xml" value="0.264" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_item_beli.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/container_tahunan.xml" value="0.25" />
+        <entry key="..\:/POS_App/app/src/main/res/layout/dropdown_jenis.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.164" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/account.xml" value="0.164" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/POS_App/app/src/main/res/drawable/account2.xml" value="0.164" />
