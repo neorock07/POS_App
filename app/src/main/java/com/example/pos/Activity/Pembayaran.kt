@@ -150,7 +150,6 @@ class Pembayaran : AppCompatActivity() {
         }
         //SET WHEN CLICK LISTENER
         adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
-
             override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {
                 jumlahList = jumlah2
                 list_stok2 = stok
@@ -164,8 +163,8 @@ class Pembayaran : AppCompatActivity() {
                     p++
                 }
             }
-        })
-
+        }
+        )
         //go to  halaman cetak struk
         log2.putExtra("key_kode", list_kode2)
         log2.putExtra("key_nama", list_nama2)
@@ -176,7 +175,6 @@ class Pembayaran : AppCompatActivity() {
         log2.putExtra("key_stok", list_stok2)
 
         btn_cetak.setOnClickListener{
-
             if (ed_total.text.toString().isEmpty()){
                 ed_total.error = "Nilai tidak valid"
                 Toast.makeText(this, "Masukkan nilai uang", Toast.LENGTH_SHORT).show()
