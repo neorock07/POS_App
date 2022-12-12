@@ -40,12 +40,13 @@ class MainActivity : AppCompatActivity() {
     var nama_arr:ArrayList<String> = ArrayList()
     var total: Int = 0
     lateinit var modelItemx:ArrayList<model_barang>
+    lateinit var modelItemz:ArrayList<model_barang>
     var arr_kode: ArrayList<String> = ArrayList()
-    var arr_harga = HashMap<String, Int>()
+    var arr_harga : ArrayList<Int> = ArrayList()
     private var arr_nama: ArrayList<String> = ArrayList()
-    var arr_jenis = HashMap<String, String>()
-    var arr_jumlah = HashMap<String, Int>()
-    var arr_stok2 = HashMap<String, Int>()
+    var arr_jenis : ArrayList<String> = ArrayList()
+    var arr_jumlah : ArrayList<Int> = ArrayList()
+    var arr_stok2 : ArrayList<Int> = ArrayList()
     var bundle:Bundle = Bundle()
     var bundle1:Bundle = Bundle()
     var bundle2:Bundle = Bundle()
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var list_nama:String
     var list_harga:Int = 0
     var list_stok:Int = 0
-    var cek:Boolean = false
+    var cek:Boolean = true
     private lateinit var list_jenis:String
     private  var bundle1_2:Bundle?  = null
     private  var bundle2_2:Bundle? = null
@@ -85,7 +86,10 @@ class MainActivity : AppCompatActivity() {
         sharedPref_total = getSharedPreferences("key", MODE_PRIVATE).edit()
         sharedJumlah = applicationContext.getSharedPreferences("key_item", 0)
         editor = sharedJumlah.edit()
-
+        //GET TOTAL HARGA
+        var total2 : Int = intent.getIntExtra("Data_Total_Harga", 0)
+        total = total2
+        totalBeli.text = NumberFormat(total.toString())
         settingsFAB.setOnClickListener {
             intent = Intent(this, form_login::class.java)
             startActivity(intent).also {
@@ -116,7 +120,44 @@ class MainActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         btn_bayar.setOnClickListener{
-            if (cek == false){
+            if (total!=0){
+                if (arr_jumlah.isEmpty()){
+                    modelItemz = ArrayList<model_barang>()
+                    modelItemz = readAll()
+                  for (i in modelItemz.indices){
+                      arr_kode.add(modelItemz.get(i).kode)
+                      arr_harga.add(modelItemz.get(i).harga)
+                      arr_nama.add(modelItemz.get(i).nama)
+                      arr_jenis.add(modelItemz.get(i).jenis)
+                      arr_stok2.add(modelItemz.get(i).stok)
+                      arr_jumlah.add(0)
+                  }
+                    for (i in arr_nama.indices){
+                        for (p in 0 until RetKode().size){
+                            if (arr_nama[i] == RetKode().keys.elementAt(p)){
+                                arr_jumlah[i] = RetBundle().get(RetBundle().keys.elementAt(p))!!
+                                arr_stok2[i] = RetStok().get(RetStok().keys.elementAt(p))!!
+                            }
+                        }
+                    }
+
+                }
+
+                log = Intent(this@MainActivity, Pembayaran::class.java)
+                log.putExtra("key_kode", arr_kode)
+                log.putExtra("key_nama", arr_nama)
+                log.putExtra("key_jenis", arr_jenis)
+                //log.putExtra("key_jumlah", arr_jumlah)
+                log.putExtra("key_harga", arr_harga)
+                log.putExtra("key_stok", arr_stok2)
+                log.putExtra("key_jumlah", arr_jumlah)
+                if (arr_kode.isEmpty()) {
+                    log.putExtra("key_uang", "Rp.0")
+                } else {
+                    log.putExtra("key_uang", total)
+                }
+                startActivity(log)
+            }else{
                 Toast(this).showCustomToast (this)
                 Toast.makeText(this, "Data kode : $arr_kode\nData nama : $arr_nama\nRetNama : ${RetNama()}\nRetKode : ${RetKode()}",Toast.LENGTH_LONG).show()
             }
@@ -144,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         }catch (e:NullPointerException){
 
         }
-        Toast.makeText(this, "Hash : ${hash.toString()}",Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Stok : ${hash.toString()}",Toast.LENGTH_LONG).show()
         return hash
     }
     //function untuk get data nama from Pembayara
@@ -155,7 +196,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: NullPointerException) {
 
         }
-        Toast.makeText(this, "Hash : ${hash.toString()}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Nama : ${hash.toString()}", Toast.LENGTH_LONG).show()
         return hash
     }
     //function untuk get data Kode from Pembayara
@@ -166,7 +207,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: NullPointerException) {
 
         }
-        Toast.makeText(this, "Hash : ${hash.toString()}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Kode : ${hash.toString()}", Toast.LENGTH_LONG).show()
         return hash
     }
 
@@ -182,6 +223,8 @@ class MainActivity : AppCompatActivity() {
                 list_harga = cursor.getInt(2)
                 list_jenis = cursor.getString(3)
                 list_stok = cursor.getInt(4)
+                var inputJumlah : Int = 0
+
                 modelItemx.add(
                     model_barang(
                         list_kode,
@@ -189,12 +232,12 @@ class MainActivity : AppCompatActivity() {
                         list_harga,
                         list_jenis,
                         list_stok,
-                        totalBeli.text.toString()
+                        inputJumlah
                     )
                 )
-                nama_arr.add(list_nama)
             }
-        }
+
+            }
 
         return modelItemx
     }
@@ -215,21 +258,23 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onArrayItemClick(
                 kode: ArrayList<String>,
-                Arr_harga: HashMap<String, Int>,
+                Arr_harga: ArrayList<Int>,
                 nama: ArrayList<String>,
-                jenis: HashMap<String, String>,
-                arr_jmlh: HashMap<String, Int>,
-                arr_stok: HashMap<String, Int>
+                jenis: ArrayList<String>,
+                arr_jmlh: ArrayList<Int>,
+                arr_stok: ArrayList<Int>
             ) {
 
                 val nama_sementara:ArrayList<String> = ArrayList()
                 val kode_sementara:ArrayList<String> = ArrayList()
 
-                if(!kode.isEmpty() || !nama.isEmpty()){
-
-                    arr_kode = kode
+                if(kode.isNotEmpty() || nama.isNotEmpty()){
+                   arr_kode = kode
+                    arr_jumlah = arr_jmlh
+                    arr_stok2 = arr_stok
                     arr_nama = nama
-
+                    arr_jenis = jenis
+                    arr_harga = Arr_harga
                 }else{
                     if(!RetNama().isEmpty() || !RetKode().isEmpty() && kode.isEmpty() && nama.isEmpty()){
                         for(i in 0..RetNama().size -1) {
@@ -244,34 +289,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-                for (i in arr_nama) {
-                    arr_harga[i]    = Arr_harga[i]!!
-                    arr_jumlah[i]   = arr_jmlh[i]!!
-                    arr_jenis[i]    = jenis[i]!!
-                    arr_stok2[i]    = arr_stok[i]!!
-
-                }
-                log = Intent(this@MainActivity, Pembayaran::class.java)
-                log.putExtra("key_kode", arr_kode)
-                log.putExtra("key_nama", arr_nama)
-                log.putExtra("key_jenis", arr_jenis)
-                //log.putExtra("key_jumlah", arr_jumlah)
-                log.putExtra("key_harga", arr_harga)
-                log.putExtra("key_stok", arr_stok2)
-                log.putExtra("key_jumlah", arr_jumlah)
-                if (arr_kode.isEmpty()) {
-                    log.putExtra("key_uang", "Rp.0")
-                } else {
-                    log.putExtra("key_uang", total)
-                }
-                if (arr_kode.isNotEmpty()) {
-                    cek = true
-                    btn_bayar.setOnClickListener {
-                        startActivity(log)
-                    }
-                }else{
-                    cek = false
-                }
             }
         })
         recyclerview.adapter = adapter

@@ -26,11 +26,11 @@ class CustomAdapter(
     //data > 0 add to array
     var pos_item = ArrayList<Int>()
     var arr_kode = ArrayList<String>()
-    var arr_harga = HashMap<String, Int>()
-    var arr_jenis = HashMap<String, String>()
+    var arr_harga =  ArrayList<Int>()
+    var arr_jenis =  ArrayList<String>()
     var arr_nama = ArrayList<String>()
-    val arr_jmlh = HashMap<String, Int>()
-    val arr_stok = HashMap<String, Int>()
+    val arr_jmlh =  ArrayList<Int>()
+    val arr_stok =  ArrayList<Int>()
 
 
 
@@ -59,10 +59,15 @@ class CustomAdapter(
 
     // binds the list items to a viewd3
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val arr = IntArray(itemCount)
+        for (i in 0 until itemCount){
+            arr_kode.add(modelitem.get(i).kode)
+            arr_harga.add(modelitem.get(i).harga)
+            arr_jenis.add(modelitem.get(i).jenis)
+            arr_nama.add(modelitem.get(i).nama)
+            arr_jmlh.add(modelitem.get(i).jumlah)
+            arr_stok.add(modelitem.get(i).stok)
+        }
 
-        var jmlh_stok = modelitem[position].stok
-        val kode_tx = modelitem.get(position).kode
         // sets the image to the imageview from our itemHolder class
         holder.jenisItem.text = modelitem.get(position).jenis
         // sets the text to the textview from our itemHolder class
@@ -72,42 +77,42 @@ class CustomAdapter(
         holder.stok.text = "Stok : "+ NumberFormat(modelitem[position].stok.toString())
 
         // holder.jumlah.text = jumlah_item_select.get(position).toString()
-        val kode_lt = mutableListOf<String>(modelitem.get(position).kode)
-        val kk = LinkedHashSet(kode_lt).toMutableList()
-        val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
-        val k2 = LinkedHashSet(nama_lt).toMutableList()
 
         //untuk menampilkan jumlah hasil intent dari pembayaran
-        if(jml!!.isEmpty() ||  jml!![modelitem.get(position).nama]!!.toString().equals("null") ){
+        if(jml!!.isEmpty()){
             holder.jumlah.text = "0"
         }else{
             if(jml!![modelitem.get(position).nama] == null || jml!![modelitem.get(position).nama].toString().toInt() < 0){
                 holder.jumlah.text = "0"
+            }else{
+                holder.jumlah.text = jml!![modelitem.get(position).nama].toString()
+                arr_jmlh[position] = jml!![modelitem.get(position).nama]!!
             }
-            holder.jumlah.text = jml!![modelitem.get(position).nama].toString()
+
         }
 
         //untuk menampilkan stok hasil intent dari pembayaran
-        if(jmlStok!!.isEmpty() ||  jmlStok!![modelitem.get(position).nama]!!.toString().equals("null") ){
+        if(jmlStok!!.isEmpty()){
             holder.stok.text = modelitem.get(position).stok.toString()
         }else{
             if(jmlStok!![modelitem.get(position).nama] == null || jmlStok!![modelitem.get(position).nama].toString().toInt() < 0){
                 holder.stok.text = modelitem.get(position).stok.toString()
+            }else{
+                holder.stok.text = jmlStok!![modelitem.get(position).nama].toString()
+                arr_stok[position] = jmlStok!![modelitem.get(position).nama]!!
             }
-            holder.stok.text = jmlStok!![modelitem.get(position).nama].toString()
         }
-
+        var num = holder.jumlah.text.toString().toInt()
         //minus button
         holder.minButton.setOnClickListener {
             if (listener != null || listener == null) {
                 if (holder.jumlah.text.toString() != "0") {
-                    arr[position] = --arr[position]
                     Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
-                    var num = holder.jumlah.text.toString().toInt()
-                    if(holder.jumlah.text.toString().toInt() >= 0){
                         num -= 1
                         Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
                         holder.jumlah.text = num.toString()
+                        arr_stok[position]++
+                    listener!!.onItemClick(refresh3(modelitem.get(position).harga))
                     }
                     else{
 //                    holder.jumlah.text = arr[position].toString()
@@ -115,26 +120,9 @@ class CustomAdapter(
                     }
 
                     //stok
-                    jmlh_stok++
-                    holder.stok.text = "Stok : " + jmlh_stok.toString()
 
-                    listener!!.onItemClick(refresh3(modelitem.get(position).harga))
-                    //holder.jumlah.text = arr[position].toString()
-                    if (arr[position] > 0) {
-
-                        for (i in kk) {
-                            arr_kode.add(i)
-                        }
-
-                        for (i in k2) {
-                            arr_nama.add(i)
-                        }
-
-                        arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
-                        arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
-                        arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
-                        arr_stok[modelitem.get(position).nama] = jmlh_stok
-
+                    holder.stok.text = "Stok : " + arr_stok[position].toString()
+                        arr_jmlh[position] = holder.jumlah.text.toString().toInt()
 
                         listener!!.onArrayItemClick(
                             arr_kode,
@@ -145,54 +133,29 @@ class CustomAdapter(
                             arr_stok
                         )
 
-                    } else {
-                        arr_kode.clear()
-                        arr_harga.clear()
-                        arr_jenis.clear()
-                        arr_nama.clear()
-                        arr_jmlh.clear()
-                        arr_stok.clear()
                     }
                 }
-            }
-        }
 
         //add button
         holder.plusButton.setOnClickListener {
             if (listener != null) {
                 if (holder.stok.text.toString() != "Stok : 0"){
-                arr[position] = ++arr[position]
 //                holder.jumlah.text = arr[position].toString()
 //                listener!!.onItemClick(modelitem.get(position).harga)
-                var num = holder.jumlah.text.toString().toInt()
-                if(holder.jumlah.text.toString().toInt() >= 0){
                     num += 1
                     Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
                     holder.jumlah.text = num.toString()
+                    arr_stok[position]--
+                    listener!!.onItemClick(refresh2(modelitem.get(position).harga))
                 }
                 else{
-//                    holder.jumlah.text = arr[position].toString()
                     holder.jumlah.text = num.toString()
                 }
-                jmlh_stok--
-                holder.stok.text = "Stok : " + NumberFormat(jmlh_stok.toString())
 
-                listener!!.onItemClick(refresh2(modelitem.get(position).harga))
+                holder.stok.text = "Stok : " + NumberFormat(arr_stok[position].toString())
 
-                if (arr[position] > 0) {
-                    for (i in kk) {
-                        arr_kode.add(i)
-                    }
-
-                    for (i in k2) {
-                        arr_nama.add(i)
-                    }
 //                    //hashMap
-                    arr_harga[modelitem.get(position).nama] = modelitem.get(position).harga
-                    arr_jenis[modelitem.get(position).nama] = modelitem.get(position).jenis
-                    arr_jmlh[modelitem.get(position).nama] = holder.jumlah.text.toString().toInt()
-                    arr_stok[modelitem[position].nama] = jmlh_stok
-
+                    arr_jmlh[position] = holder.jumlah.text.toString().toInt()
 
                     //Toast.makeText(context, "key : " + arr_jmlh, Toast.LENGTH_SHORT).show()
                 }
@@ -206,8 +169,6 @@ class CustomAdapter(
                     arr_stok
                 )
             }
-            }
-        }
     }
 
     fun refresh2(harga: Int): Int {
@@ -252,11 +213,11 @@ class CustomAdapter(
         fun onItemClick(harga: Int)
         fun onArrayItemClick(
             kode: ArrayList<String>,
-            Arr_harga: HashMap<String, Int>,
+            Arr_harga: ArrayList<Int>,
             nama: ArrayList<String>,
-            jenis: HashMap<String, String>,
-            arr_jmlh: HashMap<String, Int>,
-            arr_stok: HashMap<String, Int>
+            jenis: ArrayList<String>,
+            arr_jmlh: ArrayList<Int>,
+            arr_stok: ArrayList<Int>
 
         )
 //        fun getJumlahItem(jml:HashMap<String,Int>)

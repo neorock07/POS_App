@@ -44,6 +44,8 @@ class Pembayaran : AppCompatActivity() {
     val hash:HashMap<String, Int> = HashMap()
     val hashNama:HashMap<String, String> = HashMap()
     val hashKode:HashMap<String, String> = HashMap()
+    var jumlahList3:ArrayList<Int> = ArrayList()
+    var list_stok3:ArrayList<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +107,7 @@ class Pembayaran : AppCompatActivity() {
             lg.putExtra("Data_Stok", hashStok)
             lg.putExtra("Data_Nama", hashNama)
             lg.putExtra("Data_Kode", hashKode)
-
+            lg.putExtra("Data_Total_Harga", jumlah)
             startActivity(lg)
             finishAfterTransition()
             finish()
@@ -119,13 +121,13 @@ class Pembayaran : AppCompatActivity() {
         var list_kode:ArrayList<String> = intent.getSerializableExtra("key_kode") as ArrayList<String>
         var kode_lt = LinkedHashSet(list_kode).toMutableSet()
         jumlah = intent.getIntExtra("key_uang",0)
-        val list_harga :HashMap<String, Int>?= intent.getSerializableExtra("key_harga") as HashMap<String, Int>?
+        val list_harga :ArrayList<Int> = intent.getSerializableExtra("key_harga") as ArrayList<Int>
         val list_nama:ArrayList<String> = intent.getSerializableExtra("key_nama") as ArrayList<String>
 
         val nama_lt = LinkedHashSet(list_nama).toMutableSet()
-        val list_jenis= intent.getSerializableExtra("key_jenis") as HashMap<String, String>?
-        val list_jml = intent.getSerializableExtra("key_jumlah") as HashMap<String, Int>?
-        var list_stok = intent.getSerializableExtra("key_stok") as HashMap<String, Int>?
+        val list_jenis :ArrayList<String> = intent.getSerializableExtra("key_jenis") as ArrayList<String> /* = java.util.ArrayList<kotlin.String> */
+        val list_jml :ArrayList<Int> = intent.getSerializableExtra("key_jumlah") as ArrayList<Int> /* = java.util.ArrayList<kotlin.Int> */
+        var list_stok :ArrayList<Int> = intent.getSerializableExtra("key_stok") as ArrayList<Int> /* = java.util.ArrayList<kotlin.Int> */
 
         val hargaList:ArrayList<Int> = ArrayList()
         val jenisList:ArrayList<String> = ArrayList()
@@ -134,18 +136,15 @@ class Pembayaran : AppCompatActivity() {
         val list_nama2:ArrayList<String> = ArrayList()
         var list_stok2:ArrayList<Int> = ArrayList()
 
-        for (i in nama_lt){
-            list_harga?.get(i)?.let { hargaList.add(it) }
-            list_jenis?.get(i)?.let { jenisList.add(it) }
-            list_jml?.get(i)?.let { jumlahList.add(it) }
-            list_stok?.get(i)?.let { list_stok2.add(it) }
-            ///bundle.putInt(i, list_jml!!.get(i)!!)
-        }
-        for(i in kode_lt){
-            list_kode2.add(i)
-        }
-        for(i in nama_lt){
-            list_nama2.add(i)
+        for (i in list_jml.indices){
+            if (list_jml[i] != 0){
+                list_kode2.add(list_kode[i])
+                hargaList.add(list_harga[i])
+                jenisList.add(list_jenis[i])
+                list_nama2.add(list_nama[i])
+                jumlahList.add(list_jml[i])
+                list_stok2.add(list_stok[i])
+            }
         }
 
         total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
@@ -162,22 +161,36 @@ class Pembayaran : AppCompatActivity() {
             //SET WHEN CLICK LISTENER
             adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
                 override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {
-                    jumlahList = jumlah2
-                    list_stok2 = stok
+                    jumlahList3 = jumlah2
+                    list_stok3 = stok
                     jumlah += total_harga
                     total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
                     var p : Int = 0
-                    for (i in nama_lt) {
+                    for (i in list_nama2) {
                         //hashmap untuk sharedPreferences MainActivity
-                        hash[i]     = jumlah2[p]
-                        hashStok[i] = stok[p]
+                        hash[i]     = jumlahList3[p]
+                        hashStok[i] = list_stok3[p]
                         hashNama[i] = i
                         hashKode[i] = list_kode2[p]
+
                         p++
                     }
                 }
             }
             )
+            if (hash.isEmpty()){
+                var p : Int = 0
+                for (i in list_nama2) {
+                    //hashmap untuk sharedPreferences MainActivity
+                    hash[i]     = jumlahList[p]
+                    hashStok[i] = list_stok2[p]
+                    hashNama[i] = i
+                    hashKode[i] = list_kode2[p]
+
+                    p++
+                }
+            }
+
             //go to  halaman cetak struk
             log2.putExtra("key_kode", list_kode2)
             log2.putExtra("key_nama", list_nama2)

@@ -81,7 +81,7 @@ class daftar_barang : AppCompatActivity() {
                         list_harga,
                         list_jenis,
                         list_stok,
-                        "0"
+                        0
                     )
                 )
             }
