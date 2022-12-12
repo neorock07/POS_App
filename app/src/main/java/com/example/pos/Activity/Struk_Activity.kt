@@ -251,30 +251,30 @@ class Struk_Activity : AppCompatActivity() {
         //jika diklik intent pindah ke halaman laporan harian
         val intent:Intent = Intent(this@Struk_Activity, Laporan_Harian::class.java)
         if (month == 1){
-            intent.putExtra("Key_Bulan","Januari")
+            intent.putExtra("Key_Bulan"," Januari")
         }else if (month == 2){
-            intent.putExtra("Key_Bulan","Februari")
+            intent.putExtra("Key_Bulan"," Februari")
         }else if (month == 3){
-            intent.putExtra("Key_Bulan","Maret")
+            intent.putExtra("Key_Bulan"," Maret")
         }else if (month == 4){
-            intent.putExtra("Key_Bulan","April")
+            intent.putExtra("Key_Bulan"," April")
         }else if (month == 5){
-            intent.putExtra("Key_Bulan","Mei")
+            intent.putExtra("Key_Bulan"," Mei")
         }else if (month == 6){
-            intent.putExtra("Key_Bulan","Juni")
+            intent.putExtra("Key_Bulan"," Juni")
         }else if (month == 7){
-            intent.putExtra("Key_Bulan","Juli")
+            intent.putExtra("Key_Bulan"," Juli")
         }else if (month == 8){
-            intent.putExtra("Key_Bulan","Agustus")
+            intent.putExtra("Key_Bulan"," Agustus")
         }else if (month == 9){
-            intent.putExtra("Key_Bulan","September")
+            intent.putExtra("Key_Bulan"," September")
         }else if (month == 10){
-            intent.putExtra("Key_Bulan","Oktober")
+            intent.putExtra("Key_Bulan"," Oktober")
         }else if (month == 11){
-            intent.putExtra("Key_Bulan","November")
+            intent.putExtra("Key_Bulan"," November")
         }
         else{
-            intent.putExtra("Key_Bulan","Desember")
+            intent.putExtra("Key_Bulan"," Desember")
         }
         intent.putExtra("Key_Tahun",year.toString())
 
