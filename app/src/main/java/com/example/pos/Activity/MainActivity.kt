@@ -47,10 +47,6 @@ class MainActivity : AppCompatActivity() {
     var arr_jenis : ArrayList<String> = ArrayList()
     var arr_jumlah : ArrayList<Int> = ArrayList()
     var arr_stok2 : ArrayList<Int> = ArrayList()
-    var bundle:Bundle = Bundle()
-    var bundle1:Bundle = Bundle()
-    var bundle2:Bundle = Bundle()
-
     lateinit var btn_bayar: ImageView
     private lateinit var sharedPref_total: SharedPreferences.Editor
     private lateinit var sharedJumlah: SharedPreferences
@@ -62,11 +58,9 @@ class MainActivity : AppCompatActivity() {
     var list_stok:Int = 0
     var cek:Boolean = true
     private lateinit var list_jenis:String
-    private  var bundle1_2:Bundle?  = null
-    private  var bundle2_2:Bundle? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
         var kembali:ImageView   = findViewById(R.id.kembali)
@@ -140,7 +134,6 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-
                 }
 
                 log = Intent(this@MainActivity, Pembayaran::class.java)

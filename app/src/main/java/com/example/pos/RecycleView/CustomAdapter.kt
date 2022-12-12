@@ -93,12 +93,12 @@ class CustomAdapter(
 
         //untuk menampilkan stok hasil intent dari pembayaran
         if(jmlStok!!.isEmpty()){
-            holder.stok.text = modelitem.get(position).stok.toString()
+            holder.stok.text = "Stok : " +  modelitem.get(position).stok.toString()
         }else{
             if(jmlStok!![modelitem.get(position).nama] == null || jmlStok!![modelitem.get(position).nama].toString().toInt() < 0){
-                holder.stok.text = modelitem.get(position).stok.toString()
+                holder.stok.text = "Stok : " + modelitem.get(position).stok.toString()
             }else{
-                holder.stok.text = jmlStok!![modelitem.get(position).nama].toString()
+                holder.stok.text = "Stok : " + jmlStok!![modelitem.get(position).nama].toString()
                 arr_stok[position] = jmlStok!![modelitem.get(position).nama]!!
             }
         }
@@ -120,7 +120,6 @@ class CustomAdapter(
                     }
 
                     //stok
-
                     holder.stok.text = "Stok : " + arr_stok[position].toString()
                         arr_jmlh[position] = holder.jumlah.text.toString().toInt()
 
