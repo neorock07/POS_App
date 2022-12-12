@@ -18,6 +18,7 @@ import com.example.pos.R
 import com.example.pos.RecycleView.Adapter_pembayaran
 import com.example.pos.RecycleView.CustomAdapter
 import com.google.android.material.textfield.TextInputEditText
+import java.lang.NullPointerException
 import java.text.NumberFormat
 
 class Pembayaran : AppCompatActivity() {
@@ -39,9 +40,10 @@ class Pembayaran : AppCompatActivity() {
     lateinit var kembalian:TextView
     lateinit var log2:Intent
     var hasil:Double =0.0
-    val bundle:Bundle = Bundle()
-    val bundle1:Bundle = Bundle()
-    val bundle2:Bundle = Bundle()
+    val hashStok:HashMap<String, Int> = HashMap()
+    val hash:HashMap<String, Int> = HashMap()
+    val hashNama:HashMap<String, String> = HashMap()
+    val hashKode:HashMap<String, String> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +51,14 @@ class Pembayaran : AppCompatActivity() {
         log2 = Intent(this@Pembayaran, Struk_Activity::class.java)
 
         //assign variable
-        total_beli_pem = findViewById(R.id.total_beli_pembayaran)
-        btn_cetak = findViewById(R.id.to_cetak)
-        btn_back = findViewById(R.id.btn_back_byr)
-        rc = findViewById(R.id.rc_pembayaran)
-        rv = findViewById(R.id.rv_empty)
-        kembalian = findViewById(R.id.txt_kembalian)
-        ed_total = findViewById(R.id.ed_total_beli)
-        card1 = findViewById(R.id.bottom_ly)
+        total_beli_pem      = findViewById(R.id.total_beli_pembayaran)
+        btn_cetak           = findViewById(R.id.to_cetak)
+        btn_back            = findViewById(R.id.btn_back_byr)
+        rc                  = findViewById(R.id.rc_pembayaran)
+        rv                  = findViewById(R.id.rv_empty)
+        kembalian           = findViewById(R.id.txt_kembalian)
+        ed_total            = findViewById(R.id.ed_total_beli)
+        card1               = findViewById(R.id.bottom_ly)
         //recycleView
         rc.setHasFixedSize(true)
         rc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -73,7 +75,6 @@ class Pembayaran : AppCompatActivity() {
                     var cleanString:String = p0.toString().replace("""[,.]""".toRegex(), "")
                     parsed = cleanString.toDouble()
                     formatted = NumberFormat.getNumberInstance().format(parsed)
-
                     ed_total.setText(formatted)
                     ed_total.setSelection(formatted.length)
                     log2.putExtra("key_bayar", formatted.toString())
@@ -96,13 +97,20 @@ class Pembayaran : AppCompatActivity() {
         )
 
         RetrieveData()
-
         btn_back.setOnClickListener{
-            log2.putExtra("Data_Jumlah", bundle)
-            log2.putExtra("Data_Stok", bundle1)
-            log2.putExtra("Data_Harga", bundle2)
-            onBackPressed()
+
+            val lg:Intent = Intent(this@Pembayaran, MainActivity::class.java)
+
+            lg.putExtra("Data_Jumlah", hash)
+            lg.putExtra("Data_Stok", hashStok)
+            lg.putExtra("Data_Nama", hashNama)
+            lg.putExtra("Data_Kode", hashKode)
+
+            startActivity(lg)
+            finishAfterTransition()
+            finish()
         }
+
 
     }
     fun RetrieveData():ArrayList<model_barang>{
@@ -160,9 +168,11 @@ class Pembayaran : AppCompatActivity() {
                     total_beli_pem.text = "Rp." + mainActivity.NumberFormat(jumlah.toString())
                     var p : Int = 0
                     for (i in nama_lt) {
-                        bundle.putInt(i, jumlah2[p])
-                        bundle1.putInt(i, stok[p])
-                        bundle2.putInt(i, total_harga)
+                        //hashmap untuk sharedPreferences MainActivity
+                        hash[i]     = jumlah2[p]
+                        hashStok[i] = stok[p]
+                        hashNama[i] = i
+                        hashKode[i] = list_kode2[p]
                         p++
                     }
                 }

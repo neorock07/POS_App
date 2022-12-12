@@ -17,7 +17,7 @@ import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashSet
 
 class CustomAdapter(
-    private var context: Context, private var modelitem: ArrayList<model_barang>,private var jml:Bundle
+    private var context: Context, private var modelitem: ArrayList<model_barang>,private var jml:HashMap<String, Int>?,private var jmlStok:HashMap<String, Int>?
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     private var listener: OnItemsClickListener? = null
     //private var jumlah_item_select:ArrayList<Int> = ArrayList()
@@ -77,13 +77,24 @@ class CustomAdapter(
         val nama_lt = mutableListOf<String>(modelitem.get(position).nama)
         val k2 = LinkedHashSet(nama_lt).toMutableList()
 
-        if(jml.isEmpty ||  jml[modelitem.get(position).nama].toString().equals("null") ){
+        //untuk menampilkan jumlah hasil intent dari pembayaran
+        if(jml!!.isEmpty() ||  jml!![modelitem.get(position).nama]!!.toString().equals("null") ){
             holder.jumlah.text = "0"
         }else{
-            if(jml[modelitem.get(position).nama] == null || jml[modelitem.get(position).nama].toString().toInt() < 0){
+            if(jml!![modelitem.get(position).nama] == null || jml!![modelitem.get(position).nama].toString().toInt() < 0){
                 holder.jumlah.text = "0"
             }
-            holder.jumlah.text = jml[modelitem.get(position).nama].toString()
+            holder.jumlah.text = jml!![modelitem.get(position).nama].toString()
+        }
+
+        //untuk menampilkan stok hasil intent dari pembayaran
+        if(jmlStok!!.isEmpty() ||  jmlStok!![modelitem.get(position).nama]!!.toString().equals("null") ){
+            holder.stok.text = modelitem.get(position).stok.toString()
+        }else{
+            if(jmlStok!![modelitem.get(position).nama] == null || jmlStok!![modelitem.get(position).nama].toString().toInt() < 0){
+                holder.stok.text = modelitem.get(position).stok.toString()
+            }
+            holder.stok.text = jmlStok!![modelitem.get(position).nama].toString()
         }
 
         //minus button
@@ -104,7 +115,6 @@ class CustomAdapter(
                     }
 
                     //stok
-
                     jmlh_stok++
                     holder.stok.text = "Stok : " + jmlh_stok.toString()
 

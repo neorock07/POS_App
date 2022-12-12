@@ -23,7 +23,9 @@ import com.example.pos.R
 import com.example.pos.RecycleView.CustomAdapter
 import com.example.pos.RecycleView.CustomAdapter.OnItemsClickListener
 import com.example.pos.Toast.showCustomToast
+import java.lang.NullPointerException
 import java.nio.BufferUnderflowException
+
 import kotlin.properties.Delegates
 
 
@@ -59,25 +61,25 @@ class MainActivity : AppCompatActivity() {
     var list_stok:Int = 0
     var cek:Boolean = false
     private lateinit var list_jenis:String
-
-
+    private  var bundle1_2:Bundle?  = null
+    private  var bundle2_2:Bundle? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        var kembali: ImageView= findViewById(R.id.kembali)
-        recyclerview = findViewById<RecyclerView>(R.id.listBarang)
-        totalBeli = findViewById(R.id.total_beli)
-        settingsFAB = findViewById(R.id.setting)
+        var kembali:ImageView   = findViewById(R.id.kembali)
+        recyclerview            = findViewById<RecyclerView>(R.id.listBarang)
+        totalBeli               = findViewById(R.id.total_beli)
+        settingsFAB             = findViewById(R.id.setting)
         recyclerview.setHasFixedSize(true)
-        frameRefresh = findViewById(R.id.refresh)
-        btn_bayar = findViewById(R.id.keranjang)
+        frameRefresh             = findViewById(R.id.refresh)
+        btn_bayar                = findViewById(R.id.keranjang)
         recyclerview.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        search = findViewById(R.id.search_all)
-        listitem = readAll()
-        adapter = getAdapter2() //adapterBarang
-        recyclerview.adapter = adapter
+        search                   = findViewById(R.id.search_all)
+        listitem                 = readAll()
+        adapter                  = getAdapter2() //adapterBarang
+        recyclerview.adapter     = adapter
 
         //sharedPreferences
         sharedPref_total = getSharedPreferences("key", MODE_PRIVATE).edit()
@@ -90,31 +92,11 @@ class MainActivity : AppCompatActivity() {
                 total = 0
                 totalBeli.text = "0"
             }
-        }
-        try {
-            var hrg:Int? = savedInstanceState!!.getInt("Key_Harga_Save")
-            val bundle1_2:Bundle = intent.getBundleExtra("Data_Jumlah")!!
-            val bundle2_2:Bundle = intent.getBundleExtra("Data_Stok")!!
-            val bundle3:Bundle = intent.getBundleExtra("Data_Harga")!!
 
-            for (i in nama_arr){
-
-                if(bundle1 != null ){
-
-                    bundle = bundle1_2
-                    bundle1 = bundle2_2
-                    total = hrg!!
-                    list_stok = bundle2.getInt(i)
-
-                }
-            }
-
-        } catch (e:Exception){
         }
         kembali.setOnClickListener {
             finishAffinity()
         }
-                Toast.makeText(this, "Data list_jumlah : ${bundle.toString()}\nData list_stok : ${bundle1.toString()}",Toast.LENGTH_LONG).show()
         //search view query
         search.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -130,23 +112,66 @@ class MainActivity : AppCompatActivity() {
             }
         })
         adapter.notifyDataSetChanged()
-
-        if(savedInstanceState != null){
-            var bnd_jml: Bundle? = savedInstanceState.getBundle("LIST_JUMLAH")
-            var bnd_stok:Bundle? = savedInstanceState.getBundle("LIST_STOK")
-        }
-
         kembali.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
         btn_bayar.setOnClickListener{
             if (cek == false){
                 Toast(this).showCustomToast (this)
+                Toast.makeText(this, "Data kode : $arr_kode\nData nama : $arr_nama\nRetNama : ${RetNama()}\nRetKode : ${RetKode()}",Toast.LENGTH_LONG).show()
             }
+
         }
     }
 
-    fun readAll(): ArrayList<model_barang> {
+//function untuk get data jumlah from Pembayaran
+    fun RetBundle():HashMap<String, Int>{
+        var data:HashMap<String, Int> = HashMap()
+        try{
+            data = intent.getSerializableExtra("Data_Jumlah")!! as HashMap<String, Int>
+        }catch (e:NullPointerException){
+
+        }
+        Toast.makeText(this, "Hash : ${data.toString()}",Toast.LENGTH_LONG).show()
+        return data
+    }
+
+    //function untuk get data stok from Pembayaran
+    fun RetStok():HashMap<String, Int>{
+        var hash:HashMap<String,Int> = HashMap()
+        try{
+            hash = intent.getSerializableExtra("Data_Stok")!! as HashMap<String, Int>
+        }catch (e:NullPointerException){
+
+        }
+        Toast.makeText(this, "Hash : ${hash.toString()}",Toast.LENGTH_LONG).show()
+        return hash
+    }
+    //function untuk get data nama from Pembayara
+    fun RetNama():HashMap<String, String> {
+        var hash: HashMap<String, String> = HashMap()
+        try {
+            hash = intent.getSerializableExtra("Data_Nama")!! as HashMap<String, String>
+        } catch (e: NullPointerException) {
+
+        }
+        Toast.makeText(this, "Hash : ${hash.toString()}", Toast.LENGTH_LONG).show()
+        return hash
+    }
+    //function untuk get data Kode from Pembayara
+    fun RetKode():HashMap<String, String> {
+        var hash: HashMap<String, String> = HashMap()
+        try {
+            hash = intent.getSerializableExtra("Data_Kode")!! as HashMap<String, String>
+        } catch (e: NullPointerException) {
+
+        }
+        Toast.makeText(this, "Hash : ${hash.toString()}", Toast.LENGTH_LONG).show()
+        return hash
+    }
+
+
+        fun readAll(): ArrayList<model_barang> {
         val db: Database = Database(this)
         var cursor: Cursor = db.viewBarang()
         modelItemx = ArrayList<model_barang>()
@@ -175,7 +200,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAdapter2(): CustomAdapter {
-        adapter = CustomAdapter(this, readAll(),bundle)
+        //hm sebagai default value jika belum pernah intent dari pembayaran
+        val hm:HashMap<String, Int> = HashMap()
+        if(RetBundle() != null){
+            adapter = CustomAdapter(this, readAll(), RetBundle(), RetStok())
+        }else{
+            adapter = CustomAdapter(this, readAll(),hm,hm)
+        }
         adapter.setWhenClickListener(object : OnItemsClickListener {
 
             override fun onItemClick(harga: Int) {
@@ -190,14 +221,35 @@ class MainActivity : AppCompatActivity() {
                 arr_jmlh: HashMap<String, Int>,
                 arr_stok: HashMap<String, Int>
             ) {
-                arr_kode = kode
-                arr_nama = nama
+
+                val nama_sementara:ArrayList<String> = ArrayList()
+                val kode_sementara:ArrayList<String> = ArrayList()
+
+                if(!kode.isEmpty() || !nama.isEmpty()){
+
+                    arr_kode = kode
+                    arr_nama = nama
+
+                }else{
+                    if(!RetNama().isEmpty() || !RetKode().isEmpty() && kode.isEmpty() && nama.isEmpty()){
+                        for(i in 0..RetNama().size -1) {
+//                            nama_sementara.add(RetNama().keys.elementAt(i))
+//                            kode_sementara.add(RetKode().keys.elementAt(i))
+                            arr_nama.add(RetNama().keys.elementAt(i))
+                            arr_kode.add(RetKode().keys.elementAt(i))
+                        }
+                        arr_kode = kode_sementara
+                        arr_nama = nama_sementara
+                    }
+                }
+
+
                 for (i in arr_nama) {
-                    arr_harga[i] = Arr_harga[i]!!
-                    arr_jumlah[i] = arr_jmlh[i]!!
-                    arr_jenis[i] = jenis[i]!!
-                    arr_stok2[i] = arr_stok[i]!!
-                    bundle.putInt(i, arr_jumlah.get(i)!!)
+                    arr_harga[i]    = Arr_harga[i]!!
+                    arr_jumlah[i]   = arr_jmlh[i]!!
+                    arr_jenis[i]    = jenis[i]!!
+                    arr_stok2[i]    = arr_stok[i]!!
+
                 }
                 log = Intent(this@MainActivity, Pembayaran::class.java)
                 log.putExtra("key_kode", arr_kode)
@@ -206,18 +258,12 @@ class MainActivity : AppCompatActivity() {
                 //log.putExtra("key_jumlah", arr_jumlah)
                 log.putExtra("key_harga", arr_harga)
                 log.putExtra("key_stok", arr_stok2)
-                if(arr_jumlah.isEmpty() && !bundle.isEmpty){
-                    log.putExtra("key_jumlah", bundle)
-                }else{
-                    log.putExtra("key_jumlah", arr_jumlah)
-                }
-
+                log.putExtra("key_jumlah", arr_jumlah)
                 if (arr_kode.isEmpty()) {
                     log.putExtra("key_uang", "Rp.0")
                 } else {
                     log.putExtra("key_uang", total)
                 }
-
                 if (arr_kode.isNotEmpty()) {
                     cek = true
                     btn_bayar.setOnClickListener {
@@ -226,39 +272,16 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     cek = false
                 }
-
             }
         })
         recyclerview.adapter = adapter
         return adapter
     }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-
-        outState.putBundle("LIST_JUMLAH",bundle)
-        outState.putBundle("LIST_STOK",bundle1)
-        //outState.putBundle("LIST_JUMLAH",bundle)
-
-        outState.putInt("Key_Harga_Save", total)
-        super.onSaveInstanceState(outState, outPersistentState)
-
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        bundle = savedInstanceState.getBundle("LIST_JUMLAH")!!
-        bundle1 = savedInstanceState.getBundle("LIST_STOK")!!
-
-    }
-
-
     override fun onResume() {
         super.onResume()
         adapter = getAdapter2()
         adapter.notifyDataSetChanged()
         recyclerview.adapter = adapter
-        //adapter to load all data jumlah
-        Toast.makeText(this, bundle.toString(),Toast.LENGTH_LONG).show()
     }
 
     fun NumberFormat(s: String): String {

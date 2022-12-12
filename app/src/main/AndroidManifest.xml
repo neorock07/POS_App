@@ -53,7 +53,9 @@
 
         <activity
             android:name=".Activity.Pembayaran"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Activity.MainActivity"
+            />
         <activity
             android:name=".Activity.formBarang"
             android:exported="false" />
