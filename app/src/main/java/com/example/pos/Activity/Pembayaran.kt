@@ -115,6 +115,22 @@ class Pembayaran : AppCompatActivity() {
 
 
     }
+
+    override fun onBackPressed() {
+        val lg:Intent = Intent(this@Pembayaran, MainActivity::class.java)
+
+        lg.putExtra("Data_Jumlah", hash)
+        lg.putExtra("Data_Stok", hashStok)
+        lg.putExtra("Data_Nama", hashNama)
+        lg.putExtra("Data_Kode", hashKode)
+        lg.putExtra("Data_Total_Harga", jumlah)
+        startActivity(lg)
+        finishAfterTransition()
+        finishAffinity()
+        super.onBackPressed()
+    }
+
+
     fun RetrieveData():ArrayList<model_barang>{
 
         lateinit var listItem:ArrayList<model_barang>

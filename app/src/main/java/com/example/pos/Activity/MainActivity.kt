@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     var list_stok:Int = 0
     var cek:Boolean = true
     private lateinit var list_jenis:String
+    var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,6 +158,15 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+    override fun onBackPressed() {
+        count++
+        Toast.makeText(this, "Press Again", Toast.LENGTH_SHORT).show()
+        if(count == 2){
+            super.onBackPressed()
+        }
+    }
+
 
 //function untuk get data jumlah from Pembayaran
     fun RetBundle():HashMap<String, Int>{
