@@ -109,7 +109,6 @@ class Struk_Activity : AppCompatActivity() {
             InsertDataPembelian()
             makeNotif()
             updatedata()
-            startActivity(Intent(this@Struk_Activity, MainActivity::class.java))
             finish()
         }
     }
