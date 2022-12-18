@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pos.Database.Database
 import com.example.pos.Model.model_barang
 import com.example.pos.R
+import com.example.pos.RecycleView.Adapter_Struk
 import com.example.pos.RecycleView.Adapter_pembayaran
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.ImagePrintable
@@ -60,7 +61,7 @@ class Struk_Activity : AppCompatActivity() {
     private lateinit var list_jumlah2:ArrayList<Int>
     private lateinit var list_stok:ArrayList<Int>
     var totalHarga : Int = 0
-    lateinit var adapter:Adapter_pembayaran
+    lateinit var adapter:Adapter_Struk
     private lateinit var bayar:String
     private lateinit var kembali:String
     private var TABLE_CONTACTS = "Barang2"
@@ -190,13 +191,13 @@ class Struk_Activity : AppCompatActivity() {
             }
         }
 
-        Toast.makeText(this, "Bayar : $bayar\nKembali : $kembali",Toast.LENGTH_LONG).show()
+
 
         if(list_kode.isEmpty()){
             rv.visibility = View.VISIBLE
             btn_print.visibility = View.GONE
         }else{
-            adapter = Adapter_pembayaran(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
+            adapter = Adapter_Struk(this@Struk_Activity, list_kode, list_nama,list_harga, list_jenis, list_jumlah,list_stok)
             rc.adapter = adapter
         }
     }
@@ -217,7 +218,7 @@ class Struk_Activity : AppCompatActivity() {
         try{
             for(i in 0..list_kode.size -1){
                 db.insertDataPembelian(list_kode[i],list_jumlah[i],list_jumlah[i]*list_harga[i],date)
-                Toast.makeText(this,"Bulan : $date",Toast.LENGTH_LONG).show()
+
             }
         }catch (e:Exception){
             Toast.makeText(this, "Error + ${e.message}", Toast.LENGTH_LONG).show()
@@ -232,7 +233,7 @@ class Struk_Activity : AppCompatActivity() {
                 content.put(KEY_STOK, list_stok[i])
                 dbhelper.update(TABLE_CONTACTS,content,"$KEY_ID=?", arrayOf(list_kode[i]))
             }
-            Toast.makeText(this,"Data berhasil diubah", Toast.LENGTH_SHORT).show()
+
 
     }
 

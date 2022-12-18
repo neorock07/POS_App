@@ -59,7 +59,6 @@ class Laporan_Bulanan : AppCompatActivity() {
                 )
             }
         }
-        Toast.makeText(this,"Isi : " + list_data.toString(), Toast.LENGTH_LONG).show()
         adapter = Adapter_Lpr_Bulanan(this, list_data)
         rc.adapter = adapter
         adapter.notifyDataSetChanged()

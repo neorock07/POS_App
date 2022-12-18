@@ -35,7 +35,7 @@ class Adapter_Lpr_Tahunan(private val context:Context,private var list_data:Arra
             val log:Intent = Intent(context, Laporan_Bulanan::class.java)
             log.putExtra("Key_Tahun", list_data!!.get(position).tahun)
             startActivity(context,log, null)
-            Toast.makeText(context,"data : ${list_data!!.get(position).tahun}",Toast.LENGTH_LONG).show()
+
         }
 
     }

@@ -50,7 +50,6 @@ class Adapter_pembayaran(
                 if (holder.stok.text.toString() != "Stok : 0") {
                     if (holder.jumlah.text.toString().toInt() >= 0) {
                         num += 1
-                        Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
                         holder.jumlah.text = num.toString()
                         list_jumlah!!.set(position, num)
                         jml--
@@ -74,10 +73,8 @@ class Adapter_pembayaran(
         holder.minButton.setOnClickListener {
             if (listener != null) {
                 if (holder.jumlah.text.toString() != "0") {
-                    Toast.makeText(context, "Masih 0", Toast.LENGTH_SHORT).show()
                         if (holder.jumlah.text.toString().toInt() >= 0) {
                             num -= 1
-                            Toast.makeText(context, "num : $num", Toast.LENGTH_SHORT).show()
                             holder.jumlah.text = num.toString()
                             list_jumlah!!.set(position,num)
                             jml++

@@ -55,7 +55,7 @@ class Laporan_Tahunan : AppCompatActivity() {
 
             }
         }
-        Toast.makeText(this, "Data : ${list_data.toString()}",Toast.LENGTH_LONG).show()
+
         adapter = Adapter_Lpr_Tahunan(this, list_data)
         rc.adapter = adapter
         adapter.notifyDataSetChanged()
@@ -66,7 +66,7 @@ class Laporan_Tahunan : AppCompatActivity() {
             try{
                 RetData()
             }catch(e:Exception){
-                Toast.makeText(this, "Data : ${list_data.toString()}\nerror : ${e.message}",Toast.LENGTH_LONG).show()
+
             }
     }
 }

@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(log)
             }else{
                 Toast(this).showCustomToast (this)
-                Toast.makeText(this, "Data kode : $arr_kode\nData nama : $arr_nama\nRetNama : ${RetNama()}\nRetKode : ${RetKode()}",Toast.LENGTH_LONG).show()
+
             }
 
         }
@@ -176,7 +176,6 @@ class MainActivity : AppCompatActivity() {
         }catch (e:NullPointerException){
 
         }
-        Toast.makeText(this, "Hash : ${data.toString()}",Toast.LENGTH_LONG).show()
         return data
     }
 
@@ -188,7 +187,6 @@ class MainActivity : AppCompatActivity() {
         }catch (e:NullPointerException){
 
         }
-        Toast.makeText(this, "Stok : ${hash.toString()}",Toast.LENGTH_LONG).show()
         return hash
     }
     //function untuk get data nama from Pembayara
@@ -199,7 +197,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: NullPointerException) {
 
         }
-        Toast.makeText(this, "Nama : ${hash.toString()}", Toast.LENGTH_LONG).show()
+
         return hash
     }
     //function untuk get data Kode from Pembayara
@@ -210,7 +208,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: NullPointerException) {
 
         }
-        Toast.makeText(this, "Kode : ${hash.toString()}", Toast.LENGTH_LONG).show()
+
         return hash
     }
 

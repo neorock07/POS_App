@@ -107,9 +107,8 @@ class CustomAdapter(
         holder.minButton.setOnClickListener {
             if (listener != null || listener == null) {
                 if (holder.jumlah.text.toString() != "0") {
-                    Toast.makeText(context, "Masih 0",Toast.LENGTH_SHORT).show()
                         num -= 1
-                        Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
+
                         holder.jumlah.text = num.toString()
                         arr_stok[position]++
                     listener!!.onItemClick(refresh3(modelitem.get(position).harga))
@@ -142,7 +141,6 @@ class CustomAdapter(
 //                holder.jumlah.text = arr[position].toString()
 //                listener!!.onItemClick(modelitem.get(position).harga)
                     num += 1
-                    Toast.makeText(context, "num : $num",Toast.LENGTH_SHORT).show()
                     holder.jumlah.text = num.toString()
                     arr_stok[position]--
                     listener!!.onItemClick(refresh2(modelitem.get(position).harga))

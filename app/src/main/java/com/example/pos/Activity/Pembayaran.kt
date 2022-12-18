@@ -173,7 +173,7 @@ class Pembayaran : AppCompatActivity() {
         else{
             adapter = Adapter_pembayaran(this@Pembayaran,list_kode2, list_nama2,hargaList, jenisList, jumlahList, list_stok2)
             rc.adapter = adapter
-            Toast.makeText(this, "Data stok: ${list_stok2.toString()}",Toast.LENGTH_LONG).show()
+
             //SET WHEN CLICK LISTENER
             adapter.setWhenClickListener(object : Adapter_pembayaran.OnItemsClickListener {
                 override fun onItemClick(jumlah2: ArrayList<Int>, total_harga : Int, stok:ArrayList<Int>) {

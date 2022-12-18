@@ -93,7 +93,7 @@ class Laporan_Harian : AppCompatActivity() {
                 )
             }
         }
-        Toast.makeText(this, tanggal.toString(), Toast.LENGTH_LONG).show()
+
         adapter = Adapter_Lpr_Harian(this,list_data)
         rc.adapter = adapter
         adapter.notifyDataSetChanged()
